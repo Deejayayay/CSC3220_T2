@@ -1,7 +1,9 @@
 # CSC3220_T2
 Team 2
 
+Developers 
 Fletcher Green
+Project Owner
 Dj Ola
 
 Posture Checker
