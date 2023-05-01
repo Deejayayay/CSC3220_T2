@@ -1,0 +1,82 @@
+<mxfile host="app.diagrams.net" modified="2023-05-01T19:49:23.860Z" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/112.0.0.0 Safari/537.36 Edg/112.0.1722.64" etag="omvHXd5uB6I1yYfhojqF" version="21.2.3" type="device">
+  <diagram name="Page-1" id="qBfqY7OzDwAJnxTBxNS4">
+    <mxGraphModel dx="737" dy="462" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="syxs8EHX32OoqqPPT2Q4-4" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="syxs8EHX32OoqqPPT2Q4-22" target="syxs8EHX32OoqqPPT2Q4-3">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="syxs8EHX32OoqqPPT2Q4-9" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=0;exitDx=0;exitDy=0;entryX=0.5;entryY=1;entryDx=0;entryDy=0;" edge="1" parent="1" source="syxs8EHX32OoqqPPT2Q4-20" target="syxs8EHX32OoqqPPT2Q4-8">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="syxs8EHX32OoqqPPT2Q4-27" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="syxs8EHX32OoqqPPT2Q4-1" target="syxs8EHX32OoqqPPT2Q4-24">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="syxs8EHX32OoqqPPT2Q4-1" value="&lt;div&gt;Home Page&lt;/div&gt;&lt;div&gt;----------&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;&amp;lt;&amp;lt;Button&amp;gt;&amp;gt;&lt;/div&gt;&lt;div&gt;Exercises&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;&amp;lt;&amp;lt;Button&amp;gt;&amp;gt;&lt;/div&gt;&lt;div&gt;Progress Check&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;&amp;lt;&amp;lt;Button&amp;gt;&amp;gt;&lt;/div&gt;&lt;div&gt;Posture Timer&lt;/div&gt;" style="whiteSpace=wrap;html=1;aspect=fixed;" vertex="1" parent="1">
+          <mxGeometry x="320" y="680" width="160" height="160" as="geometry" />
+        </mxCell>
+        <mxCell id="syxs8EHX32OoqqPPT2Q4-2" value="&lt;div&gt;Posture Timer&lt;/div&gt;&lt;div&gt;----------&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;&amp;lt;&amp;lt;Button&amp;gt;&amp;gt;&lt;/div&gt;&lt;div&gt;Increase / Decrease Interval&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;&amp;lt;&amp;lt;User Input&amp;gt;&amp;gt;&lt;/div&gt;&lt;div&gt;Physically Increase / Decrease Interval&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;&amp;lt;&amp;lt;Button&amp;gt;&amp;gt;&lt;/div&gt;&lt;div&gt;Notification Settings&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;" style="whiteSpace=wrap;html=1;aspect=fixed;" vertex="1" parent="1">
+          <mxGeometry x="520" y="840" width="200" height="200" as="geometry" />
+        </mxCell>
+        <mxCell id="syxs8EHX32OoqqPPT2Q4-3" value="&lt;div&gt;Progress Check&lt;/div&gt;&lt;div&gt;----------&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;&amp;lt;&amp;lt;Display&amp;gt;&amp;gt;&lt;/div&gt;&lt;div&gt;User Exercise Streak&lt;/div&gt;" style="whiteSpace=wrap;html=1;aspect=fixed;" vertex="1" parent="1">
+          <mxGeometry x="80" y="840" width="200" height="200" as="geometry" />
+        </mxCell>
+        <mxCell id="syxs8EHX32OoqqPPT2Q4-15" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="syxs8EHX32OoqqPPT2Q4-8" target="syxs8EHX32OoqqPPT2Q4-12">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="syxs8EHX32OoqqPPT2Q4-16" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.25;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="syxs8EHX32OoqqPPT2Q4-8" target="syxs8EHX32OoqqPPT2Q4-11">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="syxs8EHX32OoqqPPT2Q4-17" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.75;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="syxs8EHX32OoqqPPT2Q4-8" target="syxs8EHX32OoqqPPT2Q4-13">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="syxs8EHX32OoqqPPT2Q4-8" value="Exercises Page&lt;br&gt;----------&lt;br&gt;&lt;br&gt;&amp;lt;&amp;lt;Button&amp;gt;&amp;gt;&lt;br&gt;Exercise One&lt;br&gt;&lt;br&gt;&amp;lt;&amp;lt;Button&amp;gt;&amp;gt;&lt;br&gt;Exercise Two&lt;br&gt;&lt;br&gt;&amp;lt;&amp;lt;Button&amp;gt;&amp;gt;&lt;br&gt;Exercise Three" style="whiteSpace=wrap;html=1;aspect=fixed;" vertex="1" parent="1">
+          <mxGeometry x="300" y="360" width="200" height="200" as="geometry" />
+        </mxCell>
+        <mxCell id="syxs8EHX32OoqqPPT2Q4-11" value="&amp;lt;&amp;lt;Display&amp;gt;&amp;gt;&lt;br&gt;Exercise One Steps" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="600" y="360" width="120" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="syxs8EHX32OoqqPPT2Q4-12" value="&amp;lt;&amp;lt;Display&amp;gt;&amp;gt;&lt;br&gt;Exercise Two Steps" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="600" y="440" width="120" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="syxs8EHX32OoqqPPT2Q4-13" value="&amp;lt;&amp;lt;Display&amp;gt;&amp;gt;&lt;br&gt;Exercise Three Steps" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="600" y="520" width="120" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="syxs8EHX32OoqqPPT2Q4-21" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=0;exitDx=0;exitDy=0;entryX=0.5;entryY=1;entryDx=0;entryDy=0;" edge="1" parent="1" source="syxs8EHX32OoqqPPT2Q4-1" target="syxs8EHX32OoqqPPT2Q4-20">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="400" y="680" as="sourcePoint" />
+            <mxPoint x="400" y="560" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="syxs8EHX32OoqqPPT2Q4-20" value="Click Exercise Button" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="1">
+          <mxGeometry x="345" y="580" width="110" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="syxs8EHX32OoqqPPT2Q4-23" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="syxs8EHX32OoqqPPT2Q4-1" target="syxs8EHX32OoqqPPT2Q4-22">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="320" y="760" as="sourcePoint" />
+            <mxPoint x="180" y="840" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="syxs8EHX32OoqqPPT2Q4-22" value="Click Progress Button" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="1">
+          <mxGeometry x="140" y="790" width="80" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="syxs8EHX32OoqqPPT2Q4-28" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;" edge="1" parent="1" source="syxs8EHX32OoqqPPT2Q4-24" target="syxs8EHX32OoqqPPT2Q4-2">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="syxs8EHX32OoqqPPT2Q4-24" value="Click Timer Button" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="1">
+          <mxGeometry x="580" y="790" width="80" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="syxs8EHX32OoqqPPT2Q4-29" value="One" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="1">
+          <mxGeometry x="490" y="380" width="60" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="syxs8EHX32OoqqPPT2Q4-30" value="Two" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="1">
+          <mxGeometry x="490" y="430" width="60" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="syxs8EHX32OoqqPPT2Q4-31" value="Three" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="1">
+          <mxGeometry x="490" y="480" width="60" height="30" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
