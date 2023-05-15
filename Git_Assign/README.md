@@ -10,3 +10,4 @@ App Name: Posture Checker
 
 App Description: An app that sends a notification to the user that reminds them to check their posture. The intervals can be decided by the user which changes how often they get notified.
 
+npm install @react-navigation/stack
