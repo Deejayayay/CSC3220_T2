@@ -8,13 +8,10 @@ export const GlobalStyle = StyleSheet.create({
     marginRight: 20,
   },
   buttons: {
-    shadowColor: "#171717",
-    shadowRadius: 3,
-    shadowOpacity: 0.2,
-    shadowOffset: { width: -2, height: 4 },
     height: 220,
     borderRadius: 20,
     marginTop: 20,
+    elevation: 3,
     flexDirection: "column",
     backgroundColor: "#BCD4A7",
   },
@@ -30,4 +27,8 @@ export const GlobalStyle = StyleSheet.create({
     fontSize: 16,
     fontWeight: '400',
   },
+  marginText: {
+    marginTop: 20,
+    marginLeft: 20,
+  }
 });

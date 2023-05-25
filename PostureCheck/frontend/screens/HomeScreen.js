@@ -1,4 +1,8 @@
+//imported files
 import { GlobalStyle } from "../styles/globalstyles";
+//import { homescreen } from "../automation/MyData";
+
+//components
 import {
   StyleSheet,
   Text,
@@ -16,7 +20,7 @@ export default function HomeScreen({ navigation }) {
           navigation.navigate("Exercises", { language: "english" })
         }
       >
-        <Text style={GlobalStyle.headers}>Exercises and Stretches</Text>
+        <Text style={[GlobalStyle.headers, GlobalStyle.marginText]}>Exercises and Stretches</Text>
       </TouchableOpacity>
 
       <TouchableOpacity
@@ -25,24 +29,17 @@ export default function HomeScreen({ navigation }) {
           navigation.navigate("Progress Tracking", { language: "english" })
         }
       >
-        <Text style={GlobalStyle.headers}>Progress Tracker</Text>
+        <Text style={[GlobalStyle.headers, GlobalStyle.marginText]}>Progress Tracker</Text>
       </TouchableOpacity>
 
       <TouchableOpacity
         style={GlobalStyle.buttons}
-        onPress={() =>
-          navigation.navigate("Settings", { language: "english" })
-        }
+        onPress={() => navigation.navigate("Settings", { language: "english" })}
       >
-        <Text style={GlobalStyle.headers}>Settings</Text>
+        <Text style={[GlobalStyle.headers, GlobalStyle.marginText]}>Settings</Text>
       </TouchableOpacity>
     </SafeAreaView>
   );
 }
 
-const styles = StyleSheet.create({
-  margin: {
-    marginTop: 20,
-    marginLeft: 20
-  }
-});
+const styles = StyleSheet.create({});

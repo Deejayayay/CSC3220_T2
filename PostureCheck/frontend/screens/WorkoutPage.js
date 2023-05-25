@@ -6,7 +6,7 @@ import {
   TouchableOpacity,
   ScrollView,
 } from "react-native";
-import { Easing, Image } from "react-native";
+import { Image } from "react-native";
 import { GlobalStyle } from "../styles/globalstyles";
 
 export default function Workouts({ navigation, route }) {
@@ -19,7 +19,7 @@ export default function Workouts({ navigation, route }) {
             navigation.navigate("Workout#", { language: "english" })
           }
         >
-          <Text style={GlobalStyle.headers}>Exercise #1</Text>
+          <Text style={[GlobalStyle.headers, GlobalStyle.marginText]}>Exercise #1</Text>
         </TouchableOpacity>
 
         <TouchableOpacity
@@ -28,7 +28,7 @@ export default function Workouts({ navigation, route }) {
             navigation.navigate("Workout#", { language: "english" })
           }
         >
-          <Text style={GlobalStyle.headers}>Exercise #2</Text>
+          <Text style={[GlobalStyle.headers, GlobalStyle.marginText]}>Exercise #2</Text>
         </TouchableOpacity>
 
         <TouchableOpacity
@@ -37,7 +37,7 @@ export default function Workouts({ navigation, route }) {
             navigation.navigate("Workout#", { language: "english" })
           }
         >
-          <Text style={GlobalStyle.headers}>Exercise #3</Text>
+          <Text style={[GlobalStyle.headers, GlobalStyle.marginText]}>Exercise #3</Text>
         </TouchableOpacity>
       </ScrollView>
     </SafeAreaView>

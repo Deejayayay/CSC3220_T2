@@ -3,7 +3,6 @@ import HomeScreen from "./frontend/screens/HomeScreen";
 import ProgressPage from "./frontend/screens/ProgressPage";
 import SettingsPage from "./frontend/screens/SettingsPage";
 import Workouts from "./frontend/screens/WorkoutPage";
-import Stretches from "./frontend/screens/exercises/stretches";
 
 //components
 import { StatusBar } from "expo-status-bar";
@@ -26,7 +25,6 @@ export default function App() {
           },
         }}
       >
-        
         <Stack.Screen 
           name="Posture Check" 
           component={HomeScreen} 
@@ -43,21 +41,10 @@ export default function App() {
           name="Settings" 
           component={SettingsPage}
         />
-        <Stack.Screen 
-          name="Workout#" 
-          component={Stretches} 
-        />
 
       </Stack.Navigator>
     </NavigationContainer>
   );
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "#fff",
-    alignItems: "center",
-    justifyContent: "center",
-  },
-});
+const styles = StyleSheet.create({});

@@ -1,46 +1,54 @@
-import { StyleSheet, Text, View, ScrollView } from "react-native";
+import { StyleSheet, Text, View, ScrollView, SafeAreaView } from "react-native";
 import { GlobalStyle } from "../styles/globalstyles";
 
 export default function ProgressPage({ navigation, route }) {
   return (
-    <ScrollView>
+    <SafeAreaView>
+      <View style={GlobalStyle.container}>
       <ScrollView>
-        <View style={GlobalStyle.container}>
-          <View>
-            <Text style={GlobalStyle.header}>You're on a XX streak!!!</Text>
+        <View style={styles.imgContainer}></View>
+        <Text style={styles.header}>You're on a XX streak!!!</Text>
+
+          <View style={styles.progressBoxes}>
+            <Text style={[GlobalStyle.body, GlobalStyle.marginText]}>
+              Total Days Excercised
+            </Text>
           </View>
 
-          <View style={styles.infoContainers}>
-            <View style={styles.box}>
-              <Text style={styles.infoText}>Total Days Excercised</Text>
-            </View>
-
-            <View style={styles.box}>
-              <Text style={styles.infoText}>Total time worked out</Text>
-            </View>
-          </View>
+          <View style={styles.progressBoxes}>
+            <Text style={[GlobalStyle.body, GlobalStyle.marginText]}>
+              Total time {"\n"} worked out
+            </Text>
         </View>
       </ScrollView>
-    </ScrollView>
+      </View>
+    </SafeAreaView>
   );
 }
 
 const styles = StyleSheet.create({
-  box: {
-    shadowColor: '#171717',
-    shadowRadius: 3,
-    shadowOpacity: 0.2,
-    shadowOffset: {width: -2, height: 4},
+  container: {
+    marginLeft: 20,
+  },
+  header: {
+    marginTop: 50,
+    fontSize: 24,
+    fontWeight: "500",
+    alignSelf: "center",
+  },
+  progressBoxes: {
+    elevation: 6,
     borderRadius: 20,
-    backgroundColor: '#BCD4A7',
+    backgroundColor: "#BCD4A7",
     width: 150,
     height: 150,
+    
   },
-  infoContainers: {
-    width: 325,
-    marginTop: 50,
-    alignItems: 'center',
-    flexDirection:'row',
-    justifyContent: 'space-between'
+  imgContainer: {
+    height: 220,
+    borderRadius: 20,
+    marginTop: 20,
+    flexDirection: "column",
+    backgroundColor: "#BCD4A7",
   },
 });
