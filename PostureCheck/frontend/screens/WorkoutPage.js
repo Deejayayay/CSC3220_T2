@@ -9,6 +9,23 @@ import {
 import { Image } from "react-native";
 import { GlobalStyle } from "../styles/globalstyles";
 
+
+
+function MakeButton(btnName, nav){
+  return (
+    <TouchableOpacity
+    style={GlobalStyle.buttons} 
+    onPress={() =>
+      nav.navigate("Workout#", { language: "english" })
+    }
+  >
+    <Text style={GlobalStyle.headers}>{btnName}</Text>
+  </TouchableOpacity>
+  );
+}
+
+
+
 export default function Workouts({ navigation, route }) {
   return (
     <SafeAreaView style={GlobalStyle.container}>
