@@ -1,5 +1,5 @@
 --
--- File generated with SQLiteStudio v3.4.4 on Wed May 10 14:40:37 2023
+-- File generated with SQLiteStudio v3.4.4 on Mon May 29 16:27:32 2023
 --
 -- Text encoding used: System
 --
@@ -10,6 +10,8 @@ BEGIN TRANSACTION;
 CREATE TABLE IF NOT EXISTS Logger (
     [Index]    INTEGER PRIMARY KEY AUTOINCREMENT
                        NOT NULL,
+    IsDone     INTEGER NOT NULL
+                       DEFAULT (0),
     DateDone   NUMERIC NOT NULL
                        DEFAULT (0),
     Difficulty INTEGER DEFAULT (0) 
@@ -32,6 +34,36 @@ CREATE TABLE IF NOT EXISTS TypeStore (
     Weighting          NUMERIC NOT NULL
                                DEFAULT (1) 
 );
+
+INSERT INTO TypeStore (
+                          Name,
+                          Category,
+                          Instructions,
+                          [Estimated length],
+                          Weighting
+                      )
+                      VALUES (
+                          'No a exersize',
+                          'Umm',
+                          '"|Text|Hello world!|Text|Im a new line|Text|Im another line|Text|"',
+                          30,
+                          1
+                      );
+
+INSERT INTO TypeStore (
+                          Name,
+                          Category,
+                          Instructions,
+                          [Estimated length],
+                          Weighting
+                      )
+                      VALUES (
+                          'Hello',
+                          'Me',
+                          '"|Text|Display|"',
+                          1,
+                          1
+                      );
 
 
 COMMIT TRANSACTION;

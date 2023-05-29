@@ -20,6 +20,7 @@ let Backend = require("./Backend.js")
 //app 
 export default function App() {
   Backend.Start()
+  Backend.GetAllEx()
   return (
     <NavigationContainer>
       <Stack.Navigator

@@ -10,7 +10,7 @@ import {
   SafeAreaView,
   TouchableOpacity,
 } from "react-native";
-var Backend = require("../../Backend.js")
+let Backend = require("../../Backend.js")
 
 export default function HomeScreen({ navigation }) {
   return (
