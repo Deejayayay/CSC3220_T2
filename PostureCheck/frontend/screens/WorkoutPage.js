@@ -8,18 +8,20 @@ import {
 } from "react-native";
 import { Image } from "react-native";
 import { GlobalStyle } from "../styles/globalstyles";
-
-
+let Backend = require("../../Backend.js")
 
 function MakeButton(btnName, nav){
+  
   return (
     <TouchableOpacity
     style={GlobalStyle.buttons} 
     onPress={() =>
-      nav.navigate("Workout#", { language: "english" })
+      {Backend.TestPass(5) 
+      // nav.navigate("Workout#", { language: "english" })
+      }
     }
   >
-    <Text style={GlobalStyle.headers}>{btnName}</Text>
+      <Text style={[GlobalStyle.headers, GlobalStyle.marginText]}>{btnName}</Text>
   </TouchableOpacity>
   );
 }
@@ -54,6 +56,7 @@ export default function Workouts({ navigation, route }) {
             navigation.navigate("Workout#", { language: "english" })
           }
         >
+          {MakeButton("Hello", navigation)}
           <Text style={[GlobalStyle.headers, GlobalStyle.marginText]}>Exercise #3</Text>
         </TouchableOpacity>
       </ScrollView>
