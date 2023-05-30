@@ -17,7 +17,6 @@ function MakeButton(btnName, nav){
     style={GlobalStyle.buttons} 
     onPress={() =>
       {Backend.TestPass(5) 
-      // nav.navigate("Workout#", { language: "english" })
       }
     }
   >
@@ -26,6 +25,14 @@ function MakeButton(btnName, nav){
   );
 }
 
+function MakeAll(inp){
+  let btnArr = []
+  let names = Backend.GetExNames()
+  for(var i=0; j=names.length,i<j; i++){
+    btnArr.push(MakeButton(names[i], inp))
+  }
+  return btnArr
+}
 
 
 export default function Workouts({ navigation, route }) {
@@ -56,9 +63,10 @@ export default function Workouts({ navigation, route }) {
             navigation.navigate("Workout#", { language: "english" })
           }
         >
-          {MakeButton("Hello", navigation)}
           <Text style={[GlobalStyle.headers, GlobalStyle.marginText]}>Exercise #3</Text>
         </TouchableOpacity>
+        {/* {MakeButton("Hello", navigation)} */}
+        {MakeAll(navigation)}
       </ScrollView>
     </SafeAreaView>
   );

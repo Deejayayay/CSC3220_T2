@@ -9,6 +9,12 @@ import {
 } from "react-native";
 import { Image } from "react-native";
 import { stretches } from "../../automation/MyData";
+let Backend = require("../../Backend.js")
+
+let _name = ""
+let _category = ""
+let _steps = ""
+let _eta = 0
 
 function MakeText(input){
   return(
@@ -76,7 +82,13 @@ function makeFromString(input){
   return pageGen
 }
 
-let testStr = "|Main|Essay #1|Sub|Dylan Beppu|Sub|Wri 1000|Text|\n\tAmerican public schools are a frequent source of debate and conflict. Some people argue that schools do too much, others too little. Historically schools have changed dramatically, from one room schoolhouses to multi service institutions. American public schools have changed a lot in particular, due to American public schools being an extension of the United States government, making them subject to the fluctuations in politics. Due to the connection to the United States government, American public schools change and adapt their curriculum, services, and teaching styles to meet the wants and needs of American citizens.|Text|\tPeople can influence In Sarah Mervosh’s article “In Minneapolis Schools, White Families are asked to help do the integrating”, the state redrew school districts to encourage integration between different races (Mervosh 9). However, the intended integration between people didn’t happen just some school statistics changed yet the school is still segregated. Mervosh interviewed Ms. Friestleben, a principal at a school affected by the redistricting, who wants her students to feel honored and recognized by all, having mixed feelings about the white students being able to recognize their accomplishments (Mervosh 10). Despite some schools in the region being able to integrate well with other ethnicities, some schools such as North High have changed statistically little yet left the community on edge. Racial integration was a failure, however it demonstrates that public schools will adapt to the wants of American citizens, although to what extent and to which group varies.|"
+export function Create(name){
+  let temp = Backend.GetEx(name)
+  _name = temp[0]
+  _category = temp[1]
+  _steps = temp[2]
+  _eta = temp[3]
+}
 
 
 export default class Stretches extends component {
@@ -94,7 +106,7 @@ export default class Stretches extends component {
     <SafeAreaView>
       <ScrollView>
         <View>
-        {makeFromString(testStr)}?
+        {makeFromString(_steps)}?
           <Text>{item.title}</Text>
           <Text>{item.description}</Text>
           <Text>{item.time}</Text>
