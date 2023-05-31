@@ -14,9 +14,30 @@ let DB
 let dbFile
 //https://reactdevstation.github.io/2020/04/04/sqllite.html
 //https://forums.expo.dev/t/sqlite-existing-database/6470/3
-let CLEAR_DB = false
 
-const LOGGER_STR = `
+export async function makeSQLiteDirAsync() {
+	const dbTest = SQLite.openDatabase('dummy.db');
+   console.log(dbTest)
+	try {
+		await dbTest.transaction(tx => tx.executeSql(''));
+	} catch(e) {
+		if (this.state.debugEnabled) console.log('error while executing SQL in dummy DB');
+	}
+	console.log("me done")
+	// return true
+}
+
+
+
+
+
+
+const createTable = () => new Promise((resolve, reject) => {
+	db.transaction(
+	  (tx) => {
+		// CREATE TABLE IF NOT EXISTS tasks
+		//    (id INTEGER PRIMARY KEY AUTOINCREMENT, task TEXT)
+		const sqlCmd = `
 	 CREATE TABLE IF NOT EXISTS Logger	(
 		[Index]    INTEGER PRIMARY KEY AUTOINCREMENT
 						   NOT NULL,
@@ -29,8 +50,7 @@ const LOGGER_STR = `
 		TimeDone   NUMERIC DEFAULT (0) 
 						   NOT NULL,
 		TypeInfo           REFERENCES TypeStore (Name) 
-	)`
-const TYPE_STORE_STR = `
+	)
 	CREATE TABLE IF NOT EXISTS TypeStore (
 		Name               TEXT    PRIMARY KEY
 								   NOT NULL,
@@ -42,25 +62,117 @@ const TYPE_STORE_STR = `
 		Weighting          NUMERIC NOT NULL
 								   DEFAULT (1) 
 	)
-`
+	INSERT INTO TypeStore (
+		Name,
+		Category,
+		Instructions,
+		[Estimated length],
+		Weighting
+	)
+	VALUES (
+		'No a exersize',
+		'Umm',
+		'"|Text|Hello world!|Text|Im a new line|Text|Im another line|Text|"',
+		30,
+		1
+	)
 
-function makeTable(str){
-	DB.transaction((tx) => {
-		tx.executeSql(
-			str
-		);
-	 });
-}
+INSERT INTO TypeStore (
+		Name,
+		Category,
+		Instructions,
+		[Estimated length],
+		Weighting
+	)
+	VALUES (
+		'Hello',
+		'Me',
+		'"|Text|Display|"',
+		1,
+		1
+	)
+	  `
+		tx.executeSql(sqlCmd);
+		DB = tx;
+	  },
+	  (err) => {
+		reject(err);
+	  },
+	  () => {
+		resolve();
+	  }
+	);
+  });
+
+
+
 
 // makeSQLiteDirAsync()
 export function loader(){
-	DB = SQLite.openDatabase("./storeage.db")
-	makeTable(LOGGER_STR)
-	makeTable(TYPE_STORE_STR)
+
+	// dbFile = SQLite.openDatabase('Test.db');
+
+	// Expo.FileSystem.downloadAsync(
+	// 	Expo.Asset.fromModule(require("./AppDatabase.SQLITE")).uri,
+	// 	`${Expo.FileSystem.documentDirectory}SQLite/Test.db`
+	// )
+	// .then(function(){
+	
+	// 	dbFile = SQLite.openDatabase('Test.db');
+	
+	// 	// do whatever else you need here
+	
+	// })
 }
 
+// const start = async () => {
+// 	try {
+// 		// const dbFile =    `${FileSystem.documentDirectory}AppDatabase.SQLITE`;
+// 		// const dbFile =    await Asset.loadAsync(require('./assets/adaptive-icon.png'));
+// 		// const dbFile =    await Asset.loadAsync(require('./assets/hello.png'));
+// 		// const dbFile =    await Asset.loadAsync(require('./AppDatabase.sql'));
+// 		// const dbFile =    await Asset.loadAsync(require('./assets/Test.db'));
+// 		// const dbFile = "file://Test.db"
+// 		// const dbFile = Expo.FileSystem.downloadAsync(
+// 		// 	Expo.Asset.fromModule(require('./assets/db/test.db')).uri,
+// 		// 	`${Expo.FileSystem.documentDirectory}SQLite/test.db`
+// 		// );
+// 		const dbFile =    await Asset.loadAsync(require('./assets/AppDatabase.SQLITE'));
+
+// 		const fileExists = await FileSystem.getInfoAsync(dbFile);
+// 		console.log(dbFile)
+// 		if (!fileExists.exists) {
+// 			console.log("Database file does not exist.");
+// 			// Handle the situation where the file is not found
+// 			return;
+// 		}
+
+// 		// DB = SQLite.openDatabase("AppDatabase.SQLITE");
+// 		// Rest of your code for working with the database
+// 	} catch (error) {
+// 		console.log("Error occurred while opening database:", error);
+// 		// Handle any other errors that occurred during the process
+// 	}
+// };
 
 
+readDataFromTable = () => {
+	return new Promise((resolve, reject) => {
+		DB.transaction((tx) => {
+			// Execute a SELECT query
+			tx.executeSql('SELECT * FROM TypeStore', [], (_, {
+					rows
+				}) => {
+					// Extract the rows from the result object
+					const data = rows._array;
+					resolve(data);
+				},
+				(_, error) => {
+					reject(error);
+				});
+		});
+	});
+};
 
 
 /**
@@ -104,7 +216,6 @@ export function End() {
 }
 
 
-
 /**
  * gets the list of exercise names from table
  * @returns list of names
@@ -122,7 +233,7 @@ export function GetExNames() {
 
 
 export function GetEx(name) {
-	let rtnArr = []
+	rtnArr = []
 	//TODO: replace with actual database read
 	let testStr = "|Main|Essay #1|Sub|Dylan Beppu|Sub|Wri 1000|Text|\n\tAmerican public schools are a frequent source of debate and conflict. Some people argue that schools do too much, others too little. Historically schools have changed dramatically, from one room schoolhouses to multi service institutions. American public schools have changed a lot in particular, due to American public schools being an extension of the United States government, making them subject to the fluctuations in politics. Due to the connection to the United States government, American public schools change and adapt their curriculum, services, and teaching styles to meet the wants and needs of American citizens.|Text|\tPeople can influence In Sarah Mervosh’s article “In Minneapolis Schools, White Families are asked to help do the integrating”, the state redrew school districts to encourage integration between different races (Mervosh 9). However, the intended integration between people didn’t happen just some school statistics changed yet the school is still segregated. Mervosh interviewed Ms. Friestleben, a principal at a school affected by the redistricting, who wants her students to feel honored and recognized by all, having mixed feelings about the white students being able to recognize their accomplishments (Mervosh 10). Despite some schools in the region being able to integrate well with other ethnicities, some schools such as North High have changed statistically little yet left the community on edge. Racial integration was a failure, however it demonstrates that public schools will adapt to the wants of American citizens, although to what extent and to which group varies.|"
 	//name, category, instructions, estimated length
@@ -142,37 +253,11 @@ export function GetExImg(name) {
 	return imgName
 }
 
-let testNEw = [   'Hello',
-'Me',
-'"|Text|Display|"',
-1,
-1]
-
-
 /**
  * Inset to the exersize array from input
  * @param {*} inArr row to input
  */
 export function AddEx(inArr) {
-	// let addon = `VALUES(`
-	// addon = addon + inArr[0] + "," + inArr[1] + "," + inArr[2] + "," + inArr[3] + "," + inArr[4] + `)`
-
-	DB.transaction((tx) => {
-		tx.executeSql(
-		  'INSERT INTO TypeStore (Name, Category, Instructions, "Estimated length", Weighting) VALUES (?, ?, ?, ?, ?)',
-		  testNEw,
-		  (_, result) => {
-			if (result.rowsAffected > 0) {
-			  console.log('Data inserted successfully.');
-			} else {
-			  console.log('Failed to insert data.');
-			}
-		  },
-		  (error) => {
-			console.log('Error executing SQL: ', error);
-		  }
-		);
-	});
 
 }
 
@@ -217,58 +302,7 @@ export function TestGetAll() {
 	//TODO: debuggin ish~
 	// DB.run('BEGIN TRANSACTION');
 
-	// sql = `SELECT Instructions FROM TypeStore`
-
-
-    // DB.transaction(
-	// 	(tx) => {
-	// 	//   tx.executeSql("insert into items (done, value) values (0, ?)", [text]);
-	// 	  tx.executeSql("SELECT * from TypeStore", [], (_, { rows }) =>
-	// 		console.log(JSON.stringify(rows))
-	// 	  );
-	// 	},
-	// 	null,
-	// 	console.log("called")
-	//   );
-  
-	// useEffect(() => {
-		DB.transaction((tx) => {
-		  tx.executeSql(
-			'SELECT * FROM TypeStore',
-			[],
-			(_, { rows }) => {
-			  // Access the retrieved rows here
-			  const data = rows._array;
-			  console.log( data); // or do something else with the data
-			},
-			(error) => {
-			  console.log('Error executing SQL: ', error);
-			}
-		  );
-		});
-	//   }, []);
-
-
-  	// DB.transaction(
-    //     (tx) => {
-    //       const sqlCmd = "SELECT * from TypeStore";
-    //       tx.executeSql(sqlCmd, [], (_tx, resultSet) => {
-    //         console.log(_tx)
-    //       });
-    //     },
-    //     (err) => {
-    //       reject(err);
-    //     },
-    //     () => {
-    //     //   resolve(selectTasksResultSet);
-	// 	console.log("im here")
-    //     }
-	// )
-
-
-
-
-
+	sql = `SELECT Instructions FROM TypeStore`
 	// DB.all(sql, [], (err, rows) => {
 	//     if (err) return console.error(err.message);
 	//     rows.forEach((row) => {
@@ -283,13 +317,13 @@ export function TestGetAll() {
 	//     });
 	//   });
 
-	// readDataFromTable()
-	// 	.then((data) => {
-	// 		console.log('Data:', data);
-	// 	})
-	// 	.catch((error) => {
-	// 		console.error('Error:', error);
-	// 	});
+	readDataFromTable()
+		.then((data) => {
+			console.log('Data:', data);
+		})
+		.catch((error) => {
+			console.error('Error:', error);
+		});
 
 	// DB.transaction(tx => {
 	//     tx.executeSql(
@@ -297,7 +331,6 @@ export function TestGetAll() {
 	//         [],
 	//         (sqlTxn, res) => {
 	//             console.log("found data")
-	// 			console.log(sqlTxn)
 	//         },
 	//         error => {
 	//             console.log("database error: " + error.message)
