@@ -101,10 +101,10 @@ export function Create(name){
 //excercise pages
 export default function Stretches({ navigation, route }) {
   return (
-    <View>
+    <ScrollView>
       {/* <Text>test</Text> */}
       {makeFromString(_steps)}
-    </View>
+    </ScrollView>
   );
 }
 
