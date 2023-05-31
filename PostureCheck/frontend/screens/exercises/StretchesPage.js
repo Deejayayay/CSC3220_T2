@@ -100,11 +100,6 @@ export function Create(name){
 
 //excercise pages
 export default function Stretches({ navigation, route }) {
-  //show modal
-  // const [visible, setVisible] = useState(false);
-  // const show = () => setVisible(true);
-  // const hide = () => setVisible(false);
-
   return (
     <View>
       {/* <Text>test</Text> */}
