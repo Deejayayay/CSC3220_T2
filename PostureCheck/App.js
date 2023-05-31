@@ -3,6 +3,7 @@ import HomeScreen from "./frontend/screens/HomeScreen";
 import ProgressPage from "./frontend/screens/ProgressPage";
 import SettingsPage from "./frontend/screens/SettingsPage";
 import Workouts from "./frontend/screens/WorkoutPage";
+import Stretches from "./frontend/screens/exercises/StretchesPage";
 
 //components
 import { StatusBar } from "expo-status-bar";
@@ -42,6 +43,11 @@ export default function App() {
           component={SettingsPage}
         />
 
+        <Stack.Screen 
+          name="Stretches" 
+          component={Stretches}
+        />
+  
       </Stack.Navigator>
     </NavigationContainer>
   );
