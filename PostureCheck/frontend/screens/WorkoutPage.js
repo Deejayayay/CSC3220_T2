@@ -9,6 +9,8 @@ import {
 import { Image } from "react-native";
 import { GlobalStyle } from "../styles/globalstyles";
 let Backend = require("../../Backend.js")
+let Stretches = require('./exercises/stretches')
+
 
 function MakeButton(btnName, nav){
   
@@ -16,7 +18,7 @@ function MakeButton(btnName, nav){
     <TouchableOpacity
     style={GlobalStyle.buttons} 
     onPress={() =>
-      {Backend.TestPass(5) 
+      {Stretches.Create(btnName)
       }
     }
   >

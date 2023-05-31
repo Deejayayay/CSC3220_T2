@@ -17,9 +17,18 @@ const Stack = createNativeStackNavigator();
 //Database
 let Backend = require("./Backend.js")
 
+let testNEw = [   'Hello',
+'Me',
+'"|Text|Display|"',
+1,
+1]
+
 //app 
 export default function App() {
-  Backend.Start()
+  // Backend.makeSQLiteDirAsync();
+  Backend.loader()
+  Backend.AddEx(testNEw)
+  Backend.TestGetAll()
   return (
     <NavigationContainer>
       <Stack.Navigator
