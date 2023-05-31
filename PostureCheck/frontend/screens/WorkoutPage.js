@@ -8,6 +8,32 @@ import {
 } from "react-native";
 import { Image } from "react-native";
 import { GlobalStyle } from "../styles/globalstyles";
+let Backend = require("../../Backend.js")
+
+function MakeButton(btnName, nav){
+  
+  return (
+    <TouchableOpacity
+    style={GlobalStyle.buttons} 
+    onPress={() =>
+      {Backend.TestPass(5) 
+      }
+    }
+  >
+      <Text style={[GlobalStyle.headers, GlobalStyle.marginText]}>{btnName}</Text>
+  </TouchableOpacity>
+  );
+}
+
+function MakeAll(inp){
+  let btnArr = []
+  let names = Backend.GetExNames()
+  for(var i=0; j=names.length,i<j; i++){
+    btnArr.push(MakeButton(names[i], inp))
+  }
+  return btnArr
+}
+
 
 export default function Workouts({ navigation, route }) {
   return (
@@ -39,6 +65,8 @@ export default function Workouts({ navigation, route }) {
         >
           <Text style={[GlobalStyle.headers, GlobalStyle.marginText]}>Exercise #3</Text>
         </TouchableOpacity>
+        {/* {MakeButton("Hello", navigation)} */}
+        {MakeAll(navigation)}
       </ScrollView>
     </SafeAreaView>
   );

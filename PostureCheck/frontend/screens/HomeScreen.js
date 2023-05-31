@@ -10,6 +10,7 @@ import {
   SafeAreaView,
   TouchableOpacity,
 } from "react-native";
+let Backend = require("../../Backend.js")
 
 export default function HomeScreen({ navigation }) {
   return (
@@ -25,8 +26,7 @@ export default function HomeScreen({ navigation }) {
 
       <TouchableOpacity
         style={GlobalStyle.buttons}
-        onPress={() =>
-          navigation.navigate("Progress Tracking", { language: "english" })
+        onPress={() => navigation.navigate("Progress Tracking", { language: "english" })
         }
       >
         <Text style={[GlobalStyle.headers, GlobalStyle.marginText]}>Progress Tracker</Text>

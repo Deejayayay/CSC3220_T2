@@ -15,8 +15,12 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
 const Stack = createNativeStackNavigator();
 
+//Database
+let Backend = require("./Backend.js")
+
 //app 
 export default function App() {
+  Backend.Start()
   return (
     <NavigationContainer>
       <Stack.Navigator
