@@ -98,25 +98,6 @@ export async function Create(name){
   _loaded = true
 }
 
-
-function codeThatMightChangeFlag(callback) {
-  // do a bunch of stuff
-  if (_loaded = true) {
-      // call the callback to notify other code
-      callback();
-  }
-}
-
-function until(conditionFunction) {
-
-  const poll = resolve => {
-    if(conditionFunction()) resolve();
-    else setTimeout(_ => poll(resolve), 400);
-  }
-
-  return new Promise(poll);
-}
-
 //excercise pages
 export default function Stretches({ navigation, route }) {
   _loaded = false
