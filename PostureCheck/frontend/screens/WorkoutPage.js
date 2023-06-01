@@ -19,11 +19,11 @@ function MakeButton(btnName, nav){
 <TouchableOpacity
 style={GlobalStyle.buttons}
 onPress={() =>
-  {sp.Create(btnName)
+  {sp.Create(btnName),
     nav.navigate("Stretches", { language: "english" })}
 }
 >
-<Text style={[GlobalStyle.headers, GlobalStyle.marginText]}>Exercise #1</Text>
+<Text style={[GlobalStyle.headers, GlobalStyle.marginText]}>{btnName}</Text>
 </TouchableOpacity>
   );
 }
@@ -33,6 +33,7 @@ function MakeAll(inp){
   let names = Backend.GetExNames()
   let j = 0;
   for(var i=0; j=names.length,i<j; i++){
+    console.log("Making item: " +  names[i])
     btnArr.push(MakeButton(names[i], inp))
   }
   return btnArr
@@ -43,14 +44,14 @@ export default function Workouts({ navigation, route }) {
   return (
     <SafeAreaView style={GlobalStyle.container}>
       <ScrollView>
-        <TouchableOpacity
+        {/* <TouchableOpacity
           style={GlobalStyle.buttons}
           onPress={() =>
             navigation.navigate("Stretches", { language: "english" })
           }
         >
           <Text style={[GlobalStyle.headers, GlobalStyle.marginText]}>Exercise #1</Text>
-        </TouchableOpacity>
+        </TouchableOpacity> */}
 {/* 
         <TouchableOpacity
           style={GlobalStyle.buttons}
@@ -70,6 +71,7 @@ export default function Workouts({ navigation, route }) {
           <Text style={[GlobalStyle.headers, GlobalStyle.marginText]}>Exercise #3</Text>
         </TouchableOpacity> */}
         {/* {MakeButton("Hello", navigation)} */}
+        {MakeButton("Hello", navigation)}
         {MakeAll(navigation)}
       </ScrollView>
     </SafeAreaView>
