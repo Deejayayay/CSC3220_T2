@@ -44,6 +44,38 @@ const TYPE_STORE_STR = `
 	)
 `
 
+
+
+
+
+const getRowByPrimaryKey = (tableName, primaryKeyValue, callback) => {
+	DB.transaction((tx) => {
+	  tx.executeSql(
+		`SELECT * FROM ${tableName} WHERE Name = ?`,
+		[primaryKeyValue],
+		(_, { rows }) => {
+		  console.log(rows)
+		  if (rows.length > 0) {
+			// Get the first row from the result
+			const row = rows.item(0);
+			if (callback) { // Check if callback function is defined
+			  callback(row);
+			}
+		  } else {
+			console.log("hello")
+			if (callback) { // Check if callback function is defined
+			  callback(null); // No row found
+			}
+		  }
+		},
+		(error) => {
+		  console.error(error);
+		}
+	  );
+	});
+  };
+
+
 function makeTable(str){
 	DB.transaction((tx) => {
 		tx.executeSql(
@@ -83,14 +115,6 @@ export function GetDaysBack(howBack) {
 	return rtnVal
 }
 
-/**
- * Open the database
- */
-export function Start() {
-	// DB =    SQLite.openDatabase("./AppDatabase.db");  
-	start()
-	// openDatabaseIShipWithApp()
-}
 
 /**
  * close the database
@@ -109,28 +133,60 @@ export function End() {
  * gets the list of exercise names from table
  * @returns list of names
  */
-export function GetExNames() {
-	let nameArr = []
+export async function GetExNames() {
+	return new Promise((resolve, reject) => {
+	  let nameArr = [];
+	  DB.transaction(
+		(tx) => {
+		  tx.executeSql(
+			'SELECT * FROM TypeStore',
+			[],
+			(_, { rows }) => {
+			  const row = rows.item(0);
+			  nameArr.push(row["Name"]);
+			  console.log("GETTING");
+			},
+			(error) => {
+			  console.log('Error executing SQL: ', error);
+			  reject(error);
+			}
+		  );
+		},
+		(txError) => {
+		  console.log('Transaction error: ', txError);
+		  reject(txError);
+		},
+		() => {
+		  console.log("Transaction completed");
+		  resolve(nameArr);
+		}
+	  );
+	});
+  }
 
-	//TODO: Replace with database read
-	for (var i = 0; i < 10; i++) {
-		nameArr.push("Test_" + i)
-	}
-	return nameArr
+
+export async function GetEx(name) {
+  let rtnArr = [name, "NA", "|Main|Default|", 5];
+  try {
+    await new Promise((resolve, reject) => {
+      getRowByPrimaryKey('TypeStore', name, (row) => {
+        if (row) {
+			console.log(name + ' was found in TypeStore');
+			rtnArr = [name, row["Category"], row["Instructions"], row["Estimated length"]];
+        } else {
+        	console.log(name + ' was not found in TypeStore');
+        	rtnArr = [name, 'NA', '|Main|Cannot find exercise|', -1];
+        }
+        resolve();
+      });
+    });
+  } catch (error) {
+    console.error(error);
+  }
+  return rtnArr;
 }
 
-
-
-export function GetEx(name) {
-	let rtnArr = []
-	//TODO: replace with actual database read
-	let testStr = "|Main|Essay #1|Sub|Dylan Beppu|Sub|Wri 1000|Text|\n\tAmerican public schools are a frequent source of debate and con\n\n\n\n\n\n\n\n\n\n\n\n\nflict. Some people argue that schools do too much, others too little. Historically schools have changed dramatically, from one room schoolhouses to multi service institutions. American public schools have changed a lot in particular, due to American public schools being an extension of the United States government, making them subject to the fluctuations in politics. Due to the connection to the United States government, American public schools change and adapt their curriculum, services, and teaching styles to meet the wants and needs of American citizens.|Text|\tPeople can influence In Sarah Mervosh’s article “In Minneapolis Schools, White Families are asked to help do the integrating”, the state redrew school districts to encourage integration between different races (Mervosh 9). However, the intended integration between people didn’t happen just some school statistics changed yet the school is still segregated. Mervosh interviewed Ms. Friestleben, a principal at a school affected by the redistricting, who wants her students to feel honored and recognized by all, having mixed feelings about the white students being able to recognize their accomplishments (Mervosh 10). Despite some schools in the region being able to integrate well with other ethnicities, some schools such as North High have changed statistically little yet left the community on edge. Racial integration was a failure, however it demonstrates that public schools will adapt to the wants of American citizens, although to what extent and to which group varies.|"
-	//name, category, instructions, estimated length
-	rtnArr = [name, "Category", testStr, 5]
-	return rtnArr
-}
-
-
+  
 /**
  * Gets the exercise image (for making the workout page)
  * @param {*} name 
@@ -156,10 +212,10 @@ let testNEw = [   'Hello',
 export function AddEx(inArr) {
 	// let addon = `VALUES(`
 	// addon = addon + inArr[0] + "," + inArr[1] + "," + inArr[2] + "," + inArr[3] + "," + inArr[4] + `)`
-
+	let sqlCmd =  `INSERT INTO TypeStore (Name, Category, Instructions, "Estimated length", Weighting) VALUES (?, ?, ?, ?, ?)`
 	DB.transaction((tx) => {
 		tx.executeSql(
-		  'INSERT INTO TypeStore (Name, Category, Instructions, "Estimated length", Weighting) VALUES (?, ?, ?, ?, ?)',
+		 sqlCmd,
 		  testNEw,
 		  (_, result) => {
 			if (result.rowsAffected > 0) {
@@ -183,8 +239,8 @@ export function GetLogs() {
 }
 
 export function GetLatest() {
-	let rtnTab
-	rtnTab.Push()
+	let rtnTab = []
+	
 	return rtnTab
 }
 
@@ -214,24 +270,6 @@ export function TestPass(numbers) {
 }
 
 export function TestGetAll() {
-	//TODO: debuggin ish~
-	// DB.run('BEGIN TRANSACTION');
-
-	// sql = `SELECT Instructions FROM TypeStore`
-
-
-    // DB.transaction(
-	// 	(tx) => {
-	// 	//   tx.executeSql("insert into items (done, value) values (0, ?)", [text]);
-	// 	  tx.executeSql("SELECT * from TypeStore", [], (_, { rows }) =>
-	// 		console.log(JSON.stringify(rows))
-	// 	  );
-	// 	},
-	// 	null,
-	// 	console.log("called")
-	//   );
-  
-	// useEffect(() => {
 		DB.transaction((tx) => {
 		  tx.executeSql(
 			'SELECT * FROM TypeStore',
@@ -246,65 +284,4 @@ export function TestGetAll() {
 			}
 		  );
 		});
-	//   }, []);
-
-
-  	// DB.transaction(
-    //     (tx) => {
-    //       const sqlCmd = "SELECT * from TypeStore";
-    //       tx.executeSql(sqlCmd, [], (_tx, resultSet) => {
-    //         console.log(_tx)
-    //       });
-    //     },
-    //     (err) => {
-    //       reject(err);
-    //     },
-    //     () => {
-    //     //   resolve(selectTasksResultSet);
-	// 	console.log("im here")
-    //     }
-	// )
-
-
-
-
-
-	// DB.all(sql, [], (err, rows) => {
-	//     if (err) return console.error(err.message);
-	//     rows.forEach((row) => {
-	//         console.log(row);
-	//     });
-	// })
-	// let out = ""
-	// DB.transaction((tx) => {
-	//     tx.executeSql(sql, [], (tx, result) => {
-	//       out = result.rows; // Assuming result.rows contains the retrieved data
-	//       console.log(out); // Log the data after it has been retrieved
-	//     });
-	//   });
-
-	// readDataFromTable()
-	// 	.then((data) => {
-	// 		console.log('Data:', data);
-	// 	})
-	// 	.catch((error) => {
-	// 		console.error('Error:', error);
-	// 	});
-
-	// DB.transaction(tx => {
-	//     tx.executeSql(
-	//         `SELECT Name FROM TypeStore`,
-	//         [],
-	//         (sqlTxn, res) => {
-	//             console.log("found data")
-	// 			console.log(sqlTxn)
-	//         },
-	//         error => {
-	//             console.log("database error: " + error.message)
-	//         }
-
-	//         // out,
-	//      );
-	// });
-	// console.log(out)
 }

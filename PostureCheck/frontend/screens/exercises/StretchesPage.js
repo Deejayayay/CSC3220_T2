@@ -17,8 +17,9 @@ let Backend = require("../../../Backend.js")
 
 let _name = ""
 let _category = ""
-let _steps = ""
+let _steps = "|Text|me|"
 let _eta = 0
+let _loaded = false
 
 function MakeText(input){
   return(
@@ -59,13 +60,13 @@ function makeFromString(input){
     begin = input.indexOf('|', index) + 1;
     end =  input.indexOf('|', begin+1);
     index = end;
-    console.log("start: " + begin + "\tend: " + end )
+    // console.log("start: " + begin + "\tend: " + end )
     if(end == -1 || begin == -1){
       doneRead = true
     }
     if(!doneRead){
       var inp = input.substring(begin, end)
-      console.log(":"+ inp + ":");
+      // console.log(":"+ inp + ":");
       if(type == ""){
         type = inp
       } else {
@@ -89,20 +90,21 @@ function makeFromString(input){
   return pageGen
 }
 
-export function Create(name){
-  let temp = Backend.GetEx(name)
+export async function Create(name){
+  console.log("I am step 0")
+  let temp = await Backend.GetEx(name)
+  console.log(temp[2])
   _name = temp[0]
   _category = temp[1]
   _steps = temp[2]
   _eta = temp[3]
+  _loaded = true
 }
-
-
-
-
 
 //excercise pages
 export default function Stretches({ navigation, route }) {
+  _loaded = false
+  //TODO: Find a way to update this page after its been created
   return (
     <ScrollView showsVerticalScrollIndicator={false}>
       {/* <Text>test</Text> */}
