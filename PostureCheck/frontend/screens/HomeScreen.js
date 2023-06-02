@@ -3,12 +3,18 @@ import { GlobalStyle } from "../styles/globalstyles";
 //import { homescreen } from "../automation/MyData";
 
 //components
-import { StyleSheet,Text,SafeAreaView, TouchableOpacity, Image} from "react-native";
+import {
+  StyleSheet,
+  Text,
+  SafeAreaView,
+  TouchableOpacity,
+  Image,
+} from "react-native";
 
-let Backend = require("../../Backend.js")
+let Backend = require("../../Backend.js");
 
-//npm install react-native-swiper 
-  // for image carousel
+//npm install react-native-swiper
+// for image carousel
 export default function HomeScreen({ navigation }) {
   return (
     <SafeAreaView style={GlobalStyle.container}>
@@ -18,22 +24,43 @@ export default function HomeScreen({ navigation }) {
           navigation.navigate("Exercises", { language: "english" })
         }
       >
-        <Text style={[GlobalStyle.headers, GlobalStyle.buttonSpace, GlobalStyle.marginText]}>Exercises and Stretches</Text>
-        <Text style={[GlobalStyle.subHeaders, GlobalStyle.marginText]}>Exercises to Fix your posture</Text>
+        <Text
+          style={[
+            GlobalStyle.headers,
+            GlobalStyle.buttonSpace,
+            GlobalStyle.marginText,
+          ]}
+        >
+          Exercises and Stretches
+        </Text>
+        <Text style={[GlobalStyle.subHeaders, GlobalStyle.marginText]}>
+          Exercises to Fix your posture
+        </Text>
+        {/*ToDo make image carousel*/}
       </TouchableOpacity>
 
       <TouchableOpacity
-        style={[GlobalStyle.buttons,]}
-        onPress={() => navigation.navigate("Progress Tracking", { language: "english" })
+        style={[GlobalStyle.buttons]}
+        onPress={() =>
+          navigation.navigate("Progress Tracking", { language: "english" })
         }
       >
-        <Text style={[GlobalStyle.headers, GlobalStyle.marginText, GlobalStyle.buttonSpace]}>
+        <Text
+          style={[
+            GlobalStyle.headers,
+            GlobalStyle.marginText,
+            GlobalStyle.buttonSpace,
+          ]}
+        >
           Progress Tracker
         </Text>
         <Text style={[GlobalStyle.subHeaders, GlobalStyle.marginText]}>
           Track Your Fitness Journey
         </Text>
-        <Image source={require('../../assets/bar-chart.png')} style={styles.img} />
+        <Image
+          source={require("../../assets/bar-chart.png")}
+          style={styles.img}
+        />
       </TouchableOpacity>
     </SafeAreaView>
   );
@@ -51,9 +78,8 @@ const styles = StyleSheet.create({
   img: {
     height: 100,
     width: 100,
-    alignSelf: 'center',
+    alignSelf: "center",
     marginTop: 20,
     marginLeft: 100,
   },
-
 });

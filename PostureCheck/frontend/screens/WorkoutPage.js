@@ -68,24 +68,6 @@ export default function Workouts({ navigation, route }) {
         >
           <Text style={[GlobalStyle.headers, GlobalStyle.marginText]}>Exercise #1</Text>
         </TouchableOpacity>
-{/* 
-        <TouchableOpacity
-          style={GlobalStyle.buttons}
-          onPress={() =>
-            navigation.navigate("Stretches", { language: "english" })
-          }
-        >
-          <Text style={[GlobalStyle.headers, GlobalStyle.marginText]}>Exercise #2</Text>
-        </TouchableOpacity>
-
-        <TouchableOpacity
-          style={GlobalStyle.buttons}
-          onPress={() =>
-            navigation.navigate("Stretches", { language: "english" })
-          }
-        >
-          <Text style={[GlobalStyle.headers, GlobalStyle.marginText]}>Exercise #3</Text>
-        </TouchableOpacity> */}
         {/* {MakeButton("Hello", navigation)} */}
         {MakeAll(navigation)}
       </ScrollView>
