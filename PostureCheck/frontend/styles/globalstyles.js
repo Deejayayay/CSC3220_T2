@@ -28,7 +28,9 @@ export const GlobalStyle = StyleSheet.create({
     fontWeight: '400',
   },
   marginText: {
-    marginTop: 20,
     marginLeft: 20,
+  },
+  buttonSpace: {
+    marginTop: 20,
   }
 });

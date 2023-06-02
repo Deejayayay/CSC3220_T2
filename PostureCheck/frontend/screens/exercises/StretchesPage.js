@@ -28,6 +28,9 @@ function MakeText(input){
   );
 }
 
+function MakeImage(input){
+  //todo: image 
+}
 function MakeTitle(input){
   return(
     <Text style={GlobalStyle.headers}>
@@ -101,7 +104,7 @@ export function Create(name){
 //excercise pages
 export default function Stretches({ navigation, route }) {
   return (
-    <ScrollView>
+    <ScrollView showsVerticalScrollIndicator={false}>
       {/* <Text>test</Text> */}
       {makeFromString(_steps)}
     </ScrollView>

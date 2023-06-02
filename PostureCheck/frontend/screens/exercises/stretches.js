@@ -8,7 +8,7 @@ import {
   ScrollView,
 } from "react-native";
 import { Image } from "react-native";
-import { stretches } from "../../automation/MyData";
+// import { stretches } from "../../automation/MyData";
 let Backend = require("../../../Backend.js")
 
 let _name = ""

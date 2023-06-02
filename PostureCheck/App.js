@@ -1,7 +1,6 @@
 //imported screens
 import HomeScreen from "./frontend/screens/HomeScreen";
 import ProgressPage from "./frontend/screens/ProgressPage";
-import SettingsPage from "./frontend/screens/SettingsPage";
 import Workouts from "./frontend/screens/WorkoutPage";
 import Stretches from "./frontend/screens/exercises/StretchesPage";
 
@@ -50,10 +49,6 @@ export default function App() {
         <Stack.Screen 
           name="Progress Tracking" 
           component={ProgressPage} 
-        />
-        <Stack.Screen 
-          name="Settings" 
-          component={SettingsPage}
         />
 
         <Stack.Screen 

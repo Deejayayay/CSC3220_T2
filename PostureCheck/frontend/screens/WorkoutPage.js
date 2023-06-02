@@ -42,7 +42,7 @@ function MakeAll(inp){
 export default function Workouts({ navigation, route }) {
   return (
     <SafeAreaView style={GlobalStyle.container}>
-      <ScrollView>
+      <ScrollView showsVerticalScrollIndicator={false}>
         <TouchableOpacity
           style={GlobalStyle.buttons}
           onPress={() =>
