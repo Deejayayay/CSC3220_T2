@@ -6,7 +6,7 @@ import {
   ScrollView,
   Modal,
 } from "react-native";
-import { useState } from "react";
+import React, { useState } from 'react';
 import { Image } from "react-native";
 import Constants from "expo-constants";
 import { GlobalStyle } from "../../styles/globalstyles";
@@ -19,7 +19,6 @@ let _name = ""
 let _category = ""
 let _steps = "|Text|me|"
 let _eta = 0
-let _loaded = false
 
 function MakeText(input){
   return(
@@ -90,25 +89,63 @@ function makeFromString(input){
   return pageGen
 }
 
-export async function Create(name){
-  console.log("I am step 0")
-  let temp = await Backend.GetEx(name)
-  console.log(temp[2])
-  _name = temp[0]
-  _category = temp[1]
-  _steps = temp[2]
-  _eta = temp[3]
-  _loaded = true
-}
 
-//excercise pages
+export function setName(namu){
+  _name = namu
+}
+// export async function Create(name){
+//   console.log("I am step 0")
+//   let temp = await Backend.GetEx(name)
+//   console.log(temp[2])
+//   _name = temp[0]
+//   _category = temp[1]
+//   _steps = temp[2]
+//   _eta = temp[3]
+//   setLoaded(true)
+// }
+
+// //excercise pages
+// export default function Stretches({ navigation, route }) {
+//   const [loaded, setLoaded] = useState(false);
+
+//   //TODO: Find a way to update this page after its been created
+//   return (
+//     <ScrollView>
+//       {/* <Text>test</Text> */}
+//       {/* {makeFromString(_steps)} */}
+//     {loaded ? makeFromString(_steps) : null}
+//     </ScrollView>
+//   );
+// }
+
 export default function Stretches({ navigation, route }) {
-  _loaded = false
-  //TODO: Find a way to update this page after its been created
+  const [loaded, setLoaded] = useState(false);
+
+  async function Create() {
+    console.log("I am step 0");
+    let temp = await Backend.GetEx(_name);
+    console.log(temp[2]);
+    // _name = temp[0];
+    _category = temp[1];
+    _steps = temp[2];
+    _eta = temp[3];
+    setLoaded(true); // Update the loaded state variable
+  }
+
+  // Call Create function on component mount
+  React.useEffect(() => {
+    Create();
+  }, []);
+
   return (
+<<<<<<< Updated upstream
     <ScrollView showsVerticalScrollIndicator={false}>
       {/* <Text>test</Text> */}
       {makeFromString(_steps)}
+=======
+    <ScrollView>
+      {loaded ? makeFromString(_steps) : null}
+>>>>>>> Stashed changes
     </ScrollView>
   );
 }

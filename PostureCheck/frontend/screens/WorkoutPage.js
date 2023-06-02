@@ -17,11 +17,13 @@ let sp = require('./exercises/StretchesPage')
 
 
 async function MakeButton(btnName, nav) {
+  try{
   return (
     <TouchableOpacity
+      key = {btnName}
       style={GlobalStyle.buttons}
       onPress={() => {
-        sp.Create(btnName);
+        sp.setName(btnName);
         nav.navigate("Stretches", { language: "english" });
       }}
     >
@@ -30,9 +32,16 @@ async function MakeButton(btnName, nav) {
       </Text>
     </TouchableOpacity>
   );
+    } catch (error) {
+      console.error('Promise rejection in MakeButton:', error);
+      // Handle the error appropriately, such as showing an error message or taking corrective action.
+      // You can also throw the error again to propagate it further if needed.
+      throw error;
+    }
 }
 
 async function MakeAll(inp) {
+  try {
   let btnArr = [];
   let names = await Backend.GetExNames();
   let j = 0;
@@ -41,6 +50,12 @@ async function MakeAll(inp) {
     btnArr.push(MakeButton(names[i], inp));
   }
   return await Promise.all(btnArr);
+} catch (error) {
+  console.error('Promise rejection in MakeButton:', error);
+  // Handle the error appropriately, such as showing an error message or taking corrective action.
+  // You can also throw the error again to propagate it further if needed.
+  throw error;
+}
 }
 
 export default function Workouts({ navigation, route }) {
@@ -56,7 +71,7 @@ export default function Workouts({ navigation, route }) {
     initializeButtons();
   }, []);
   console.log("DONE_______________________")
-
+  console.log(buttonElements)
   return (
     <SafeAreaView style={GlobalStyle.container}>
       <ScrollView>

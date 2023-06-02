@@ -15,6 +15,14 @@ export const GlobalStyle = StyleSheet.create({
     flexDirection: "column",
     backgroundColor: "#BCD4A7",
   },
+  debugBtn: {
+    height: 50,
+    borderRadius: 20,
+    marginTop: 20,
+    elevation: 3,
+    flexDirection: "column",
+    backgroundColor: "#BCD4A7",
+  },
   headers: {
     fontSize: 24,
     fontWeight: '500'

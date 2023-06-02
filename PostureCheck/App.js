@@ -23,12 +23,21 @@ let testNEw = [   'Hello',
 1,
 1]
 
+
+let testNEw2= [   `So f this loads, then wtf`,
+'Test',
+`|Text|Why?|`,
+1,
+1]
+
 //app 
 export default function App() {
   // Backend.makeSQLiteDirAsync();
   Backend.loader()
   Backend.AddEx(testNEw)
-  Backend.TestGetAll()
+  // Backend.AddEx(testNEw2)
+
+  // Backend.TestGetAll()
   return (
     <NavigationContainer>
       <Stack.Navigator

@@ -14,30 +14,9 @@ let DB
 let dbFile
 //https://reactdevstation.github.io/2020/04/04/sqllite.html
 //https://forums.expo.dev/t/sqlite-existing-database/6470/3
+let CLEAR_DB = false
 
-export async function makeSQLiteDirAsync() {
-	const dbTest = SQLite.openDatabase('dummy.db');
-   console.log(dbTest)
-	try {
-		await dbTest.transaction(tx => tx.executeSql(''));
-	} catch(e) {
-		if (this.state.debugEnabled) console.log('error while executing SQL in dummy DB');
-	}
-	console.log("me done")
-	// return true
-}
-
-
-
-
-
-
-const createTable = () => new Promise((resolve, reject) => {
-	db.transaction(
-	  (tx) => {
-		// CREATE TABLE IF NOT EXISTS tasks
-		//    (id INTEGER PRIMARY KEY AUTOINCREMENT, task TEXT)
-		const sqlCmd = `
+const LOGGER_STR = `
 	 CREATE TABLE IF NOT EXISTS Logger	(
 		[Index]    INTEGER PRIMARY KEY AUTOINCREMENT
 						   NOT NULL,
@@ -50,7 +29,8 @@ const createTable = () => new Promise((resolve, reject) => {
 		TimeDone   NUMERIC DEFAULT (0) 
 						   NOT NULL,
 		TypeInfo           REFERENCES TypeStore (Name) 
-	)
+	)`
+const TYPE_STORE_STR = `
 	CREATE TABLE IF NOT EXISTS TypeStore (
 		Name               TEXT    PRIMARY KEY
 								   NOT NULL,
@@ -62,117 +42,25 @@ const createTable = () => new Promise((resolve, reject) => {
 		Weighting          NUMERIC NOT NULL
 								   DEFAULT (1) 
 	)
-	INSERT INTO TypeStore (
-		Name,
-		Category,
-		Instructions,
-		[Estimated length],
-		Weighting
-	)
-	VALUES (
-		'No a exersize',
-		'Umm',
-		'"|Text|Hello world!|Text|Im a new line|Text|Im another line|Text|"',
-		30,
-		1
-	)
+`
 
-INSERT INTO TypeStore (
-		Name,
-		Category,
-		Instructions,
-		[Estimated length],
-		Weighting
-	)
-	VALUES (
-		'Hello',
-		'Me',
-		'"|Text|Display|"',
-		1,
-		1
-	)
-	  `
-		tx.executeSql(sqlCmd);
-		DB = tx;
-	  },
-	  (err) => {
-		reject(err);
-	  },
-	  () => {
-		resolve();
-	  }
-	);
-  });
-
-
-
+function makeTable(str){
+	DB.transaction((tx) => {
+		tx.executeSql(
+			str
+		);
+	 });
+}
 
 // makeSQLiteDirAsync()
 export function loader(){
-
-	// dbFile = SQLite.openDatabase('Test.db');
-
-	// Expo.FileSystem.downloadAsync(
-	// 	Expo.Asset.fromModule(require("./AppDatabase.SQLITE")).uri,
-	// 	`${Expo.FileSystem.documentDirectory}SQLite/Test.db`
-	// )
-	// .then(function(){
-	
-	// 	dbFile = SQLite.openDatabase('Test.db');
-	
-	// 	// do whatever else you need here
-	
-	// })
+	DB = SQLite.openDatabase("./storeage.db")
+	makeTable(LOGGER_STR)
+	makeTable(TYPE_STORE_STR)
 }
 
-// const start = async () => {
-// 	try {
-// 		// const dbFile =    `${FileSystem.documentDirectory}AppDatabase.SQLITE`;
-// 		// const dbFile =    await Asset.loadAsync(require('./assets/adaptive-icon.png'));
-// 		// const dbFile =    await Asset.loadAsync(require('./assets/hello.png'));
-// 		// const dbFile =    await Asset.loadAsync(require('./AppDatabase.sql'));
-// 		// const dbFile =    await Asset.loadAsync(require('./assets/Test.db'));
-// 		// const dbFile = "file://Test.db"
-// 		// const dbFile = Expo.FileSystem.downloadAsync(
-// 		// 	Expo.Asset.fromModule(require('./assets/db/test.db')).uri,
-// 		// 	`${Expo.FileSystem.documentDirectory}SQLite/test.db`
-// 		// );
-// 		const dbFile =    await Asset.loadAsync(require('./assets/AppDatabase.SQLITE'));
-
-// 		const fileExists = await FileSystem.getInfoAsync(dbFile);
-// 		console.log(dbFile)
-// 		if (!fileExists.exists) {
-// 			console.log("Database file does not exist.");
-// 			// Handle the situation where the file is not found
-// 			return;
-// 		}
-
-// 		// DB = SQLite.openDatabase("AppDatabase.SQLITE");
-// 		// Rest of your code for working with the database
-// 	} catch (error) {
-// 		console.log("Error occurred while opening database:", error);
-// 		// Handle any other errors that occurred during the process
-// 	}
-// };
 
 
-readDataFromTable = () => {
-	return new Promise((resolve, reject) => {
-		DB.transaction((tx) => {
-			// Execute a SELECT query
-			tx.executeSql('SELECT * FROM TypeStore', [], (_, {
-					rows
-				}) => {
-					// Extract the rows from the result object
-					const data = rows._array;
-					resolve(data);
-				},
-				(_, error) => {
-					reject(error);
-				});
-		});
-	});
-};
 
 
 /**
@@ -195,14 +83,6 @@ export function GetDaysBack(howBack) {
 	return rtnVal
 }
 
-/**
- * Open the database
- */
-export function Start() {
-	// DB =    SQLite.openDatabase("./AppDatabase.db");  
-	start()
-	// openDatabaseIShipWithApp()
-}
 
 /**
  * close the database
@@ -216,13 +96,13 @@ export function End() {
 }
 
 
+
 /**
  * gets the list of exercise names from table
  * @returns list of names
  */
 export function GetExNames() {
 	let nameArr = []
-
 	//TODO: Replace with database read
 	for (var i = 0; i < 10; i++) {
 		nameArr.push("Test_" + i)
@@ -232,14 +112,151 @@ export function GetExNames() {
 
 
 
-export function GetEx(name) {
-	rtnArr = []
-	//TODO: replace with actual database read
-	let testStr = "|Main|Essay #1|Sub|Dylan Beppu|Sub|Wri 1000|Text|\n\tAmerican public schools are a frequent source of debate and conflict. Some people argue that schools do too much, others too little. Historically schools have changed dramatically, from one room schoolhouses to multi service institutions. American public schools have changed a lot in particular, due to American public schools being an extension of the United States government, making them subject to the fluctuations in politics. Due to the connection to the United States government, American public schools change and adapt their curriculum, services, and teaching styles to meet the wants and needs of American citizens.|Text|\tPeople can influence In Sarah Mervosh’s article “In Minneapolis Schools, White Families are asked to help do the integrating”, the state redrew school districts to encourage integration between different races (Mervosh 9). However, the intended integration between people didn’t happen just some school statistics changed yet the school is still segregated. Mervosh interviewed Ms. Friestleben, a principal at a school affected by the redistricting, who wants her students to feel honored and recognized by all, having mixed feelings about the white students being able to recognize their accomplishments (Mervosh 10). Despite some schools in the region being able to integrate well with other ethnicities, some schools such as North High have changed statistically little yet left the community on edge. Racial integration was a failure, however it demonstrates that public schools will adapt to the wants of American citizens, although to what extent and to which group varies.|"
-	//name, category, instructions, estimated length
-	rtnArr = [name, "Category", testStr, 5]
-	return rtnArr
-}
+
+// const getRowByPrimaryKey = (tableName, primaryKeyValue, callback) => {
+// 	DB.transaction((tx) => {
+// 	  tx.executeSql(
+// 		`SELECT * FROM ${tableName} WHERE id = ?`,
+// 		[primaryKeyValue],
+// 		(_, { rows }) => {
+// 		  if (rows.length > 0) {
+// 			const row = rows.item(0);
+// 			callback(row);
+// 		  } else {
+// 			callback(null);
+// 		  }
+// 		},
+// 		(error) => {
+// 		  console.error(error);
+// 		}
+// 	  );
+// 	});
+//   };
+  
+//   export async function Hi(name) {
+// 	let rtnArr = [];
+  
+// 	rtnArr = [name, "Category", "|Main|T|", 5];
+  
+// 	await new Promise((resolve) => {
+// 	  getRowByPrimaryKey("TypeStore", name, (row) => {
+// 		if (row) {
+// 		  console.log(row);
+// 		} else {
+// 		  console.log(name + " was not found in TypeStore");
+// 		  rtnArr = [name, "NA", "|Main|Cannot find exercise|", -1];
+// 		}
+// 		resolve();
+// 	  });
+// 	});
+  
+// 	return rtnArr;
+//   }
+  
+
+
+//   export async function GetEx(name) {
+// 	const result = await Hi(name);
+// 	console.log(result);
+// 	return result
+//   }
+
+
+
+
+
+
+
+
+
+
+
+
+let testStr = "|Main|Essay #1|Sub|Dylan Beppu|Sub|Wri 1000|Text|\n\tAmerican public schools are a frequent source of debate and con\n\n\n\n\n\n\n\n\n\n\n\n\nflict. Some people argue that schools do too much, others too little. Historically schools have changed dramatically, from one room schoolhouses to multi service institutions. American public schools have changed a lot in particular, due to American public schools being an extension of the United States government, making them subject to the fluctuations in politics. Due to the connection to the United States government, American public schools change and adapt their curriculum, services, and teaching styles to meet the wants and needs of American citizens.|Text|\tPeople can influence In Sarah Mervosh’s article “In Minneapolis Schools, White Families are asked to help do the integrating”, the state redrew school districts to encourage integration between different races (Mervosh 9). However, the intended integration between people didn’t happen just some school statistics changed yet the school is still segregated. Mervosh interviewed Ms. Friestleben, a principal at a school affected by the redistricting, who wants her students to feel honored and recognized by all, having mixed feelings about the white students being able to recognize their accomplishments (Mervosh 10). Despite some schools in the region being able to integrate well with other ethnicities, some schools such as North High have changed statistically little yet left the community on edge. Racial integration was a failure, however it demonstrates that public schools will adapt to the wants of American citizens, although to what extent and to which group varies.|"
+
+
+
+const getRowByPrimaryKey = (tableName, primaryKeyValue, callback) => {
+	DB.transaction((tx) => {
+	  tx.executeSql(
+		`SELECT * FROM ${tableName} WHERE id = ?`,
+		[primaryKeyValue],
+		(_, { rows }) => {
+			console.log(rows)
+		  if (rows.length > 0) {
+			// Get the first row from the result
+			const row = rows.item(0);
+			callback(row);
+		  } else {
+			console.log("hel;lo")
+			callback(null); // No row found
+		  }
+		},
+		(error) => {
+		  console.error(error);
+		}
+	  );
+	});
+  };
+
+  export async function GetEx(name) {
+	let rtnArr = [name, "Category", "|Main|T|", 5];
+  
+	try {
+	  const row = await getRowByPrimaryKey('TypeStore', name);
+	  if (row) {
+		console.log(row);
+	  } else {
+		console.log(name + ' was not found in TypeStore');
+		rtnArr = [name, 'NA', '|Main|Cannot find exercise|', -1];
+	  }
+	} catch (error) {
+	  console.error(error);
+	}
+  
+	return rtnArr;
+  }
+  
+
+// export function GetEx(name) {
+// 	let rtnArr = []
+// 	//TODO: replace with actual database read
+// 	//name, category, instructions, estimated length
+// 	rtnArr = [name, "Category", "|Main|T|", 5]
+
+// 	getRowByPrimaryKey(`TypeStore`, name, (row) => {
+// 		if(row){
+// 			console.log(row)
+// 		} else {
+// 			console.log(name + " was not found in TypeStore")
+// 			rtnArr = [name, "NA", "|Main|Cannot find exercise|", -1]
+// 		}
+// 	})
+// 	  return rtnArr
+// }
+
+// export async function GetEx(name) {
+// 	let rtnArr = [];
+  
+// 	// TODO: replace with actual database read
+// 	// name, category, instructions, estimated length
+// 	rtnArr = [name, "Category", "|Main|T|", 5];
+  
+// 	await new Promise((resolve) => {
+// 	  getRowByPrimaryKey("TypeStore", name, (row) => {
+// 		console.log("me")
+// 		if (row) {
+// 		  console.log(row);
+// 		} else {
+// 		  console.log(name + " was not found in TypeStore");
+// 		  rtnArr = [name, "NA", "|Main|Cannot find exercise|", -1];
+// 		}
+// 		resolve(); // Resolve the Promise to indicate completion
+// 	  });
+// 	});
+  
+// 	return rtnArr;
+//   }
 
 
 /**
@@ -253,11 +270,37 @@ export function GetExImg(name) {
 	return imgName
 }
 
+let testNEw = [   'Hello',
+'Me',
+'"|Text|Display|"',
+1,
+1]
+
+
 /**
  * Inset to the exersize array from input
  * @param {*} inArr row to input
  */
 export function AddEx(inArr) {
+	// let addon = `VALUES(`
+	// addon = addon + inArr[0] + "," + inArr[1] + "," + inArr[2] + "," + inArr[3] + "," + inArr[4] + `)`
+
+	DB.transaction((tx) => {
+		tx.executeSql(
+		  'INSERT INTO TypeStore (Name, Category, Instructions, "Estimated length", Weighting) VALUES (?, ?, ?, ?, ?)',
+		  testNEw,
+		  (_, result) => {
+			if (result.rowsAffected > 0) {
+			  console.log('Data inserted successfully.');
+			} else {
+			  console.log('Failed to insert data.');
+			}
+		  },
+		  (error) => {
+			console.log('Error executing SQL: ', error);
+		  }
+		);
+	});
 
 }
 
@@ -299,45 +342,18 @@ export function TestPass(numbers) {
 }
 
 export function TestGetAll() {
-	//TODO: debuggin ish~
-	// DB.run('BEGIN TRANSACTION');
-
-	sql = `SELECT Instructions FROM TypeStore`
-	// DB.all(sql, [], (err, rows) => {
-	//     if (err) return console.error(err.message);
-	//     rows.forEach((row) => {
-	//         console.log(row);
-	//     });
-	// })
-	// let out = ""
-	// DB.transaction((tx) => {
-	//     tx.executeSql(sql, [], (tx, result) => {
-	//       out = result.rows; // Assuming result.rows contains the retrieved data
-	//       console.log(out); // Log the data after it has been retrieved
-	//     });
-	//   });
-
-	readDataFromTable()
-		.then((data) => {
-			console.log('Data:', data);
-		})
-		.catch((error) => {
-			console.error('Error:', error);
+		DB.transaction((tx) => {
+		  tx.executeSql(
+			'SELECT * FROM TypeStore',
+			[],
+			(_, { rows }) => {
+			  // Access the retrieved rows here
+			  const data = rows._array;
+			  console.log( data); // or do something else with the data
+			},
+			(error) => {
+			  console.log('Error executing SQL: ', error);
+			}
+		  );
 		});
-
-	// DB.transaction(tx => {
-	//     tx.executeSql(
-	//         `SELECT Name FROM TypeStore`,
-	//         [],
-	//         (sqlTxn, res) => {
-	//             console.log("found data")
-	//         },
-	//         error => {
-	//             console.log("database error: " + error.message)
-	//         }
-
-	//         // out,
-	//      );
-	// });
-	// console.log(out)
 }
