@@ -138,14 +138,8 @@ export default function Stretches({ navigation, route }) {
   }, []);
 
   return (
-<<<<<<< Updated upstream
     <ScrollView showsVerticalScrollIndicator={false}>
-      {/* <Text>test</Text> */}
-      {makeFromString(_steps)}
-=======
-    <ScrollView>
       {loaded ? makeFromString(_steps) : null}
->>>>>>> Stashed changes
     </ScrollView>
   );
 }

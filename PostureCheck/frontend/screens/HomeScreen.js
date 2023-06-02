@@ -1,4 +1,5 @@
 //imported files
+import { ScrollView } from "react-native-gesture-handler";
 import { GlobalStyle } from "../styles/globalstyles";
 //import { homescreen } from "../automation/MyData";
 
@@ -18,6 +19,7 @@ let Backend = require("../../Backend.js");
 export default function HomeScreen({ navigation }) {
   return (
     <SafeAreaView style={GlobalStyle.container}>
+      <ScrollView>
       <TouchableOpacity
         style={styles.exercisesButton}
         onPress={() =>
@@ -62,6 +64,7 @@ export default function HomeScreen({ navigation }) {
           style={styles.img}
         />
       </TouchableOpacity>
+      </ScrollView>
     </SafeAreaView>
   );
 }

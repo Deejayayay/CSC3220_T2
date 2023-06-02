@@ -84,7 +84,7 @@ export default function Workouts({ navigation, route }) {
           <Text style={[GlobalStyle.headers, GlobalStyle.marginText]}>Exercise #1</Text>
         </TouchableOpacity>
         {/* {MakeButton("Hello", navigation)} */}
-        {MakeAll(navigation)}
+        {setButtonElements}
       </ScrollView>
     </SafeAreaView>
   );
