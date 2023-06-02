@@ -8,73 +8,62 @@ import {
 } from "react-native";
 import { Image } from "react-native";
 import { GlobalStyle } from "../styles/globalstyles";
+import React, { useState } from 'react';
+
 let Backend = require("../../Backend.js")
 let Stretches = require('./exercises/stretches')
 let sp = require('./exercises/StretchesPage')
 
 
-function MakeButton(btnName, nav){
-  
+
+async function MakeButton(btnName, nav) {
   return (
-<TouchableOpacity
-style={GlobalStyle.buttons}
-onPress={() =>
-  {sp.Create(btnName),
-    nav.navigate("Stretches", { language: "english" })}
-}
->
-<Text style={[GlobalStyle.headers, GlobalStyle.marginText]}>{btnName}</Text>
-</TouchableOpacity>
+    <TouchableOpacity
+      style={GlobalStyle.buttons}
+      onPress={() => {
+        sp.Create(btnName);
+        nav.navigate("Stretches", { language: "english" });
+      }}
+    >
+      <Text style={[GlobalStyle.headers, GlobalStyle.marginText]}>
+        {btnName}
+      </Text>
+    </TouchableOpacity>
   );
 }
 
-function MakeAll(inp){
-  let btnArr = []
-  let names = Backend.GetExNames()
+async function MakeAll(inp) {
+  let btnArr = [];
+  let names = await Backend.GetExNames();
   let j = 0;
-  for(var i=0; j=names.length,i<j; i++){
-    console.log("Making item: " +  names[i])
-    btnArr.push(MakeButton(names[i], inp))
+  for (let i = 0; i < names.length; i++) {
+    console.log("Making item: " + names[i]);
+    btnArr.push(MakeButton(names[i], inp));
   }
-  return btnArr
+  return await Promise.all(btnArr);
 }
 
-
 export default function Workouts({ navigation, route }) {
+  const [buttonElements, setButtonElements] = React.useState([]);
+
+  React.useEffect(() => {
+    async function initializeButtons() {
+      const buttons = await MakeAll(navigation);
+      console.log("ReactstateStart")
+      setButtonElements(buttons);
+    }
+
+    initializeButtons();
+  }, []);
+  console.log("DONE_______________________")
+
   return (
     <SafeAreaView style={GlobalStyle.container}>
-      <ScrollView>
-        {/* <TouchableOpacity
-          style={GlobalStyle.buttons}
-          onPress={() =>
-            navigation.navigate("Stretches", { language: "english" })
-          }
-        >
-          <Text style={[GlobalStyle.headers, GlobalStyle.marginText]}>Exercise #1</Text>
-        </TouchableOpacity> */}
-{/* 
-        <TouchableOpacity
-          style={GlobalStyle.buttons}
-          onPress={() =>
-            navigation.navigate("Stretches", { language: "english" })
-          }
-        >
-          <Text style={[GlobalStyle.headers, GlobalStyle.marginText]}>Exercise #2</Text>
-        </TouchableOpacity>
-
-        <TouchableOpacity
-          style={GlobalStyle.buttons}
-          onPress={() =>
-            navigation.navigate("Stretches", { language: "english" })
-          }
-        >
-          <Text style={[GlobalStyle.headers, GlobalStyle.marginText]}>Exercise #3</Text>
-        </TouchableOpacity> */}
-        {/* {MakeButton("Hello", navigation)} */}
-        {MakeButton("Hello", navigation)}
-        {MakeAll(navigation)}
-      </ScrollView>
+      <ScrollView>{buttonElements}</ScrollView>
     </SafeAreaView>
   );
 }
+
 const styles = StyleSheet.create({});
+
+

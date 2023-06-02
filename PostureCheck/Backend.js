@@ -44,6 +44,38 @@ const TYPE_STORE_STR = `
 	)
 `
 
+
+
+
+
+const getRowByPrimaryKey = (tableName, primaryKeyValue, callback) => {
+	DB.transaction((tx) => {
+	  tx.executeSql(
+		`SELECT * FROM ${tableName} WHERE Name = ?`,
+		[primaryKeyValue],
+		(_, { rows }) => {
+		  console.log(rows)
+		  if (rows.length > 0) {
+			// Get the first row from the result
+			const row = rows.item(0);
+			if (callback) { // Check if callback function is defined
+			  callback(row);
+			}
+		  } else {
+			console.log("hello")
+			if (callback) { // Check if callback function is defined
+			  callback(null); // No row found
+			}
+		  }
+		},
+		(error) => {
+		  console.error(error);
+		}
+	  );
+	});
+  };
+
+
 function makeTable(str){
 	DB.transaction((tx) => {
 		tx.executeSql(
@@ -101,47 +133,40 @@ export function End() {
  * gets the list of exercise names from table
  * @returns list of names
  */
-export function GetExNames() {
-	let nameArr = []
-	//TODO: Replace with database read
-	for (var i = 0; i < 10; i++) {
-		nameArr.push("Test_" + i)
-	}
-	return nameArr
-}
+export async function GetExNames() {
+	return new Promise((resolve, reject) => {
+	  let nameArr = [];
+	  DB.transaction(
+		(tx) => {
+		  tx.executeSql(
+			'SELECT * FROM TypeStore',
+			[],
+			(_, { rows }) => {
+			  const row = rows.item(0);
+			  nameArr.push(row["Name"]);
+			  console.log("GETTING");
+			},
+			(error) => {
+			  console.log('Error executing SQL: ', error);
+			  reject(error);
+			}
+		  );
+		},
+		(txError) => {
+		  console.log('Transaction error: ', txError);
+		  reject(txError);
+		},
+		() => {
+		  console.log("Transaction completed");
+		  resolve(nameArr);
+		}
+	  );
+	});
+  }
 
-
-
-const getRowByPrimaryKey = (tableName, primaryKeyValue, callback) => {
-  DB.transaction((tx) => {
-    tx.executeSql(
-      `SELECT * FROM ${tableName} WHERE Name = ?`,
-      [primaryKeyValue],
-      (_, { rows }) => {
-        console.log(rows)
-        if (rows.length > 0) {
-          // Get the first row from the result
-          const row = rows.item(0);
-          if (callback) { // Check if callback function is defined
-            callback(row);
-          }
-        } else {
-          console.log("hello")
-          if (callback) { // Check if callback function is defined
-            callback(null); // No row found
-          }
-        }
-      },
-      (error) => {
-        console.error(error);
-      }
-    );
-  });
-};
 
 export async function GetEx(name) {
-  let rtnArr = [name, "Category", "|Main|T|", 5];
-
+  let rtnArr = [name, "NA", "|Main|Default|", 5];
   try {
     await new Promise((resolve, reject) => {
       getRowByPrimaryKey('TypeStore', name, (row) => {
@@ -187,10 +212,10 @@ let testNEw = [   'Hello',
 export function AddEx(inArr) {
 	// let addon = `VALUES(`
 	// addon = addon + inArr[0] + "," + inArr[1] + "," + inArr[2] + "," + inArr[3] + "," + inArr[4] + `)`
-
+	let sqlCmd =  `INSERT INTO TypeStore (Name, Category, Instructions, "Estimated length", Weighting) VALUES (?, ?, ?, ?, ?)`
 	DB.transaction((tx) => {
 		tx.executeSql(
-		  'INSERT INTO TypeStore (Name, Category, Instructions, "Estimated length", Weighting) VALUES (?, ?, ?, ?, ?)',
+		 sqlCmd,
 		  testNEw,
 		  (_, result) => {
 			if (result.rowsAffected > 0) {
@@ -214,8 +239,8 @@ export function GetLogs() {
 }
 
 export function GetLatest() {
-	let rtnTab
-	rtnTab.Push()
+	let rtnTab = []
+	
 	return rtnTab
 }
 
