@@ -10,7 +10,7 @@ let TestVal = 0
 let blink = null
 let testDb = ["Hello", "Hu"]
 let sql
-let DB
+let DB = SQLite.openDatabase("./storeage.db")
 let dbFile
 //https://reactdevstation.github.io/2020/04/04/sqllite.html
 //https://forums.expo.dev/t/sqlite-existing-database/6470/3
@@ -44,7 +44,30 @@ const TYPE_STORE_STR = `
 	)
 `
 
-
+export async function deleteTable(tableName) {
+	return new Promise((resolve, reject) => {
+	  DB.transaction(
+		(tx) => {
+		  tx.executeSql(
+			`DROP TABLE IF EXISTS ${tableName}`,
+			[],
+			() => {
+			  console.log(`Table ${tableName} deleted successfully`);
+			  resolve();
+			},
+			(error) => {
+			  console.log(`Error deleting table ${tableName}:`, error);
+			  reject(error);
+			}
+		  );
+		},
+		(txError) => {
+		  console.log(`Transaction error:`, txError);
+		  reject(txError);
+		}
+	  );
+	});
+  }
 
 
 
@@ -54,7 +77,7 @@ const getRowByPrimaryKey = (tableName, primaryKeyValue, callback) => {
 		`SELECT * FROM ${tableName} WHERE Name = ?`,
 		[primaryKeyValue],
 		(_, { rows }) => {
-		  console.log(rows)
+		//   console.log(rows)
 		  if (rows.length > 0) {
 			// Get the first row from the result
 			const row = rows.item(0);
@@ -86,7 +109,6 @@ function makeTable(str){
 
 // makeSQLiteDirAsync()
 export function loader(){
-	DB = SQLite.openDatabase("./storeage.db")
 	makeTable(LOGGER_STR)
 	makeTable(TYPE_STORE_STR)
 }
@@ -100,19 +122,27 @@ export function loader(){
  * @returns timecode
  */
 export function ToTimeCode() {
-	let rtnVal = Date().getFullYear + "" + (Date().getMonth + 1) + "" + Date().GetDay
-	return rtnVal
+	const currentDate = new Date();
+    const year = currentDate.getFullYear();
+    const month = String(currentDate.getMonth() + 1).padStart(2, '0');
+    const day = String(currentDate.getDate()).padStart(2, '0');
+    const rtnDate = `${year}${month}${day}`;
+	return rtnDate
 }
 
 /**
- * Get the tiem 
+ * gets the week back
  * @param {*} howBack 
  * @returns 
  */
 export function GetDaysBack(howBack) {
-  //TODO: find caulations for this
-	let rtnVal = Date().getFullYear + "" + (Date().getMonth + 1) + "" + Date().GetDay
-	return rtnVal
+	const currentDate = new Date();
+    const lastWeekDate = new Date(currentDate.getTime() - 7 * 24 * 60 * 60 * 1000);
+    const year = lastWeekDate.getFullYear();
+    const month = String(lastWeekDate.getMonth() + 1).padStart(2, '0');
+    const day = String(lastWeekDate.getDate()).padStart(2, '0');
+	const rtnDate = `${year}${month}${day}`;
+	return rtnDate
 }
 
 
@@ -134,18 +164,26 @@ export function End() {
  * @returns list of names
  */
 export async function GetExNames() {
+	console.log("getting names")
 	return new Promise((resolve, reject) => {
 	  let nameArr = [];
-	  DB.transaction(
-		(tx) => {
+	  DB.transaction((tx) => {
 		  tx.executeSql(
 			'SELECT * FROM TypeStore',
 			[],
+			// (_, { rows }) => {
+			//   const row = rows.item(0);
+			//   nameArr.push(row["Name"]);
+			//   console.log("GETTING");
+			// },
 			(_, { rows }) => {
-			  const row = rows.item(0);
-			  nameArr.push(row["Name"]);
-			  console.log("GETTING");
-			},
+				for (let i = 0; i < rows.length; i++) {
+				  const row = rows.item(i);
+				  nameArr.push(row["Name"]);
+				  console.log("GETTING");
+
+				}
+			  },
 			(error) => {
 			  console.log('Error executing SQL: ', error);
 			  reject(error);
@@ -198,12 +236,6 @@ export function GetExImg(name) {
 	return imgName
 }
 
-let testNEw = [   'Hello',
-'Me',
-'"|Text|Display|"',
-1,
-1]
-
 
 /**
  * Inset to the exersize array from input
@@ -212,12 +244,13 @@ let testNEw = [   'Hello',
 export function AddEx(inArr) {
 	// let addon = `VALUES(`
 	// addon = addon + inArr[0] + "," + inArr[1] + "," + inArr[2] + "," + inArr[3] + "," + inArr[4] + `)`
-	let sqlCmd =  `INSERT INTO TypeStore (Name, Category, Instructions, "Estimated length", Weighting) VALUES (?, ?, ?, ?, ?)`
+	console.log("calling")
+	const sqlCmd =  `INSERT into TypeStore (Name, Category, Instructions, "Estimated length", Weighting) VALUES (?, ?, ?, ?, ?)`
 	DB.transaction((tx) => {
 		tx.executeSql(
-		 sqlCmd,
-		  testNEw,
-		  (_, result) => {
+			sqlCmd,
+			[inArr[0],inArr[1],inArr[2],inArr[3],inArr[4]],
+		  (_tx, result) => {
 			if (result.rowsAffected > 0) {
 			  console.log('Data inserted successfully.');
 			} else {
@@ -229,7 +262,59 @@ export function AddEx(inArr) {
 		  }
 		);
 	});
+}
 
+
+export function ClearEx(){
+	let sqlCmd =  `DELETE FROM TypeStore`
+	DB.transaction((tx) => {
+		tx.executeSql(
+		 sqlCmd,
+		  [],
+		  (txObj, result) => {
+			console.log("Cleaerd exersiszes from type store")
+		  },
+		  (txObj, error) => {
+			console.log('Error executing SQL: ', error);
+		  }
+		);
+	});
+}
+
+export function ClearLogs(){
+	let sqlCmd =  `DELETE FROM Logger`
+	DB.transaction((tx) => {
+		tx.executeSql(
+		 sqlCmd,
+		  [],
+		  (txObj, result) => {
+			console.log("Cleared stored data from logger")
+		  },
+		  (txObj, error) => {
+			console.log('Error executing SQL: ', error);
+		  }
+		);
+	});
+}
+
+/**
+ * OLNY USE FOR TESTING, IT DELEATS ALL TABLES
+ */
+export function NukeAll(){
+	console.log("Please dont be running")
+	deleteTable("TypeStore")
+	deleteTable("Logger")
+
+}
+
+/**
+ * Testing function
+ */
+export function MakeTestEx(){
+	let e0 = ['UpperTest', 'Upper', '"|Main|Upper Test|Text|Somethings|"', 1,2,]
+	AddEx(e0)
+	// console.log(GetEx("UpperTest"))
+	// TestGetAll()
 }
 
 
@@ -245,6 +330,8 @@ export function GetLatest() {
 }
 
 
+
+
 /**
  *  Sets the last exercise
  * @param {*} endT end of the exercise (negative is to remove it)
@@ -254,11 +341,59 @@ export function SetLatest(endT) {
 }
 
 export function GetDay() {
-
+	console.log(ToTimeCode())
 }
 
-export function LogData() {
 
+/**
+ * 
+ * @param {*} inArr [Difficulty, time done, typeinfo]
+ * @param {*} done is finished
+ */
+export function LogData(inArr, done) {
+	const sqlCmd =  `INSERT into Logger (IsDone, DateDone, Difficulty, TimeDone, TypeInfo) VALUES (?, ?, ?, ?, ?)`
+	DB.transaction((tx) => {
+		tx.executeSql(
+			sqlCmd,
+			[done,ToTimeCode() ,inArr[0],inArr[1],inArr[2]],
+		  (_tx, result) => {
+			if (result.rowsAffected > 0) {
+			  console.log('Data inserted successfully.');
+			} else {
+			  console.log('Failed to insert data.');
+			}
+		  },
+		  (error) => {
+			console.log('Error executing SQL: ', error);
+		  }
+		);
+	});
+}
+
+
+/**
+ * 
+ * @param {*} inArr [Difficulty, time done, typeinfo]
+ * @param {*} done is finished
+ */
+export function TestLogData(inArr, done, daWen) {
+	const sqlCmd =  `INSERT into Logger (IsDone, DateDone, Difficulty, TimeDone, TypeInfo) VALUES (?, ?, ?, ?, ?)`
+	DB.transaction((tx) => {
+		tx.executeSql(
+			sqlCmd,
+			[done,daWen ,inArr[0],inArr[1],inArr[2]],
+		  (_tx, result) => {
+			if (result.rowsAffected > 0) {
+			  console.log('Data inserted successfully.');
+			} else {
+			  console.log('Failed to insert data.');
+			}
+		  },
+		  (error) => {
+			console.log('Error executing SQL: ', error);
+		  }
+		);
+	});
 }
 
 
@@ -276,6 +411,7 @@ export function TestGetAll() {
 			[],
 			(_, { rows }) => {
 			  // Access the retrieved rows here
+			//   console.log(rows)
 			  const data = rows._array;
 			  console.log( data); // or do something else with the data
 			},

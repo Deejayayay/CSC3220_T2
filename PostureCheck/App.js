@@ -3,6 +3,7 @@ import HomeScreen from "./frontend/screens/HomeScreen";
 import ProgressPage from "./frontend/screens/ProgressPage";
 import Workouts from "./frontend/screens/WorkoutPage";
 import Stretches from "./frontend/screens/exercises/StretchesPage";
+import Settings from "./frontend/screens/SettingsPage";
 
 //components
 import { StatusBar } from "expo-status-bar";
@@ -23,12 +24,21 @@ let testNEw = [   'Hello',
 1,
 1]
 
+
+let testNEw2= [   `So f this loads, then wtf`,
+'Test',
+`|Text|Why?|`,
+1,
+1]
+
 //app 
 export default function App() {
   // Backend.makeSQLiteDirAsync();
   Backend.loader()
   Backend.AddEx(testNEw)
-  Backend.TestGetAll()
+  // Backend.AddEx(testNEw2)
+
+  // Backend.TestGetAll()
   return (
     <NavigationContainer>
       <Stack.Navigator
@@ -55,7 +65,10 @@ export default function App() {
           name="Stretches" 
           component={Stretches}
         />
-  
+        <Stack.Screen 
+          name="Settings" 
+          component={Settings}
+        />
       </Stack.Navigator>
     </NavigationContainer>
   );
