@@ -18,12 +18,7 @@ let Backend = require("../../Backend.js");
 // for image carousel
 export default function HomeScreen({ navigation }) {
   return (
-<<<<<<< HEAD
     <ScrollView showsVerticalScrollIndicator={false} style={GlobalStyle.container}>
-=======
-    <SafeAreaView style={GlobalStyle.container}>
-      <ScrollView>
->>>>>>> c394f4b52c93ecf736629149d6770180bdf66754
       <TouchableOpacity
         style={styles.exercisesButton}
         onPress={() =>
@@ -67,7 +62,6 @@ export default function HomeScreen({ navigation }) {
           style={styles.img}
         />
       </TouchableOpacity>
-<<<<<<< HEAD
 
       <TouchableOpacity
         style={[GlobalStyle.buttons, styles.settings]}
@@ -93,10 +87,6 @@ export default function HomeScreen({ navigation }) {
         />
       </TouchableOpacity>
     </ScrollView>
-=======
-      </ScrollView>
-    </SafeAreaView>
->>>>>>> c394f4b52c93ecf736629149d6770180bdf66754
   );
 }
 
