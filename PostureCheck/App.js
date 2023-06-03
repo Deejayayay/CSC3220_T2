@@ -39,7 +39,7 @@ export default function App() {
         }}
       >
         <Stack.Screen 
-          name="Posture Check" 
+          name="Posture Checker" 
           component={HomeScreen} 
         />
         <Stack.Screen 

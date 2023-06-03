@@ -1,4 +1,5 @@
 //imported files
+import { ScrollView } from "react-native-gesture-handler";
 import { GlobalStyle } from "../styles/globalstyles";
 //import { homescreen } from "../automation/MyData";
 
@@ -17,7 +18,7 @@ let Backend = require("../../Backend.js");
 // for image carousel
 export default function HomeScreen({ navigation }) {
   return (
-    <SafeAreaView style={GlobalStyle.container}>
+    <ScrollView showsVerticalScrollIndicator={false} style={GlobalStyle.container}>
       <TouchableOpacity
         style={styles.exercisesButton}
         onPress={() =>
@@ -36,7 +37,6 @@ export default function HomeScreen({ navigation }) {
         <Text style={[GlobalStyle.subHeaders, GlobalStyle.marginText]}>
           Exercises to Fix your posture
         </Text>
-        {/*ToDo make image carousel*/}
       </TouchableOpacity>
 
       <TouchableOpacity
@@ -62,7 +62,31 @@ export default function HomeScreen({ navigation }) {
           style={styles.img}
         />
       </TouchableOpacity>
-    </SafeAreaView>
+
+      <TouchableOpacity
+        style={[GlobalStyle.buttons, styles.settings]}
+        onPress={() =>
+          navigation.navigate("Progress Tracking", { language: "english" })
+        }
+      >
+        <Text
+          style={[
+            GlobalStyle.headers,
+            GlobalStyle.marginText,
+            GlobalStyle.buttonSpace,
+          ]}
+        >
+          Settings
+        </Text>
+        <Text style={[GlobalStyle.subHeaders, GlobalStyle.marginText]}>
+          Configure your Posture Checker
+        </Text>
+        <Image
+          source={require("../../assets/settings.png")}
+          style={styles.img}
+        />
+      </TouchableOpacity>
+    </ScrollView>
   );
 }
 
@@ -82,4 +106,11 @@ const styles = StyleSheet.create({
     marginTop: 20,
     marginLeft: 100,
   },
+  imgCarousel: {
+    width: 30,
+    height: 30,
+  },
+  settings: {
+    marginBottom: 20,
+  }
 });
