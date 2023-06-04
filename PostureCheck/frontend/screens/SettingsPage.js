@@ -30,7 +30,6 @@ export default function SettingsPage({ navigation, route }) {
   return (
     <SafeAreaView>
       <ScrollView>
-<<<<<<< Updated upstream
         <Text>Debugging</Text>
         {MakeButton("TimeTest", () => Backend.GetDay())}
         {MakeButton("Add Log data Test", () => Backend.TestLogData())}
@@ -47,15 +46,6 @@ export default function SettingsPage({ navigation, route }) {
         {MakeButton("Clear exersizes", () => Backend.ClearEx())}
         {MakeButton("Clear logs", () => Backend.ClearLogs())}
         {MakeButton("Deleat evrything", () => Backend.NukeAll())}
-=======
-        {MakeButton("TimeTest", Backend.GetDay)}
-
-        {MakeButton("print typedb", Backend.TestGetAll)}
-        {MakeButton("Add test ex", Backend.MakeTestEx)}
-        {MakeButton("Clear exersizes", Backend.ClearEx)}
-        {MakeButton("Clear logs", Backend.ClearLogs)}
-        {MakeButton("Delete everything", Backend.NukeAll)}
->>>>>>> Stashed changes
 
       </ScrollView>
     </SafeAreaView>
