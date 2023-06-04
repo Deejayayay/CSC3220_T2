@@ -15,9 +15,7 @@ function MakeButton(btnName, funct) {
   return (
     <TouchableOpacity
       style={GlobalStyle.debugBtn}
-      onPress={() => {
-       funct();
-      }}
+      onPress={funct}
     >
       <Text style={[GlobalStyle.headers, GlobalStyle.marginText]}>
         {btnName}
@@ -26,33 +24,24 @@ function MakeButton(btnName, funct) {
   );
 }
 
-function MakeTestLogs(){
-  let testTemp = []
-  let e0 = ['UpperTest', 'Upper', '"|Main|Upper Test|Text|Somethings|"', 75,2,]
-	let e1 = ['Lower_test', 'Lower', '"|Main|Lower Test|Text|Somethings|"', 60,1]
-	let e2 = ['Coustom test', 'NA', '"|Main|Coustom Test|Text|Somethings|"', 30,0.5]
-	let e3 = ['Office brake', 'Na', '"|Main|Office brake|Text|Somethings|"', 20,1]
-  for(let i=0;  j = 10 , i<j; i++){
-    
-  }
-  Backend.TestLogData()
-}
-
+let Today = Backend.GetDay()
 //for making things easer with database testing
 export default function SettingsPage({ navigation, route }) {
   return (
     <SafeAreaView>
       <ScrollView>
-        <Text>settings</Text>
-        {MakeButton("TimeTest", Backend.GetDay)}
+        <Text>Debugging</Text>
+        {MakeButton("TimeTest", () => Backend.GetDay())}
+        {MakeButton("Add Log data Test", () => Backend.TestLogData())}
+        {MakeButton("print all logs", () => Backend.LogsPrintAll())}
+        {MakeButton("Get all logs from today", () => Backend.LogsFromDay(Today))}
+        {MakeButton("Get latest log", () => Backend.LogsLatest())}
 
-
-
-        {MakeButton("print typedb", Backend.TestGetAll)}
-        {MakeButton("Add test ex", Backend.MakeTestEx)}
-        {MakeButton("Clear exersizes", Backend.ClearEx)}
-        {MakeButton("Clear logs", Backend.ClearLogs)}
-        {MakeButton("Deleat evrything", Backend.NukeAll)}
+        {MakeButton("print typedb", () => Backend.TestGetAll())}
+        {MakeButton("Add test ex", () => Backend.MakeTestEx())}
+        {MakeButton("Clear exersizes", () => Backend.ClearEx())}
+        {MakeButton("Clear logs", () => Backend.ClearLogs())}
+        {MakeButton("Deleat evrything", () => Backend.NukeAll())}
 
       </ScrollView>
     </SafeAreaView>
