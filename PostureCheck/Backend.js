@@ -450,8 +450,8 @@ export function LogData(inArr, done) {
 /**
  * 
  * @param {*} inArr [Difficulty, time done, typeinfo]
- * @param {*} done 
- * @param {*} daWen 
+ * @param {bool} done Is it done?
+ * @param {int} daWen dateCode finished
  */
 function LogDataTest(inArr, done, daWen) {
     const sqlCmd = `INSERT into Logger (IsDone, DateDone, Difficulty, TimeDone, TypeInfo) VALUES (?, ?, ?, ?, ?)`
