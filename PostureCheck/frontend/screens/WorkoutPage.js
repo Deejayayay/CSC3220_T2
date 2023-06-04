@@ -75,16 +75,7 @@ export default function Workouts({ navigation, route }) {
   return (
     <SafeAreaView style={GlobalStyle.container}>
       <ScrollView>
-        <TouchableOpacity
-          style={GlobalStyle.buttons}
-          onPress={() =>
-            navigation.navigate("Stretches", { language: "english" })
-          }
-        >
-          <Text style={[GlobalStyle.headers, GlobalStyle.marginText]}>Exercise #1</Text>
-        </TouchableOpacity>
-        {/* {MakeButton("Hello", navigation)} */}
-        {setButtonElements}
+        {buttonElements}
       </ScrollView>
     </SafeAreaView>
   );

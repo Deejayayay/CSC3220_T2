@@ -27,7 +27,15 @@ function MakeButton(btnName, funct) {
 }
 
 function MakeTestLogs(){
-  
+  let testTemp = []
+  let e0 = ['UpperTest', 'Upper', '"|Main|Upper Test|Text|Somethings|"', 75,2,]
+	let e1 = ['Lower_test', 'Lower', '"|Main|Lower Test|Text|Somethings|"', 60,1]
+	let e2 = ['Coustom test', 'NA', '"|Main|Coustom Test|Text|Somethings|"', 30,0.5]
+	let e3 = ['Office brake', 'Na', '"|Main|Office brake|Text|Somethings|"', 20,1]
+  for(let i=0;  j = 10 , i<j; i++){
+    
+  }
+  Backend.TestLogData()
 }
 
 //for making things easer with database testing

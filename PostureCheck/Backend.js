@@ -239,7 +239,7 @@ export function GetExImg(name) {
 
 /**
  * Inset to the exersize array from input
- * @param {*} inArr row to input
+ * @param {*} inArr (name, catigory, instructions, estimated lenght, weighting)
  */
 export function AddEx(inArr) {
 	// let addon = `VALUES(`
@@ -311,8 +311,15 @@ export function NukeAll(){
  * Testing function
  */
 export function MakeTestEx(){
-	let e0 = ['UpperTest', 'Upper', '"|Main|Upper Test|Text|Somethings|"', 1,2,]
+	let e0 = ['UpperTest', 'Upper', '"|Main|Upper Test|Text|Somethings|"', 75,2,]
+	let e1 = ['Lower_test', 'Lower', '"|Main|Lower Test|Text|Somethings|"', 60,1]
+	let e2 = ['Coustom test', 'NA', '"|Main|Coustom Test|Text|Somethings|"', 30,0.5]
+	let e3 = ['Office brake', 'Na', '"|Main|Office brake|Text|Somethings|"', 20,1]
 	AddEx(e0)
+	AddEx(e1)
+	AddEx(e2)
+	AddEx(e3)
+
 	// console.log(GetEx("UpperTest"))
 	// TestGetAll()
 }
@@ -375,6 +382,7 @@ export function LogData(inArr, done) {
  * 
  * @param {*} inArr [Difficulty, time done, typeinfo]
  * @param {*} done is finished
+ * @param {*} daWen date done, use test values
  */
 export function TestLogData(inArr, done, daWen) {
 	const sqlCmd =  `INSERT into Logger (IsDone, DateDone, Difficulty, TimeDone, TypeInfo) VALUES (?, ?, ?, ?, ?)`
