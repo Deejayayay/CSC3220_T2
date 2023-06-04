@@ -43,7 +43,7 @@ async function MakeButton(btnName, nav) {
 async function MakeAll(inp) {
   try {
   let btnArr = [];
-  let names = await Backend.GetExNames();
+  let names = await Backend.ExGetNames();
   let j = 0;
   for (let i = 0; i < names.length; i++) {
     btnArr.push(MakeButton(names[i], inp));

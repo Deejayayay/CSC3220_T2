@@ -36,9 +36,9 @@ const TYPE_STORE_STR = `
 	)
 `
 
-const SCORE_THRESSHOLD = 0.2
+const SCORE_THRESHOLD = 0.2
 
-export async function deleteTable(tableName) {
+export async function dbDeleteTable(tableName) {
     return new Promise((resolve, reject) => {
         DB.transaction(
             (tx) => {
@@ -125,7 +125,7 @@ const getRowByPrimaryKeyLogs = (tableName, primaryKeyValue, callback) => {
 
 
 
-function makeTable(str) {
+function dbMakeTable(str) {
     DB.transaction((tx) => {
         tx.executeSql(
             str
@@ -134,16 +134,16 @@ function makeTable(str) {
 }
 
 // makeSQLiteDirAsync()
-export function loader() {
-    makeTable(LOGGER_STR)
-    makeTable(TYPE_STORE_STR)
+export function dbLoader() {
+    dbMakeTable(LOGGER_STR)
+    dbMakeTable(TYPE_STORE_STR)
 }
 
 
 /**
  * close the database
  */
-export function End() {
+export function dbEnd() {
     if (DB != null) {
         DB.closeAsync();
     } else {
@@ -155,10 +155,10 @@ export function End() {
 /**
  * ONLY USE FOR TESTING, IT DELETES ALL TABLES
  */
-export function NukeAll() {
+export function dbNukeAll() {
 	console.warn("Deleted all tables from database")
-    deleteTable("TypeStore")
-    deleteTable("Logger")
+    dbDeleteTable("TypeStore")
+    dbDeleteTable("Logger")
 
 }
 
@@ -210,7 +210,10 @@ export function GetDaysBack(howBack) {
     return rtnDate
 }
 
-export function ClearEx() {
+/**
+ * Clears all data in TypeStore
+ */
+export function ExClear() {
     let sqlCmd = `DELETE FROM TypeStore`
     DB.transaction((tx) => {
         tx.executeSql(
@@ -233,7 +236,7 @@ export function ClearEx() {
  * gets the list of exercise names from table
  * @returns list of names
  */
-export async function GetExNames() {
+export async function ExGetNames() {
     console.log("getting names")
     return new Promise((resolve, reject) => {
         let nameArr = [];
@@ -295,7 +298,7 @@ async function ExGetAll(){
 }
 
 
-export async function GetEx(name) {
+export async function ExGet(name) {
     let rtnArr = [name, "NA", "|Main|Default|", 5];
     try {
         await new Promise((resolve, reject) => {
@@ -316,27 +319,11 @@ export async function GetEx(name) {
     return rtnArr;
 }
 
-
-/**
- * Gets the exercise image (for making the workout page)
- * @param {*} name 
- * @returns the image name (put the path in the string to image)
- */
-export function GetExImg(name) {
-    //TODO: Implment
-    let imgName = "icon"
-    return imgName
-}
-
-
 /**
  * Inset to the exersize array from input
  * @param {*} inArr (name, catigory, instructions, estimated lenght, weighting)
  */
-export function AddEx(inArr) {
-    // let addon = `VALUES(`
-    // addon = addon + inArr[0] + "," + inArr[1] + "," + inArr[2] + "," + inArr[3] + "," + inArr[4] + `)`
-    // console.log("calling")
+export function ExAdd(inArr) {
     const sqlCmd = `INSERT into TypeStore (Name, Category, Instructions, "Estimated length", Weighting) VALUES (?, ?, ?, ?, ?)`
     DB.transaction((tx) => {
         tx.executeSql(
@@ -357,9 +344,9 @@ export function AddEx(inArr) {
 }
 
 /**
- * Makes a of exersizes
+ * Makes a of exercises
  */
-export function MakeTestEx() {
+export function ExMakeTest() {
     let e0 = ['UpperTest', 'Upper', '"|Main|Upper Test|Text|Somethings|"', 75, 2, ]
     let e1 = ['Lower_test', 'Lower', '"|Main|Lower Test|Text|Somethings|"', 60, 1]
     let e2 = ['Coustom test', 'NA', '"|Main|Coustom Test|Text|Somethings|"', 30, 0.5]
@@ -371,8 +358,10 @@ export function MakeTestEx() {
 }
 
 
-
-export function ClearLogs() {
+/**
+ * Clears all logs
+ */
+export function LogClear() {
     let sqlCmd = `DELETE FROM Logger`
     DB.transaction((tx) => {
         tx.executeSql(
@@ -391,7 +380,7 @@ export function ClearLogs() {
 /**
  * prints all the logs to consol
  */
-export function LogsPrintAll() {
+export function LogPrintAll() {
     let sqlCmd = 'SELECT * FROM Logger'
     DB.transaction((tx) => {
         tx.executeSql(
@@ -417,7 +406,7 @@ export function LogsPrintAll() {
  * @param {int} dateCode 
  * @returns array of logs
  */
-export async function LogsFromDay(dateCode) {
+export async function LogFromDay(dateCode) {
     // console.log("GetLogsFromDay------------------------------------------------------")
     let rtnArr = [];
     const sqlCmd = `SELECT * FROM Logger WHERE DateDone = ?`;
@@ -444,8 +433,12 @@ export async function LogsFromDay(dateCode) {
     return rtnArr;
 }
 
-/**Gets the  */
-export async function LogsDayScore(dateCode){
+/**
+ * gets the given date's score
+ * @param {int} dateCode 
+ * @returns 
+ */
+export async function LogDayScore(dateCode){
 	let score = 0
 	// let typeInfo = await ExGetAll()
 	let dayInfo = await LogsFromDay(dateCode)
@@ -460,17 +453,13 @@ export async function LogsDayScore(dateCode){
 
 
 
-//		SCORE_THRESSHOLD
-
-
 /**
  * gets the latest log
  * @returns 
  */
-export async function LogsLatest() {
+export async function LogLatest() {
     let rtnArr
 	const sqlCmd = `SELECT * FROM Logger WHERE [Index] = (SELECT MAX([Index]) FROM Logger)`
-	// const sqlCmd = `SELECT MAX([Index]) as latestIndex FROM Logger;`;
 	await new Promise((resolve, reject) => {
 		DB.transaction(tx => {
 		  tx.executeSql(
@@ -497,7 +486,7 @@ export async function LogsLatest() {
  * @param {int} i index
  * @returns 
  */
-export async function LogsAt(i) {
+export async function LogAt(i) {
 	let rtnArr = []
     try {
         await new Promise((resolve, reject) => {
@@ -523,7 +512,7 @@ export async function LogsAt(i) {
  * Gets the current streak
  * @returns  streak
  */
-export async function LogsGetStreak(){
+export async function LogGetStreak(){
 	let streak =0
 	let n = await LogsLatest()
 	let o = await LogsAt(1)
@@ -532,7 +521,7 @@ export async function LogsGetStreak(){
 	let daysBack = calculateDaysBetweenDates(n["DateDone"], o["DateDone"])
 	for(let i = daysBack; daysBack > 0; daysBack--){
 		let dayScore = await LogsDayScore(GetDaysBack(i))
-		if(dayScore >= SCORE_THRESSHOLD){
+		if(dayScore >= SCORE_THRESHOLD){
 			streak++
 		} else {
 			streak = 0
@@ -643,6 +632,9 @@ function LogDataTest(inArr, done, daWen) {
 }
 
 
+/**
+ * Makes test log data
+ */
 export function TestLogData() {
     ClearLogs()
     const myArray = ['UpperTest', 'Lower_test', 'Coustom test', 'Office brake'];
@@ -660,7 +652,10 @@ export function TestLogData() {
 }
 
 
-
+/**
+ * Tesing intialy, (ignore this)
+ * @param {int} numbers 
+ */
 export function TestPass(numbers) {
     console.log(testDb[1])
     console.log("Times called: " + numbers)
