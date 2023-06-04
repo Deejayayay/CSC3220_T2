@@ -5,15 +5,28 @@ import {
   ScrollView,
   SafeAreaView,
   Pressable,
+  Modal
 } from "react-native";
 import { GlobalStyle } from "../styles/globalstyles";
-import { TouchableOpacity } from "react-native-gesture-handler";
+import { useState } from "react";
 
 function GraphButtons(idx) {
+  const [visible, setVisible] = useState(false);
+  const show = () => setVisible(true);
+  const hide = () => setVisible(false);
+
   return (
-    <Pressable style={styles.graphColumnContainers}>
+    
+    <Pressable key={idx} style={styles.graphColumnContainers} onPress={show}>
       <View style={styles.graphColumns}>
-        <Text>{idx}</Text>
+
+        <Modal visible={visible} animationType="slide" onRequestClose={hide}>
+          <Text>e1</Text>
+
+          <Pressable style={styles.modalButton} onPress={hide}>
+              <Text> exit </Text>
+          </Pressable>
+        </Modal>
       </View>
     </Pressable>
   );
@@ -34,6 +47,7 @@ export default function ProgressPage({ navigation, route }) {
           <Text style={styles.header}>Progress Chart</Text>
           <View style={styles.graphContainer}>
             <ScrollView showsHorizontalScrollIndicator={false} horizontal={true}>{MakeGraph()}</ScrollView>
+          
           </View>
 
           <Text style={styles.header}>You're on a XX streak!!!</Text>
@@ -76,6 +90,7 @@ const styles = StyleSheet.create({
   graphContainer: {
     flexDirection: "row",
     height: 300,
+    borderRadius: 5,
     marginTop: 10,
     backgroundColor: "#BCD4A7",
     justifyContent: "space-evenly",
@@ -94,4 +109,10 @@ const styles = StyleSheet.create({
   graphColumns: {
     backgroundColor: "black",
   },
+  modalButton: {
+    width: 50,
+    height: 20,
+    backgroundColor: "#BCD4A7",
+    marginBottom: 20
+  }
 });

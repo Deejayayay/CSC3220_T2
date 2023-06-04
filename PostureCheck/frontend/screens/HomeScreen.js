@@ -66,7 +66,7 @@ export default function HomeScreen({ navigation }) {
       <TouchableOpacity
         style={[GlobalStyle.buttons, styles.settings]}
         onPress={() =>
-          navigation.navigate("Progress Tracking", { language: "english" })
+          navigation.navigate("Settings", { language: "english" })
         }
       >
         <Text
