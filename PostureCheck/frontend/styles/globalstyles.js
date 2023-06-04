@@ -20,6 +20,8 @@ export const GlobalStyle = StyleSheet.create({
     borderRadius: 20,
     marginTop: 20,
     elevation: 3,
+    marginLeft: 30,
+    marginRight: 30,
     flexDirection: "column",
     backgroundColor: "#BCD4A7",
   },
