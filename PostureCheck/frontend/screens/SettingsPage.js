@@ -36,6 +36,10 @@ export default function SettingsPage({ navigation, route }) {
         {MakeButton("print all logs", () => Backend.LogsPrintAll())}
         {MakeButton("Get all logs from today", () => Backend.LogsFromDay(Today))}
         {MakeButton("Get latest log", () => Backend.LogsLatest())}
+        {MakeButton("Set latest time to 50", () => Backend.LogFinishLatest(50))}
+        {MakeButton("Get log at index 1", () => Backend.LogsAt(1))}
+        {MakeButton("Get curr day score", () => Backend.LogsDayScore(Backend.GetDay()))}
+        {MakeButton("Get streak", () => Backend.LogsGetStreak())}
 
         {MakeButton("print typedb", () => Backend.TestGetAll())}
         {MakeButton("Add test ex", () => Backend.MakeTestEx())}

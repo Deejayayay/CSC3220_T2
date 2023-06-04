@@ -84,10 +84,10 @@ function makeFromString(input){
 
 export function Create(name){
   let temp = Backend.GetEx(name)
-  _name = temp[0]
-  _category = temp[1]
-  _steps = temp[2]
-  _eta = temp[3]
+  _name = temp["Name"]
+  _category = temp["Category"]
+  _steps = temp["Instructions"]
+  _eta = temp["Estimated length"]
 }
 
 

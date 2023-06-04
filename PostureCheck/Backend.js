@@ -36,6 +36,8 @@ const TYPE_STORE_STR = `
 	)
 `
 
+const SCORE_THRESSHOLD = 0.2
+
 export async function deleteTable(tableName) {
     return new Promise((resolve, reject) => {
         DB.transaction(
@@ -92,6 +94,36 @@ const getRowByPrimaryKey = (tableName, primaryKeyValue, callback) => {
     });
 };
 
+const getRowByPrimaryKeyLogs = (tableName, primaryKeyValue, callback) => {
+    DB.transaction((tx) => {
+        tx.executeSql(
+            `SELECT * FROM ${tableName} WHERE [Index] = ?`,
+            [primaryKeyValue],
+            (_, {
+                rows
+            }) => {
+                //   console.log(rows)
+                if (rows.length > 0) {
+                    // Get the first row from the result
+                    const row = rows.item(0);
+                    if (callback) { // Check if callback function is defined
+                        callback(row);
+                    }
+                } else {
+                    console.log("hello")
+                    if (callback) { // Check if callback function is defined
+                        callback(null); // No row found
+                    }
+                }
+            },
+            (error) => {
+                console.error(error);
+            }
+        );
+    });
+};
+
+
 
 function makeTable(str) {
     DB.transaction((tx) => {
@@ -143,6 +175,25 @@ export function GetDay() {
     const rtnDate = `${year}${month}${day}`;
     return rtnDate
 }
+
+function calculateDaysBetweenDates(date1, date2) {
+	const year1 = Math.floor(date1 / 10000);
+	const month1 = Math.floor((date1 % 10000) / 100) - 1;
+	const day1 = date1 % 100;
+  
+	const year2 = Math.floor(date2 / 10000);
+	const month2 = Math.floor((date2 % 10000) / 100) - 1;
+	const day2 = date2 % 100;
+  
+	const dateObject1 = new Date(year1, month1, day1);
+	const dateObject2 = new Date(year2, month2, day2);
+  
+	const diffInMs = Math.abs(dateObject2 - dateObject1);
+	const daysBetween = Math.ceil(diffInMs / (1000 * 60 * 60 * 24));
+  
+	return daysBetween;
+  }
+
 
 /**
  * get the  dateCode for x days back
@@ -223,6 +274,26 @@ export async function GetExNames() {
     });
 }
 
+async function ExGetAll(){
+	let rtnArr
+	sqlCmd = `SELECT * FROM TypeStore`
+	DB.transaction((tx) => {
+        tx.executeSql(
+			sqlCmd,
+            [],
+            (_, {
+                rows
+            }) => {
+                rtnArr = rows._array;
+            },
+            (error) => {
+                console.log('Error executing SQL: ', error);
+            }
+        );
+    });
+	return rtnArr
+}
+
 
 export async function GetEx(name) {
     let rtnArr = [name, "NA", "|Main|Default|", 5];
@@ -231,7 +302,7 @@ export async function GetEx(name) {
             getRowByPrimaryKey('TypeStore', name, (row) => {
                 if (row) {
                     console.log(name + ' was found in TypeStore');
-                    rtnArr = [name, row["Category"], row["Instructions"], row["Estimated length"]];
+                    rtnArr = row;
                 } else {
                     console.log(name + ' was not found in TypeStore');
                     rtnArr = [name, 'NA', '|Main|Cannot find exercise|', -1];
@@ -355,11 +426,12 @@ export async function LogsFromDay(dateCode) {
             tx.executeSql(
                 sqlCmd,
                 [dateCode],
-                (_, {
-                    rows
-                }) => {
-                    console.log(rows._array);
-                    rtnArr.push(rows.item(0));
+                (_, {rows}) => {
+                    console.log(rows._array.length);
+					for(let i = 0; i < rows._array.length; i++){
+						rtnArr.push(rows.item(i));
+					}
+					console.log(rtnArr)
                     resolve();
                 },
                 (_, error) => {
@@ -372,13 +444,31 @@ export async function LogsFromDay(dateCode) {
     return rtnArr;
 }
 
+/**Gets the  */
+export async function LogsDayScore(dateCode){
+	let score = 0
+	// let typeInfo = await ExGetAll()
+	let dayInfo = await LogsFromDay(dateCode)
+	// console.log(dayInfo)
+	for(let i = 0; i < dayInfo.length; i++){
+		let exData = await GetEx(dayInfo[i]["TypeInfo"])
+		score += Math.min(dayInfo[i]["TimeDone"]/exData["Estimated length"],1)*exData["Weighting"]
+	}
+	console.log(score)
+	return score
+}
+
+
+
+//		SCORE_THRESSHOLD
+
 
 /**
- * the  latest log
+ * gets the latest log
  * @returns 
  */
 export async function LogsLatest() {
-    let rtnArr = []
+    let rtnArr
 	const sqlCmd = `SELECT * FROM Logger WHERE [Index] = (SELECT MAX([Index]) FROM Logger)`
 	// const sqlCmd = `SELECT MAX([Index]) as latestIndex FROM Logger;`;
 	await new Promise((resolve, reject) => {
@@ -389,6 +479,7 @@ export async function LogsLatest() {
 			(_, { rows }) => {
 				console.log(rows.item(0))
 				rtnArr = rows.item(0)
+				resolve()
 			},
 			(_, error) => {
 				console.log('Error\LogsLatest:\t', error);
@@ -397,41 +488,119 @@ export async function LogsLatest() {
 		  );
 		});
 	  });
+	console.log("Hel;lo")
     return rtnArr
 }
 
+/**
+ * gets the log at index
+ * @param {int} i index
+ * @returns 
+ */
+export async function LogsAt(i) {
+	let rtnArr = []
+    try {
+        await new Promise((resolve, reject) => {
+            getRowByPrimaryKeyLogs('Logger', i, (row) => {
+                if (row) {
+					rtnArr = row
 
-
+                    console.log(row);
+                } else {
+					rtnArr = row
+                    console.log(i + ' was not found in Logs');
+                }
+                resolve();
+            });
+        });
+    } catch (error) {
+        console.error(error);
+    }
+    return rtnArr;
+}
 
 /**
- *  Finishes the latest log
- * @param {*} endT end of the exercise (negative is to remove it)
+ * Gets the current streak
+ * @returns  streak
  */
-export function LogFinishLatest() {
+export async function LogsGetStreak(){
+	let streak =0
+	let n = await LogsLatest()
+	let o = await LogsAt(1)
+	// console.log(o["DateDone"])
 
+	let daysBack = calculateDaysBetweenDates(n["DateDone"], o["DateDone"])
+	for(let i = daysBack; daysBack > 0; daysBack--){
+		let dayScore = await LogsDayScore(GetDaysBack(i))
+		if(dayScore >= SCORE_THRESSHOLD){
+			streak++
+		} else {
+			streak = 0
+		}
+	}
+	console.log("currrent strak is:\t" + streak)
+	return streak
 }
 
 
 /**
- *  Sets the last exercise
- * @param {*} endT end of the exercise (negative is to remove it)
+ * Sets the lastest item in logs to done,, and logs its date
+ * @param {int} TimeDone 
  */
-export function LogSetLatestDifficulty(endT) {
-
+export async function LogFinishLatest(TimeDone) {
+	const sqlCmd = `UPDATE Logger SET IsDone = True, DateDone = ?, TimeDone = ?   WHERE [Index] = (SELECT MAX([Index]) FROM Logger)`
+	await new Promise((resolve, reject) => {
+		DB.transaction(tx => {
+		  tx.executeSql(
+			sqlCmd,
+			[GetDay(), TimeDone],
+			(_, { rows }) => {
+				resolve(rows > 0);
+			},
+			(_, error) => {
+				console.log('Error\LogFinishLatest:\t', error);
+				reject(error);
+			}
+		  );
+		});
+	});
 }
 
 
 /**
- * 
- * @param {*} inArr [Difficulty, time done, typeinfo]
- * @param {*} done is finished
+ * sets the latest log's difficulty
+ * @param {int} difficulty 
  */
-export function LogData(inArr, done) {
+export async function LogSetLatestDifficulty(difficulty) {
+	const sqlCmd = `UPDATE Logger SET Difficulty = ?   WHERE [Index] = (SELECT MAX([Index]) FROM Logger)`
+	await new Promise((resolve, reject) => {
+		DB.transaction(tx => {
+		  tx.executeSql(
+			sqlCmd,
+			[difficulty],
+			(_, { rows }) => {
+				resolve(rows > 0);
+			},
+			(_, error) => {
+				console.log('Error\LogSetLatestDifficulty:\t', error);
+				reject(error);
+			}
+		  );
+		});
+	});
+}
+
+
+/**
+ * creates a new log with the exercise name
+ * @param {string} exName the exercise name
+ */
+export function LogData(exName) {
     const sqlCmd = `INSERT into Logger (IsDone, DateDone, Difficulty, TimeDone, TypeInfo) VALUES (?, ?, ?, ?, ?)`
     DB.transaction((tx) => {
         tx.executeSql(
             sqlCmd,
-            [done, ToTimeCode(), inArr[0], inArr[1], inArr[2]],
+            [false, ToTimeCode(), -1, 0, exName],
             (_tx, result) => {
                 if (result.rowsAffected > 0) {
                     console.log('Data inserted successfully.');
@@ -477,7 +646,7 @@ function LogDataTest(inArr, done, daWen) {
 export function TestLogData() {
     ClearLogs()
     const myArray = ['UpperTest', 'Lower_test', 'Coustom test', 'Office brake'];
-    for (let i = 0; j = 7, i < j; i++) { // makes the week
+    for (let i = 0; i < 7; i++) { // makes the week
         let dayLoad = Math.floor(Math.random() * 5) // 5 entities max per a day
         for (let v = 0; v < dayLoad; v++) { // makes the day
             const randNum = Math.floor(Math.random() * myArray.length);
@@ -508,6 +677,7 @@ export function TestGetAll() {
             }) => {
                 // Access the retrieved rows here
                 //   console.log(rows)
+				// console.log(rows)
                 const data = rows._array;
                 console.log(data); // or do something else with the data
             },
