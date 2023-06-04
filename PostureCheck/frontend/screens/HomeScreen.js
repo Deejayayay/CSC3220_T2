@@ -64,10 +64,9 @@ export default function HomeScreen({ navigation }) {
       </TouchableOpacity>
 
       <TouchableOpacity
-<<<<<<< Updated upstream
         style={[GlobalStyle.buttons, styles.settings]}
         onPress={() =>
-          navigation.navigate("Progress Tracking", { language: "english" })
+          navigation.navigate("Settings", { language: "english" })
         }
       >
         <Text
@@ -88,16 +87,6 @@ export default function HomeScreen({ navigation }) {
         />
       </TouchableOpacity>
     </ScrollView>
-=======
-        style={GlobalStyle.buttons}
-        onPress={() => navigation.navigate("Settings", { language: "english" })}
-      >
-        <Text style={[GlobalStyle.headers, GlobalStyle.marginText]}>Settings</Text>
-      </TouchableOpacity>
-      
-      </ScrollView>
-    </SafeAreaView>
->>>>>>> Stashed changes
   );
 }
 
