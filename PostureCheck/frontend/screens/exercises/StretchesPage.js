@@ -123,7 +123,7 @@ export default function Stretches({ navigation, route }) {
 
   async function Create() {
     console.log("I am step 0");
-    let temp = await Backend.GetEx(_name);
+    let temp = await Backend.ExGet(_name);
     // console.log(temp[2]);
     // _name = temp[0];
     _category = temp["Instructions"];

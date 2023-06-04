@@ -33,19 +33,19 @@ export default function SettingsPage({ navigation, route }) {
         <Text>Debugging</Text>
         {MakeButton("TimeTest", () => Backend.GetDay())}
         {MakeButton("Add Log data Test", () => Backend.TestLogData())}
-        {MakeButton("print all logs", () => Backend.LogsPrintAll())}
-        {MakeButton("Get all logs from today", () => Backend.LogsFromDay(Today))}
-        {MakeButton("Get latest log", () => Backend.LogsLatest())}
+        {MakeButton("print all logs", () => Backend.LogPrintAll())}
+        {MakeButton("Get all logs from today", () => Backend.LogFromDay(Today))}
+        {MakeButton("Get latest log", () => Backend.LogLatest())}
         {MakeButton("Set latest time to 50", () => Backend.LogFinishLatest(50))}
-        {MakeButton("Get log at index 1", () => Backend.LogsAt(1))}
-        {MakeButton("Get curr day score", () => Backend.LogsDayScore(Backend.GetDay()))}
-        {MakeButton("Get streak", () => Backend.LogsGetStreak())}
+        {MakeButton("Get log at index 1", () => Backend.LogAt(1))}
+        {MakeButton("Get curr day score", () => Backend.LogDayScore(Backend.GetDay()))}
+        {MakeButton("Get streak", () => Backend.LogGetStreak())}
 
         {MakeButton("print typedb", () => Backend.TestGetAll())}
-        {MakeButton("Add test ex", () => Backend.MakeTestEx())}
-        {MakeButton("Clear exersizes", () => Backend.ClearEx())}
-        {MakeButton("Clear logs", () => Backend.ClearLogs())}
-        {MakeButton("Deleat evrything", () => Backend.NukeAll())}
+        {MakeButton("Add test ex", () => Backend.ExMakeTest())}
+        {MakeButton("Clear exersizes", () => Backend.ExClear())}
+        {MakeButton("Clear logs", () => Backend.LogClear())}
+        {MakeButton("Deleat evrything", () => Backend.dbNukeAll())}
 
       </ScrollView>
     </SafeAreaView>
