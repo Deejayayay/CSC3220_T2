@@ -46,7 +46,6 @@ async function MakeAll(inp) {
   let names = await Backend.GetExNames();
   let j = 0;
   for (let i = 0; i < names.length; i++) {
-    console.log("Making item: " + names[i]);
     btnArr.push(MakeButton(names[i], inp));
   }
   return await Promise.all(btnArr);
@@ -64,13 +63,11 @@ export default function Workouts({ navigation, route }) {
   React.useEffect(() => {
     async function initializeButtons() {
       const buttons = await MakeAll(navigation);
-      console.log("ReactstateStart")
       setButtonElements(buttons);
     }
 
     initializeButtons();
   }, []);
-  console.log("DONE_______________________")
   console.log(buttonElements)
   return (
     <SafeAreaView style={GlobalStyle.container}>
