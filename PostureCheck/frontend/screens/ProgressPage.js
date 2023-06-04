@@ -10,6 +10,8 @@ import { GlobalStyle } from "../styles/globalstyles";
 import { useState } from "react";
 import { LogsGetStreak } from "../../Backend";
 
+let Backend = require('../../Backend');
+let resize = Backend.LogGetStreak;
 
 function GraphButtons(idx) {
   const [visible, setVisible] = useState(false);
@@ -133,7 +135,7 @@ const styles = StyleSheet.create({
   graphColumns: {
     backgroundColor: "black",
     width: 70,
-    height: 50,
+    height: resize,
   },
   modalButton: {
     width: 100,
