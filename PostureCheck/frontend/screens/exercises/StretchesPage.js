@@ -124,11 +124,11 @@ export default function Stretches({ navigation, route }) {
   async function Create() {
     console.log("I am step 0");
     let temp = await Backend.GetEx(_name);
-    console.log(temp[2]);
+    // console.log(temp[2]);
     // _name = temp[0];
-    _category = temp[1];
-    _steps = temp[2];
-    _eta = temp[3];
+    _category = temp["Instructions"];
+    _steps = temp["Instructions"];
+    _eta = temp["Estimated length"];
     setLoaded(true); // Update the loaded state variable
   }
 
