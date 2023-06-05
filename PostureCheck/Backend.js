@@ -351,10 +351,10 @@ export function ExMakeTest() {
     let e1 = ['Lower_test', 'Lower', '"|Main|Lower Test|Text|Somethings|"', 60, 1]
     let e2 = ['Coustom test', 'NA', '"|Main|Coustom Test|Text|Somethings|"', 30, 0.5]
     let e3 = ['Office brake', 'Na', '"|Main|Office brake|Text|Somethings|"', 20, 1]
-    AddEx(e0)
-    AddEx(e1)
-    AddEx(e2)
-    AddEx(e3)
+    ExAdd(e0)
+    ExAdd(e1)
+    ExAdd(e2)
+    ExAdd(e3)
 }
 
 
@@ -441,10 +441,10 @@ export async function LogFromDay(dateCode) {
 export async function LogDayScore(dateCode){
 	let score = 0
 	// let typeInfo = await ExGetAll()
-	let dayInfo = await LogsFromDay(dateCode)
+	let dayInfo = await LogFromDay(dateCode)
 	// console.log(dayInfo)
 	for(let i = 0; i < dayInfo.length; i++){
-		let exData = await GetEx(dayInfo[i]["TypeInfo"])
+		let exData = await ExGet(dayInfo[i]["TypeInfo"])
 		score += Math.min(dayInfo[i]["TimeDone"]/exData["Estimated length"],1)*exData["Weighting"]
 	}
 	console.log(score)
@@ -514,13 +514,13 @@ export async function LogAt(i) {
  */
 export async function LogGetStreak(){
 	let streak =0
-	let n = await LogsLatest()
-	let o = await LogsAt(1)
+	let n = await LogLatest()
+	let o = await LogAt(1)
 	// console.log(o["DateDone"])
 
 	let daysBack = calculateDaysBetweenDates(n["DateDone"], o["DateDone"])
 	for(let i = daysBack; daysBack > 0; daysBack--){
-		let dayScore = await LogsDayScore(GetDaysBack(i))
+		let dayScore = await LogDayScore(GetDaysBack(i))
 		if(dayScore >= SCORE_THRESHOLD){
 			streak++
 		} else {
@@ -636,7 +636,7 @@ function LogDataTest(inArr, done, daWen) {
  * Makes test log data
  */
 export function TestLogData() {
-    ClearLogs()
+    LogClear()
     const myArray = ['UpperTest', 'Lower_test', 'Coustom test', 'Office brake'];
     for (let i = 0; i < 7; i++) { // makes the week
         let dayLoad = Math.floor(Math.random() * 5) // 5 entities max per a day
