@@ -46,7 +46,7 @@ function MakeTitle(input) {
 
 function MakeHeader(input) {
   return (
-    <Text style={GlobalStyle.headers}>
+    <Text style={GlobalStyle.subHeaders}>
       <Text numberOfLines={5}>{input}</Text>
     </Text>
   );
@@ -126,7 +126,7 @@ export default function Stretches({ navigation, route }) {
 
   return (
     <View>
-    <ScrollView showsVerticalScrollIndicator={false}>
+    <ScrollView style={GlobalStyle.container} showsVerticalScrollIndicator={false}>
         {loaded ? makeFromString(_steps) : null}
       </ScrollView>
       <View>

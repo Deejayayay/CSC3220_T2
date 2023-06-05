@@ -44,9 +44,6 @@ export const GlobalStyle = StyleSheet.create({
   buttonSpace: {
     marginTop: 20,
   },
-  modalButton: {
-    marginTop: 5,
-  },
   img: {
     marginLeft: 30,
     marginRight: 30,
