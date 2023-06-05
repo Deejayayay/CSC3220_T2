@@ -8,7 +8,7 @@ import {
 } from "react-native";
 import { GlobalStyle } from "../styles/globalstyles";
 import React, { useState } from 'react';
-
+let chartPage = require("./ChartPage")
 //variable to access Backend Class
 let Backend = require("../../Backend");
 
@@ -31,6 +31,7 @@ function GraphButtons(idx, score ,navigation) {
         key={idx}
         style={styles.graphColumnContainers}
         onPress={() => {
+          chartPage.LoadDay(Backend.GetDaysBack(idx))
           navigation.navigate("Chart Page", { language: "english" })
           // show
           console.log("Graph day pressed:\t"+idx)

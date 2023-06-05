@@ -45,7 +45,7 @@ function make(inArr, navPage){
 
 async function MakeADay(navi){
   let dayInfo = []
-  let stuffDone = await Backend.LogFromDay(Backend.GetDay())
+  let stuffDone = await Backend.LogFromDay(_day)
   console.log("Getting dat")
   console.log(stuffDone.length)
   for(let i = 0; i < stuffDone.length; i++){
