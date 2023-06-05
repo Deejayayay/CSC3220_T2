@@ -12,19 +12,17 @@ import { GlobalStyle } from "../../styles/globalstyles";
 import { ProgressTimer } from "../../components/ProgressTimer.js"
 
 let Backend = require("../../../Backend.js");
-// import img1 from '../../../assets/childspose.png';
 
 let _name = "";
 let _category = "";
 let _steps = "|Text|me|";
 let _eta = 0;
 
-//todo put images
 const IMAGE_PATHS = {
   childspose: require("../../../assets/childspose.png"),
   forwardfold: require("../../../assets/standing-forward-bend.png"),
   highplank: require("../../../assets/highplank.png"),
-  
+
 };
 
 function MakeText(input) {
@@ -74,7 +72,7 @@ function makeFromString(input) {
     begin = input.indexOf("|", index) + 1;
     end = input.indexOf("|", begin + 1);
     index = end;
-    // console.log("start: " + begin + "\tend: " + end )
+    console.log("start: " + begin + "\tend: " + end )
     if (end == -1 || begin == -1) {
       doneRead = true;
     }
@@ -84,6 +82,8 @@ function makeFromString(input) {
       if (type == "") {
         type = inp;
       } else {
+        console.log(inp)
+
         if (type == "Image") {
           pageGen.push(MakeImage(inp));
         } else if (type == "List") {

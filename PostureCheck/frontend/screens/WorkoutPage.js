@@ -18,6 +18,8 @@ let sp = require('./exercises/StretchesPage')
 //Get the image
 const IMAGE_PATHS = {
   childspose: require("../../assets/childspose.png"),
+  forwardfold: require("../../assets/standing-forward-bend.png"),
+  highplank: require("../../assets/highplank.png"),
 };
 
 
@@ -50,30 +52,25 @@ function GetImage(input) {
       }
     }
   }
-  return null;
+  return require("..//..//assets/highplank.png");
 }
 
+async function MakeButton(inTab, nav) {
 
-
-
-
-
-
-
-async function MakeButton(btnName, nav) {
   try{
   return (
     <TouchableOpacity
-      key = {btnName}
+      key = {inTab['Name']}
       style={GlobalStyle.buttons}
       onPress={() => {
-        sp.setName(btnName);
+        sp.setName(inTab['Name']);
         nav.navigate("Stretches", { language: "english" });
       }}
     >
       <Text style={[GlobalStyle.headers, GlobalStyle.marginText, GlobalStyle.buttonSpace]}>
-        {btnName}
+        {inTab["Name"]}
       </Text>
+      <Image style={styles.img} source={require('../../assets/childspose.png')}/>
     </TouchableOpacity>
   );
     } catch (error) {
@@ -90,7 +87,7 @@ async function MakeAll(inp) {
   let types = await Backend.ExGetAll();
   // console.log(types)
   for (let i = 0; i < types.length; i++) {
-    btnArr.push(MakeButton(types[i]["Name"], inp));
+    btnArr.push(MakeButton(types[i], inp));
   }
   return await Promise.all(btnArr);
 } catch (error) {
@@ -120,6 +117,12 @@ export default function Workouts({ navigation, route }) {
   );
 }
 
-const styles = StyleSheet.create({});
+const styles = StyleSheet.create({
+  img: {
+    marginLeft: 110,
+    width: 200,
+    height: 200,
+  }
+});
 
 

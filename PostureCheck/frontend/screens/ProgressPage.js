@@ -20,7 +20,7 @@ function GraphButtons(idx, score ,navigation) {
   // const hide = () => setVisible(false);
 
   const barInfo = {
-      backgroundColor: 'black',
+      backgroundColor: 'Black',
       width: 70,
       height: Math.min(score*100, 250),
   }
@@ -107,6 +107,7 @@ else{
   );  
 }
 }
+
 //Progress Boxes and the Graphs and page in general
 export default function ProgressPage({ navigation, route }) {
   const [graphElements, setGraphElements] = React.useState([]);
@@ -122,7 +123,6 @@ export default function ProgressPage({ navigation, route }) {
     }
     initializeGraph();
   }, []);
-
 
   return (
     <ScrollView>
@@ -171,15 +171,5 @@ const styles = StyleSheet.create({
     marginRight: 20,
     height: 250,
     width: 70,
-  },
-  modalButton: {
-    width: 100,
-    height: 50,
-    borderRadius: 50,
-    position: "absolute",
-    marginTop: 650,
-    alignSelf: "center",
-    alignItems: "center",
-    backgroundColor: "#BCD4A7",
   },
 });
