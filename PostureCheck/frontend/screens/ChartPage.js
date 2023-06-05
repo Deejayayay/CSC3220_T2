@@ -12,6 +12,10 @@ import {
 
   let Backend = require('../../Backend');
   
+
+
+
+
 export default function ChartPage({ navigation, route }) {
     return (
         <ScrollView>
