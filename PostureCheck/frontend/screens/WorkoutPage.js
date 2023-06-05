@@ -71,7 +71,7 @@ async function MakeButton(btnName, nav) {
         nav.navigate("Stretches", { language: "english" });
       }}
     >
-      <Text style={[GlobalStyle.headers, GlobalStyle.marginText]}>
+      <Text style={[GlobalStyle.headers, GlobalStyle.marginText, GlobalStyle.buttonSpace]}>
         {btnName}
       </Text>
     </TouchableOpacity>
@@ -114,11 +114,9 @@ export default function Workouts({ navigation, route }) {
   }, []);
   console.log(buttonElements)
   return (
-    <SafeAreaView style={GlobalStyle.container}>
-      <ScrollView>
-        {buttonElements}
-      </ScrollView>
-    </SafeAreaView>
+    <ScrollView style={GlobalStyle.container} showsVerticalScrollIndicator={false}>
+      {buttonElements}
+    </ScrollView>
   );
 }
 

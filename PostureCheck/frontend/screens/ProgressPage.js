@@ -20,7 +20,7 @@ function GraphButtons(idx, score ,navigation) {
   // const hide = () => setVisible(false);
 
   const barInfo = {
-      backgroundColor: "black",
+      backgroundColor: 'black',
       width: 70,
       height: Math.min(score*100, 250),
   }
@@ -165,18 +165,12 @@ const styles = StyleSheet.create({
     justifyContent: "space-evenly",
   },
   graphColumnContainers: {
-    borderWidth: 1,
     justifyContent: "flex-end",
     marginTop: 20,
     marginLeft: 20,
     marginRight: 20,
     height: 250,
     width: 70,
-  },
-  graphColumns: {
-    backgroundColor: "black",
-    width: 70,
-    height: 70,
   },
   modalButton: {
     width: 100,

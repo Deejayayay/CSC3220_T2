@@ -363,7 +363,7 @@ export function ExMakeTest() {
  * Makes the default exersizes for the app
  */
 export function ExMakeDefault(){
-    let e0 = ['Childs pose', 'Upper', '|Image|childspose|Main|Childs pose|Text|This resting pose stretch lengthens your spine, glutes and hamstrings. This helps to release tension in your lower back and neck|Sub|Steps:|Text|1) Step1\n2 Step2\n3) Step3', 75, 2, ]
+    let e0 = ['Childs pose', 'Upper', '|Image|childspose|Main|Childs pose|Text|This resting pose stretch lengthens your spine, glutes and hamstrings. This helps to release tension in your lower back and neck|Sub|Steps:|Text|1) Step1\n2 Step2\n3) Step3', 75, 2,]
     ExAdd(e0)
 
 }
