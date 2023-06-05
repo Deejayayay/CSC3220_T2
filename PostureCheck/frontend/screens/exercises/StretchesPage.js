@@ -14,11 +14,17 @@ import { GlobalStyle } from "../../styles/globalstyles";
 // import CountdownTimer from "../../Components/timer";
 
 let Backend = require("../../../Backend.js")
+// import img1 from '../../../assets/childspose.png';
 
 let _name = ""
 let _category = ""
 let _steps = "|Text|me|"
 let _eta = 0
+
+const IMAGE_PATHS = {
+  childspose: require('../../../assets/childspose.png'),
+}
+
 
 function MakeText(input){
   return(
@@ -29,7 +35,12 @@ function MakeText(input){
 }
 
 function MakeImage(input){
-  //todo: image 
+  return(
+  <Image
+  source={IMAGE_PATHS[input]}
+  style={styles.img}
+  />
+  );
 }
 function MakeTitle(input){
   return(
@@ -45,6 +56,14 @@ function MakeHeader(input){
             <Text numberOfLines={5}>{input}</Text>
     </Text>
   );
+}
+
+/**
+ * getes the curretly selcted exersize
+ * @returns selected type primary key
+ */
+export function GetSelectedEx(){
+  return _name
 }
 
 function makeFromString(input){
@@ -70,7 +89,8 @@ function makeFromString(input){
         type = inp
       } else {
         if(type == "Image"){
-          // pageGen.s
+          pageGen.push(MakeImage(inp))
+
         } else if(type == "List") {
 
         } else if(type == "Sub") {

@@ -35,7 +35,8 @@ let testNEw2= [   `So f this loads, then wtf`,
 export default function App() {
   // Backend.makeSQLiteDirAsync();
   Backend.dbLoader()
-  Backend.ExAdd(testNEw)
+  // Backend.ExAdd(testNEw)
+  Backend.ExMakeDefault()
   // Backend.AddEx(testNEw2)
 
   // Backend.TestGetAll()
