@@ -496,6 +496,40 @@ export async function LogLatest() {
     return rtnArr
 }
 
+
+
+
+/**
+ * gets the latest log
+ * @returns 
+ */
+export async function LogOldest() {
+    let rtnArr
+	const sqlCmd = `SELECT * FROM Logger WHERE [Index] = (SELECT MIN([Index]) FROM Logger)`
+	await new Promise((resolve, reject) => {
+		DB.transaction(tx => {
+		  tx.executeSql(
+			sqlCmd,
+			[],
+			(_, { rows }) => {
+                console.log("MINININI")
+				console.log(rows.item(0))
+				rtnArr = rows.item(0)
+				resolve()
+			},
+			(_, error) => {
+				console.log('Error\LogsLatest:\t', error);
+				reject(error);
+			}
+		  );
+		});
+	  });
+	console.log("Oldest")
+    console.log(rtnArr)
+
+    return rtnArr
+}
+
 /**
  * gets the log at index
  * @param {int} i index
@@ -530,8 +564,9 @@ export async function LogAt(i) {
 export async function LogGetStreak(){
 	let streak =0
 	let n = await LogLatest()
-	let o = await LogAt(1)
+	let o = await LogOldest()
 	// console.log(o["DateDone"])
+    console.log("O STUFFS:\t" + o["DateDone"])
 
 	let daysBack = calculateDaysBetweenDates(n["DateDone"], o["DateDone"])
 	for(let i = daysBack; daysBack > 0; daysBack--){
@@ -554,7 +589,7 @@ export async function LogGetStreak(){
 export async function LogGetStreakCallback(callback){
 	let streak =0
 	let n = await LogLatest()
-	let o = await LogAt(1)
+	let o = await LogOldest()
 	// console.log(o["DateDone"])
 
 	let daysBack = calculateDaysBetweenDates(n["DateDone"], o["DateDone"])
