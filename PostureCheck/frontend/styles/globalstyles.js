@@ -22,6 +22,7 @@ export const GlobalStyle = StyleSheet.create({
     elevation: 3,
     marginLeft: 30,
     marginRight: 30,
+    marginBottom: 20,
     flexDirection: "column",
     backgroundColor: "#BCD4A7",
   },
@@ -42,5 +43,8 @@ export const GlobalStyle = StyleSheet.create({
   },
   buttonSpace: {
     marginTop: 20,
+  },
+  modalButton: {
+    marginTop: 5,
   }
 });

@@ -14,8 +14,12 @@ import {
 
 let Backend = require("../../Backend.js");
 
-//npm install react-native-swiper
+//npm install react-native-snap-carousel
+
 // for image carousel
+function Carousel(){
+  
+}
 export default function HomeScreen({ navigation }) {
   return (
     <ScrollView showsVerticalScrollIndicator={false} style={GlobalStyle.container}>

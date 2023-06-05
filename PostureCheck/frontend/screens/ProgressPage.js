@@ -3,12 +3,15 @@ import {
   Text,
   View,
   ScrollView,
-  SafeAreaView,
-  Pressable,
-  Modal
+  Modal,
+  TouchableOpacity,
 } from "react-native";
 import { GlobalStyle } from "../styles/globalstyles";
 import { useState } from "react";
+import { LogsGetStreak } from "../../Backend";
+
+let Backend = require('../../Backend');
+let resize = Backend.LogGetStreak;
 
 function GraphButtons(idx) {
   const [visible, setVisible] = useState(false);
@@ -16,19 +19,30 @@ function GraphButtons(idx) {
   const hide = () => setVisible(false);
 
   return (
-    
-    <Pressable key={idx} style={styles.graphColumnContainers} onPress={show}>
+    <TouchableOpacity
+      key={idx}
+      style={styles.graphColumnContainers}
+      onPress={show}
+    >
       <View style={styles.graphColumns}>
-
         <Modal visible={visible} animationType="slide" onRequestClose={hide}>
-          <Text>e1</Text>
+          <Text>Day Statistics</Text>
 
-          <Pressable style={styles.modalButton} onPress={hide}>
-              <Text> exit </Text>
-          </Pressable>
+          <Text>Workouts Completed</Text>
+
+          <Text>Total time worked out</Text>
+
+          <TouchableOpacity style={styles.modalButton} onPress={hide}>
+            <ScrollView>
+              <Text style={[GlobalStyle.headers, GlobalStyle.modalButton]}>
+                exit
+              </Text>
+            </ScrollView>
+          </TouchableOpacity>
         </Modal>
+
       </View>
-    </Pressable>
+    </TouchableOpacity>
   );
 }
 
@@ -42,29 +56,41 @@ function MakeGraph() {
 
 export default function ProgressPage({ navigation, route }) {
   return (
-    <SafeAreaView>
-        <ScrollView>
-          <Text style={styles.header}>Progress Chart</Text>
-          <View style={styles.graphContainer}>
-            <ScrollView showsHorizontalScrollIndicator={false} horizontal={true}>{MakeGraph()}</ScrollView>
-          
-          </View>
+      <ScrollView>
+        <Text style={styles.header}>Progress Chart</Text>
+        <View style={styles.graphContainer}>
+          <ScrollView showsHorizontalScrollIndicator={false} horizontal={true}>
+            {MakeGraph()}
+          </ScrollView>
+        </View>
 
-          <Text style={styles.header}>You're on a XX streak!!!</Text>
-          
-            <View style={styles.progressBoxes}>
-              <Text style={[GlobalStyle.headers, GlobalStyle.marginText, styles.progressHeader]}>
-                Total Days Excercised
-              </Text>
-            </View>
+        <View style={styles.progressBoxes}>
+          <Text
+            style={[
+              GlobalStyle.headers,
+              GlobalStyle.marginText,
+              styles.progressHeader,
+            ]}
+          >
+            Total Days Excercised
+          </Text>
 
-            <View style={styles.progressBoxes}>
-              <Text style={[GlobalStyle.headers, GlobalStyle.marginText, styles.progressHeader]}>
-                Total time worked out
-              </Text>
-            </View>
-        </ScrollView>
-    </SafeAreaView>
+          <Text>day#</Text>
+        </View>
+
+        <View style={styles.progressBoxes}>
+          <Text
+            style={[
+              GlobalStyle.headers,
+              GlobalStyle.marginText,
+              styles.progressHeader,
+            ]}
+          >
+            You're on a XX streak!!! 
+          </Text>
+
+        </View>
+      </ScrollView>
   );
 }
 
@@ -82,10 +108,10 @@ const styles = StyleSheet.create({
     borderRadius: 20,
     backgroundColor: "#BCD4A7",
     width: 370,
-    height: 150,
+    height: 170,
   },
   progressHeader: {
-    marginTop: 10
+    marginTop: 10,
   },
   graphContainer: {
     flexDirection: "row",
@@ -108,11 +134,17 @@ const styles = StyleSheet.create({
   },
   graphColumns: {
     backgroundColor: "black",
+    width: 70,
+    height: resize,
   },
   modalButton: {
-    width: 50,
-    height: 20,
+    width: 100,
+    height: 50,
+    borderRadius: 50,
+    position: 'absolute',
+    marginTop: 650,
+    alignSelf: "center",
+    alignItems: "center",
     backgroundColor: "#BCD4A7",
-    marginBottom: 20
-  }
+  },
 });
