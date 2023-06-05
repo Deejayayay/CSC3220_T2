@@ -18,9 +18,12 @@ let _category = "";
 let _steps = "|Text|me|";
 let _eta = 0;
 
+//todo put images
 const IMAGE_PATHS = {
   childspose: require("../../../assets/childspose.png"),
-
+  forwardfold: require("../../../assets/standing-forward-bend.png"),
+  highplank: require("../../../assets/highplank.png"),
+  
 };
 
 function MakeText(input) {
