@@ -46,5 +46,11 @@ export const GlobalStyle = StyleSheet.create({
   },
   modalButton: {
     marginTop: 5,
+  },
+  img: {
+    marginLeft: 30,
+    marginRight: 30,
+    width: 300,
+    height: 300,
   }
 });
