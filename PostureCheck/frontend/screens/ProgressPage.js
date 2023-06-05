@@ -80,21 +80,7 @@ export default function ProgressPage({ navigation, route }) {
           {graphElements}
         </ScrollView>
       </View>
-
-      <View style={styles.progressBoxes}>
-        <Text
-          style={[
-            GlobalStyle.headers,
-            GlobalStyle.marginText,
-            styles.progressHeader,
-          ]}
-        >
-          Total Days Excercised
-        </Text>
-
-        <Text>day#</Text>
-      </View>
-
+      
       <View style={styles.progressBoxes}>
         <Text
           style={[
