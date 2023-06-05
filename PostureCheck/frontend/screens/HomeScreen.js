@@ -1,13 +1,11 @@
 //imported files
 import { ScrollView } from "react-native-gesture-handler";
 import { GlobalStyle } from "../styles/globalstyles";
-//import { homescreen } from "../automation/MyData";
 
 //components
 import {
   StyleSheet,
   Text,
-  SafeAreaView,
   TouchableOpacity,
   Image,
 } from "react-native";
@@ -17,9 +15,7 @@ let Backend = require("../../Backend.js");
 //npm install react-native-snap-carousel
 
 // for image carousel
-function Carousel(){
-  
-}
+
 export default function HomeScreen({ navigation }) {
   return (
     <ScrollView showsVerticalScrollIndicator={false} style={GlobalStyle.container}>

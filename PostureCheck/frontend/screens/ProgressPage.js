@@ -11,43 +11,25 @@ import React, { useState } from 'react';
 
 //variable to access Backend Class
 let Backend = require("../../Backend");
-//streak saved as a variable
-let streak = Backend.LogGetStreak
 
 //Making the Graphs and returns a react jsx code of the buttons
-function GraphButtons(idx) {
+function GraphButtons(idx, navigation) {
   //show modal
   // const [visible, setVisible] = useState(false);
   // const show = () => setVisible(true);
   // const hide = () => setVisible(false);
-  
   return (
     <View>
       <TouchableOpacity
         key={idx}
         style={styles.graphColumnContainers}
         onPress={() => {
+          navigation.navigate("Chart Page", { language: "english" })
           // show
           console.log("Graph day pressed:\t"+idx)
         }}
       >
-        {/* <View style={styles.graphColumns}>
-          <Modal visible={visible} animationType="slide" onRequestClose={hide}>
-            <Text>Day Statistics</Text>
-
-            <Text>Workouts Completed</Text>
-
-            <Text>Total time worked out</Text>
-            <TouchableOpacity style={styles.modalButton} onPress={hide}>
-              <ScrollView>
-                <Text style={[GlobalStyle.headers, GlobalStyle.modalButton]}>
-                  exit
-                </Text>
-              </ScrollView>
-            </TouchableOpacity>
-          </Modal>
-        </View> */}
-        
+        <View style={styles.graphColumns} />
       </TouchableOpacity>
       <Text>Day {idx + 1}</Text>
     </View>
@@ -55,14 +37,14 @@ function GraphButtons(idx) {
 }
 
 //loop to create the graphs
-async function MakeGraph() {
+async function MakeGraph(navigation) {
   //array that holds the buttons and columns
   let columnArr = [];
   //Loop to iterate through 7 days of the week
   for (var i = 0; i < 7; i++) {
     //calls to GraphButtons
     console.log(i)
-    columnArr.push(GraphButtons(i));
+    columnArr.push(GraphButtons(i, navigation));
   }
   //returns array
   return columnArr;
@@ -79,6 +61,7 @@ export default function ProgressPage({ navigation, route }) {
     }
     initializeGraph();
   }, []);
+
   return (
     <ScrollView>
       <Text style={styles.header}>Progress Chart</Text>
