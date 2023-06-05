@@ -8,89 +8,98 @@ import {
 } from "react-native";
 import { GlobalStyle } from "../styles/globalstyles";
 import { useState } from "react";
-import { LogsGetStreak } from "../../Backend";
 
-let Backend = require('../../Backend');
-let resize = Backend.LogGetStreak;
+//variable to access Backend Class
+let Backend = require("../../Backend");
+//streak saved as a variable
+let streak = Backend.LogGetStreak
 
+//Making the Graphs and returns a react jsx code of the buttons
 function GraphButtons(idx) {
+  //show modal
   const [visible, setVisible] = useState(false);
   const show = () => setVisible(true);
   const hide = () => setVisible(false);
-
+  
   return (
-    <TouchableOpacity
-      key={idx}
-      style={styles.graphColumnContainers}
-      onPress={show}
-    >
-      <View style={styles.graphColumns}>
-        <Modal visible={visible} animationType="slide" onRequestClose={hide}>
-          <Text>Day Statistics</Text>
+    <View>
+      <TouchableOpacity
+        key={idx}
+        style={styles.graphColumnContainers}
+        onPress={show}
+      >
+        <View style={styles.graphColumns}>
+          <Modal visible={visible} animationType="slide" onRequestClose={hide}>
+            <Text>Day Statistics</Text>
 
-          <Text>Workouts Completed</Text>
+            <Text>Workouts Completed</Text>
 
-          <Text>Total time worked out</Text>
-
-          <TouchableOpacity style={styles.modalButton} onPress={hide}>
-            <ScrollView>
-              <Text style={[GlobalStyle.headers, GlobalStyle.modalButton]}>
-                exit
-              </Text>
-            </ScrollView>
-          </TouchableOpacity>
-        </Modal>
-
-      </View>
-    </TouchableOpacity>
+            <Text>Total time worked out</Text>
+            <TouchableOpacity style={styles.modalButton} onPress={hide}>
+              <ScrollView>
+                <Text style={[GlobalStyle.headers, GlobalStyle.modalButton]}>
+                  exit
+                </Text>
+              </ScrollView>
+            </TouchableOpacity>
+          </Modal>
+        </View>
+      </TouchableOpacity>
+      <Text>Day {idx + 1}</Text>
+    </View>
   );
 }
 
+//loop to create the graphs
 function MakeGraph() {
+  //array that holds the buttons and columns
   let columnArr = [];
+  //Loop to iterate through 7 days of the week
   for (var i = 0; i < 7; i++) {
+    //calls to GraphButtons
     columnArr.push(GraphButtons(i));
   }
+  //returns array
   return columnArr;
 }
 
+//Progress Boxes and the Graphs and page in general
 export default function ProgressPage({ navigation, route }) {
   return (
-      <ScrollView>
-        <Text style={styles.header}>Progress Chart</Text>
-        <View style={styles.graphContainer}>
-          <ScrollView showsHorizontalScrollIndicator={false} horizontal={true}>
-            {MakeGraph()}
-          </ScrollView>
-        </View>
+    <ScrollView>
+      <Text style={styles.header}>Progress Chart</Text>
+      <View style={styles.graphContainer}>
+        <ScrollView showsHorizontalScrollIndicator={false} horizontal={true}>
+          {MakeGraph()}
+        </ScrollView>
+      </View>
 
-        <View style={styles.progressBoxes}>
-          <Text
-            style={[
-              GlobalStyle.headers,
-              GlobalStyle.marginText,
-              styles.progressHeader,
-            ]}
-          >
-            Total Days Excercised
-          </Text>
+      <View style={styles.progressBoxes}>
+        <Text
+          style={[
+            GlobalStyle.headers,
+            GlobalStyle.marginText,
+            styles.progressHeader,
+          ]}
+        >
+          Total Days Excercised
+        </Text>
 
-          <Text>day#</Text>
-        </View>
+        <Text>day#</Text>
+      </View>
 
-        <View style={styles.progressBoxes}>
-          <Text
-            style={[
-              GlobalStyle.headers,
-              GlobalStyle.marginText,
-              styles.progressHeader,
-            ]}
-          >
-            You're on a XX streak!!! 
-          </Text>
-
-        </View>
-      </ScrollView>
+      <View style={styles.progressBoxes}>
+        <Text
+          style={[
+            GlobalStyle.headers,
+            GlobalStyle.marginText,
+            styles.progressHeader,
+          ]}
+        >
+          You're on a streak!!!
+        </Text>
+      </View>
+    </ScrollView>
   );
 }
 
@@ -122,26 +131,24 @@ const styles = StyleSheet.create({
     justifyContent: "space-evenly",
   },
   graphColumnContainers: {
-    borderColor: "black",
-    justifyContent: "flex-end",
     borderWidth: 1,
-    marginBottom: 10,
-    marginTop: 10,
+    justifyContent: "flex-end",
+    marginTop: 20,
     marginLeft: 20,
     marginRight: 20,
-    height: 280,
+    height: 250,
     width: 70,
   },
   graphColumns: {
     backgroundColor: "black",
     width: 70,
-    height: resize,
+    height: 70,
   },
   modalButton: {
     width: 100,
     height: 50,
     borderRadius: 50,
-    position: 'absolute',
+    position: "absolute",
     marginTop: 650,
     alignSelf: "center",
     alignItems: "center",
