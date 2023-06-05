@@ -21,7 +21,6 @@ CREATE TABLE IF NOT EXISTS Logger (
     TypeInfo           REFERENCES TypeStore (Name) 
 );
 
-
 -- Table: TypeStore
 CREATE TABLE IF NOT EXISTS TypeStore (
     Name               TEXT    PRIMARY KEY

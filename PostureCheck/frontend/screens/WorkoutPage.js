@@ -15,6 +15,50 @@ let Stretches = require('./exercises/stretches')
 let sp = require('./exercises/StretchesPage')
 
 
+//Get the image
+const IMAGE_PATHS = {
+  childspose: require("../../assets/childspose.png"),
+};
+
+
+
+function GetImage(input) {
+  let index = 0;
+  let doneRead = false;
+  let type = "";
+  let temp = "";
+  while (!doneRead) {
+    let begin = 0;
+    let end = 0;
+    begin = input.indexOf("|", index) + 1;
+    end = input.indexOf("|", begin + 1);
+    index = end;
+    // console.log("start: " + begin + "\tend: " + end )
+    if (end == -1 || begin == -1) {
+      doneRead = true;
+    }
+    if (!doneRead) {
+      var inp = input.substring(begin, end);
+      // console.log(":"+ inp + ":");
+      if (type == "") {
+        type = inp;
+      } else {
+        if (type == "Image") {
+          return IMAGE_PATHS[inp]
+        }
+        type = "";
+      }
+    }
+  }
+  return null;
+}
+
+
+
+
+
+
+
 
 async function MakeButton(btnName, nav) {
   try{
@@ -27,7 +71,7 @@ async function MakeButton(btnName, nav) {
         nav.navigate("Stretches", { language: "english" });
       }}
     >
-      <Text style={[GlobalStyle.headers, GlobalStyle.marginText]}>
+      <Text style={[GlobalStyle.headers, GlobalStyle.marginText, GlobalStyle.buttonSpace]}>
         {btnName}
       </Text>
     </TouchableOpacity>
@@ -43,10 +87,10 @@ async function MakeButton(btnName, nav) {
 async function MakeAll(inp) {
   try {
   let btnArr = [];
-  let names = await Backend.ExGetNames();
-  let j = 0;
-  for (let i = 0; i < names.length; i++) {
-    btnArr.push(MakeButton(names[i], inp));
+  let types = await Backend.ExGetAll();
+  // console.log(types)
+  for (let i = 0; i < types.length; i++) {
+    btnArr.push(MakeButton(types[i]["Name"], inp));
   }
   return await Promise.all(btnArr);
 } catch (error) {
@@ -70,11 +114,9 @@ export default function Workouts({ navigation, route }) {
   }, []);
   console.log(buttonElements)
   return (
-    <SafeAreaView style={GlobalStyle.container}>
-      <ScrollView>
-        {buttonElements}
-      </ScrollView>
-    </SafeAreaView>
+    <ScrollView style={GlobalStyle.container} showsVerticalScrollIndicator={false}>
+      {buttonElements}
+    </ScrollView>
   );
 }
 

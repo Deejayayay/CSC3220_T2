@@ -8,10 +8,8 @@ import {
 } from "react-native";
 import React, { useState } from "react";
 import { Image } from "react-native";
-import Constants from "expo-constants";
 import { GlobalStyle } from "../../styles/globalstyles";
 import { ProgressTimer } from "../../components/ProgressTimer.js"
-
 
 let Backend = require("../../../Backend.js");
 // import img1 from '../../../assets/childspose.png';
@@ -21,9 +19,12 @@ let _category = "";
 let _steps = "|Text|me|";
 let _eta = 0;
 
+//todo put images
 const IMAGE_PATHS = {
   childspose: require("../../../assets/childspose.png"),
-
+  forwardfold: require("../../../assets/standing-forward-bend.png"),
+  highplank: require("../../../assets/highplank.png"),
+  
 };
 
 function MakeText(input) {
@@ -103,30 +104,6 @@ function makeFromString(input) {
 export function setName(namu) {
   _name = namu;
 }
-// export async function Create(name){
-//   console.log("I am step 0")
-//   let temp = await Backend.GetEx(name)
-//   console.log(temp[2])
-//   _name = temp[0]
-//   _category = temp[1]
-//   _steps = temp[2]
-//   _eta = temp[3]
-//   setLoaded(true)
-// }
-
-// //excercise pages
-// export default function Stretches({ navigation, route }) {
-//   const [loaded, setLoaded] = useState(false);
-
-//   //TODO: Find a way to update this page after its been created
-//   return (
-//     <ScrollView>
-//       {/* <Text>test</Text> */}
-//       {/* {makeFromString(_steps)} */}
-//     {loaded ? makeFromString(_steps) : null}
-//     </ScrollView>
-//   );
-// }
 
 export default function Stretches({ navigation, route }) {
   const [loaded, setLoaded] = useState(false);
@@ -157,24 +134,4 @@ export default function Stretches({ navigation, route }) {
 
 const styles = StyleSheet.create({
   container: {},
-  startButton: {
-    alignSelf: "center",
-    position: "absolute",
-    width: 100,
-    height: 50,
-    marginTop: 650,
-    borderRadius: 50,
-    alignItems: "center",
-    backgroundColor: "#BCD4A7",
-  },
-  startButtonText: {
-    fontWeight: "500",
-    fontSize: 18,
-    marginTop: 13,
-  },
-  modal: {
-    alignContent: "center",
-    marginLeft: 30,
-    marginRight: 30,
-  },
 });
