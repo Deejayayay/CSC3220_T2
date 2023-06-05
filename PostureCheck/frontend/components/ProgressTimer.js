@@ -31,6 +31,9 @@ export function ProgressTimer (props) {
             // Create entry in the database.
             LogData(GetSelectedEx());
 
+            // Initial time is reset.
+            setDynamicText("00 : 00 :00");
+
             // The useState hook does not work well when it is constantly updated in setInterval so these variables are used.
             let timerSeconds = seconds;
             let timerMinutes = minutes;
@@ -103,6 +106,10 @@ export function ProgressTimer (props) {
 
             // The total number of seconds is logged into the database.
             LogFinishLatest((hours * 3600) + (minutes * 60) + seconds);
+
+            setSeconds(0);
+            setMinutes(0);
+            setHours(0);
         }
 
     }

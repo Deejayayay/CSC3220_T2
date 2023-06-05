@@ -125,10 +125,14 @@ export default function Stretches({ navigation, route }) {
   }, []);
 
   return (
+    <View>
     <ScrollView showsVerticalScrollIndicator={false}>
-      {loaded ? makeFromString(_steps) : null}
-      <ProgressTimer/>
-    </ScrollView>
+        {loaded ? makeFromString(_steps) : null}
+      </ScrollView>
+      <View>
+        <ProgressTimer/>
+      </View>
+    </View>
   );
 }
 
