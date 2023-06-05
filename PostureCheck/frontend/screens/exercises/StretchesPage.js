@@ -132,6 +132,9 @@ export default function Stretches({ navigation, route }) {
       <View>
         <ProgressTimer/>
       </View>
+      <Modal visible={setLoaded}>
+
+      </Modal>
     </View>
   );
 }

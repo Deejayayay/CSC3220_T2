@@ -1,7 +1,7 @@
 // Call logdata. Update with LogFinishLatest.
 
 import { useState, useRef, useEffect } from "react"
-import { StyleSheet, View, Text, Button } from "react-native"
+import { StyleSheet, View, Text, Button, Modal } from "react-native"
 import { LogData, LogLatest, LogFinishLatest } from "../../Backend.js"
 import { GetSelectedEx } from "../screens/exercises/StretchesPage.js"
 
@@ -107,14 +107,24 @@ export function ProgressTimer (props) {
             // The total number of seconds is logged into the database.
             LogFinishLatest((hours * 3600) + (minutes * 60) + seconds);
 
+            // Reset time variables.
             setSeconds(0);
             setMinutes(0);
             setHours(0);
+
+            SetDifficulty();
         }
 
     }
 
-    // If the user exits the page before the timer stops this useeffect automatically loggs the data.
+    const [modalIsVisible, setModalIsVisible] = useState(false);
+
+    function SetDifficulty () {
+
+        setModalIsVisible(true);
+    }
+
+    /* If the user exits the page before the timer stops this useeffect automatically loggs the data.
     useEffect => (() => {
 
         if (startStopText == "Stop Timer") {
@@ -123,6 +133,8 @@ export function ProgressTimer (props) {
         }
 
     }, [props.visible]);
+
+    */
 
     /* I don't know how exactly we want to style this yet but the timer code works. Here's the important stuff:
 
@@ -135,9 +147,18 @@ export function ProgressTimer (props) {
 
     */
     return (
+            
+            <View>
+            
             <Button title = {startStopText + "\n" + dynamicText}
                 onPress = {UpdateTimer}
             />
+
+            <Modal visible={modalIsVisible}>
+                <Text>boo</Text>
+            </Modal>
+
+            </View>
     )
 }
 
