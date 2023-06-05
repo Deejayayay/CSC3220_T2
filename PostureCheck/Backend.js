@@ -277,22 +277,24 @@ export async function ExGetNames() {
     });
 }
 
-async function ExGetAll(){
-	let rtnArr
+export async function ExGetAll(){
+	let rtnArr = []
 	sqlCmd = `SELECT * FROM TypeStore`
-	DB.transaction((tx) => {
-        tx.executeSql(
-			sqlCmd,
-            [],
-            (_, {
-                rows
-            }) => {
+    await new Promise((resolve, reject) => {
+        DB.transaction(tx => {
+            tx.executeSql(
+			    sqlCmd,
+                [],
+                (_, { rows }) => {
                 rtnArr = rows._array;
+                resolve()
             },
             (error) => {
                 console.log('Error executing SQL: ', error);
+                reject()
             }
-        );
+            )
+         });
     });
 	return rtnArr
 }
