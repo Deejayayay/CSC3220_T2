@@ -29,7 +29,7 @@ export function ProgressTimer (props) {
         if (startStopText == "Start Timer") {
 
             // Create entry in the database.
-            LogData(GetSelectedEx);
+            LogData(GetSelectedEx());
 
             // The useState hook does not work well when it is constantly updated in setInterval so these variables are used.
             let timerSeconds = seconds;

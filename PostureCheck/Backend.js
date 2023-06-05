@@ -624,7 +624,7 @@ export function LogData(exName) {
     DB.transaction((tx) => {
         tx.executeSql(
             sqlCmd,
-            [false, ToTimeCode(), -1, 0, exName],
+            [false, GetDay(), -1, 0, exName],
             (_tx, result) => {
                 if (result.rowsAffected > 0) {
                     console.log('Data inserted successfully.');
