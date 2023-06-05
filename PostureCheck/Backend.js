@@ -197,7 +197,7 @@ function calculateDaysBetweenDates(date1, date2) {
 
 /**
  * get the  dateCode for x days back
- * @param {*} howBack number of days back
+ * @param {int} howBack number of days back
  * @returns dateCode for x days back
  */
 export function GetDaysBack(howBack) {

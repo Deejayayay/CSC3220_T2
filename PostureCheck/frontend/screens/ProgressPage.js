@@ -13,11 +13,20 @@ import React, { useState } from 'react';
 let Backend = require("../../Backend");
 
 //Making the Graphs and returns a react jsx code of the buttons
-function GraphButtons(idx, navigation) {
+function GraphButtons(idx, score ,navigation) {
   //show modal
   // const [visible, setVisible] = useState(false);
   // const show = () => setVisible(true);
   // const hide = () => setVisible(false);
+
+  const barInfo = {
+      backgroundColor: "black",
+      width: 70,
+      height: Math.min(score*100, 250),
+  }
+
+
+  
   return (
     <View>
       <TouchableOpacity
@@ -29,7 +38,7 @@ function GraphButtons(idx, navigation) {
           console.log("Graph day pressed:\t"+idx)
         }}
       >
-        <View style={styles.graphColumns} />
+        <View style={barInfo} />
       </TouchableOpacity>
       <Text>Day {idx + 1}</Text>
     </View>
@@ -42,9 +51,10 @@ async function MakeGraph(navigation) {
   let columnArr = [];
   //Loop to iterate through 7 days of the week
   for (var i = 0; i < 7; i++) {
+    let currScore = await Backend.LogDayScore(Backend.GetDaysBack(i))
     //calls to GraphButtons
     console.log(i)
-    columnArr.push(GraphButtons(i, navigation));
+    columnArr.push(GraphButtons(i, currScore,navigation));
   }
   //returns array
   return columnArr;
