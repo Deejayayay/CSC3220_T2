@@ -1,5 +1,8 @@
+// Call logdata. Update with LogFinishLatest.
+
 import { useState, useRef } from "react"
 import { StyleSheet, View, Text, Button } from "react-native"
+import { LogData, LogLatest, LogFinishLatest } from "../../Backend.js"
 
 export function ProgressTimer (props) {
 
@@ -87,6 +90,9 @@ export function ProgressTimer (props) {
             // The currentTimer variable is neccacary so that the timer does not reset before the interval is cleared.
             currentTimer.current = IntervalTimer;
             setStartStopText("Stop Timer");
+
+            // The total number of seconds is logged into the database.
+            //LogFinishLatest((hours * 3600) + (minutes * 60) + seconds);
         }
         else {
 
@@ -111,11 +117,9 @@ export function ProgressTimer (props) {
 
         <View style = {styles.container}>
 
-            <Button title = {startStopText}
+            <Button title = {startStopText + "\n" + dynamicText}
                 onPress = {UpdateTimer}
             />
-
-            <Text>{dynamicText}</Text>
 
         </View>
     )
