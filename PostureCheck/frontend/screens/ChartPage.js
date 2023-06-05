@@ -10,8 +10,11 @@ import {
   import React, { useState } from 'react';
 
 
-  let Backend = require('../../Backend');
+let Backend = require('../../Backend');
   
+export function LoadDay(day){
+
+}
 
 
 

@@ -15,6 +15,50 @@ let Stretches = require('./exercises/stretches')
 let sp = require('./exercises/StretchesPage')
 
 
+//Get the image
+const IMAGE_PATHS = {
+  childspose: require("../../assets/childspose.png"),
+};
+
+
+
+function GetImage(input) {
+  let index = 0;
+  let doneRead = false;
+  let type = "";
+  let temp = "";
+  while (!doneRead) {
+    let begin = 0;
+    let end = 0;
+    begin = input.indexOf("|", index) + 1;
+    end = input.indexOf("|", begin + 1);
+    index = end;
+    // console.log("start: " + begin + "\tend: " + end )
+    if (end == -1 || begin == -1) {
+      doneRead = true;
+    }
+    if (!doneRead) {
+      var inp = input.substring(begin, end);
+      // console.log(":"+ inp + ":");
+      if (type == "") {
+        type = inp;
+      } else {
+        if (type == "Image") {
+          return IMAGE_PATHS[inp]
+        }
+        type = "";
+      }
+    }
+  }
+  return null;
+}
+
+
+
+
+
+
+
 
 async function MakeButton(btnName, nav) {
   try{
