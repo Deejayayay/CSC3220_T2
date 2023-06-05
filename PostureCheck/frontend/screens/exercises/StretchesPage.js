@@ -10,6 +10,7 @@ import React, { useState } from "react";
 import { Image } from "react-native";
 import Constants from "expo-constants";
 import { GlobalStyle } from "../../styles/globalstyles";
+import { ProgressTimer } from "../../components/ProgressTimer.js"
 
 
 let Backend = require("../../../Backend.js");
@@ -149,6 +150,7 @@ export default function Stretches({ navigation, route }) {
   return (
     <ScrollView showsVerticalScrollIndicator={false}>
       {loaded ? makeFromString(_steps) : null}
+      <ProgressTimer/>
     </ScrollView>
   );
 }

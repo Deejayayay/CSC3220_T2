@@ -1,8 +1,9 @@
 // Call logdata. Update with LogFinishLatest.
 
-import { useState, useRef } from "react"
+import { useState, useRef, useEffect } from "react"
 import { StyleSheet, View, Text, Button } from "react-native"
 import { LogData, LogLatest, LogFinishLatest } from "../../Backend.js"
+import { GetSelectedEx } from "../screens/exercises/StretchesPage.js"
 
 export function ProgressTimer (props) {
 
@@ -26,6 +27,9 @@ export function ProgressTimer (props) {
 
         // Flips the text on the start/stop button.
         if (startStopText == "Start Timer") {
+
+            // Create entry in the database.
+            LogData(GetSelectedEx);
 
             // The useState hook does not work well when it is constantly updated in setInterval so these variables are used.
             let timerSeconds = seconds;
@@ -90,18 +94,28 @@ export function ProgressTimer (props) {
             // The currentTimer variable is neccacary so that the timer does not reset before the interval is cleared.
             currentTimer.current = IntervalTimer;
             setStartStopText("Stop Timer");
-
-            // The total number of seconds is logged into the database.
-            //LogFinishLatest((hours * 3600) + (minutes * 60) + seconds);
         }
         else {
 
             // Interval is cleared and button text is changed.
             clearInterval(currentTimer.current);
             setStartStopText("Start Timer");
+
+            // The total number of seconds is logged into the database.
+            LogFinishLatest((hours * 3600) + (minutes * 60) + seconds);
         }
 
     }
+
+    // If the user exits the page before the timer stops this useeffect automatically loggs the data.
+    useEffect => (() => {
+
+        if (startStopText == "Stop Timer") {
+
+            UpdateTimer();
+        }
+
+    }, [props.visible]);
 
     /* I don't know how exactly we want to style this yet but the timer code works. Here's the important stuff:
 
@@ -114,14 +128,9 @@ export function ProgressTimer (props) {
 
     */
     return (
-
-        <View style = {styles.container}>
-
             <Button title = {startStopText + "\n" + dynamicText}
                 onPress = {UpdateTimer}
             />
-
-        </View>
     )
 }
 
