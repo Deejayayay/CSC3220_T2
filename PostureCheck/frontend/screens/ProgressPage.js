@@ -17,18 +17,21 @@ let streak = Backend.LogGetStreak
 //Making the Graphs and returns a react jsx code of the buttons
 function GraphButtons(idx) {
   //show modal
-  const [visible, setVisible] = useState(false);
-  const show = () => setVisible(true);
-  const hide = () => setVisible(false);
+  // const [visible, setVisible] = useState(false);
+  // const show = () => setVisible(true);
+  // const hide = () => setVisible(false);
   
   return (
     <View>
       <TouchableOpacity
         key={idx}
         style={styles.graphColumnContainers}
-        onPress={show}
+        onPress={() => {
+          // show
+          console.log("Graph day pressed:\t"+idx)
+        }}
       >
-        <View style={styles.graphColumns}>
+        {/* <View style={styles.graphColumns}>
           <Modal visible={visible} animationType="slide" onRequestClose={hide}>
             <Text>Day Statistics</Text>
 
@@ -43,7 +46,8 @@ function GraphButtons(idx) {
               </ScrollView>
             </TouchableOpacity>
           </Modal>
-        </View>
+        </View> */}
+        
       </TouchableOpacity>
       <Text>Day {idx + 1}</Text>
     </View>
@@ -57,6 +61,7 @@ async function MakeGraph() {
   //Loop to iterate through 7 days of the week
   for (var i = 0; i < 7; i++) {
     //calls to GraphButtons
+    console.log(i)
     columnArr.push(GraphButtons(i));
   }
   //returns array
