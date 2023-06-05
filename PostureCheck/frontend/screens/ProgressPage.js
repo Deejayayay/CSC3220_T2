@@ -7,7 +7,7 @@ import {
   TouchableOpacity,
 } from "react-native";
 import { GlobalStyle } from "../styles/globalstyles";
-import { useState } from "react";
+import React, { useState } from 'react';
 
 //variable to access Backend Class
 let Backend = require("../../Backend");
@@ -51,7 +51,7 @@ function GraphButtons(idx) {
 }
 
 //loop to create the graphs
-function MakeGraph() {
+async function MakeGraph() {
   //array that holds the buttons and columns
   let columnArr = [];
   //Loop to iterate through 7 days of the week
@@ -65,12 +65,21 @@ function MakeGraph() {
 
 //Progress Boxes and the Graphs and page in general
 export default function ProgressPage({ navigation, route }) {
+  const [graphElements, setGraphElements] = React.useState([]);
+
+  React.useEffect(() => {
+    async function initializeGraph() {
+      const bars = await MakeGraph(navigation);
+      setGraphElements(bars);
+    }
+    initializeGraph();
+  }, []);
   return (
     <ScrollView>
       <Text style={styles.header}>Progress Chart</Text>
       <View style={styles.graphContainer}>
         <ScrollView showsHorizontalScrollIndicator={false} horizontal={true}>
-          {MakeGraph()}
+          {graphElements}
         </ScrollView>
       </View>
 
