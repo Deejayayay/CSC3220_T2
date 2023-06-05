@@ -357,6 +357,14 @@ export function ExMakeTest() {
     ExAdd(e3)
 }
 
+/**
+ * Makes the default exersizes for the app
+ */
+export function ExMakeDefault(){
+    let e0 = ['Childs pose', 'Upper', '"|Main|Childs pose|Image|childspose|Sub|Steps:|Text|1) Step1\n2) Step2\n3) Step3"', 75, 2, ]
+    ExAdd(e0)
+
+}
 
 /**
  * Clears all logs
