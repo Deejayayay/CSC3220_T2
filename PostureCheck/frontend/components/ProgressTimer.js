@@ -1,9 +1,4 @@
-// Problems: 
-// - I dont know how to actualy stop the timer from running.
-// - I have not styled the component yet.
-// - It does not interact with the database yet.
-
-import { useState } from "react"
+import { useState, useRef } from "react"
 import { StyleSheet, View, Text, Button } from "react-native"
 
 export function ProgressTimer (props) {
@@ -16,80 +11,108 @@ export function ProgressTimer (props) {
     const [startStopText, setStartStopText] = useState("Start Timer")
 
     // Variables to hold seconds, minutes, and hours.
-    var seconds = 0;
-    var minutes = 0;
-    var hours = 0;
+    const [seconds, setSeconds] = useState(0);
+    const [minutes, setMinutes] = useState(0);
+    const [hours, setHours] = useState(0);
 
-    const RunTimer = () => {
+    // This variable is used to stop the timer when the button is pressed for a second time.
+    const currentTimer = useRef(null);
 
-        const IntervalTimer = setInterval(() => {
-
-            // The bellow series of if statements converts seconds to minutes and hours.
-            seconds++;
-            if (seconds == 60) {
-    
-                minutes++;
-                seconds = 0;
-            }
-            if (minutes == 60) {
-    
-                hours++;
-                minutes = 0;
-            }
-    
-            // The bellow series of if statements correctly formats the timer's text.
-    
-            let timeString = "";
-    
-            if (hours < 10) {
-    
-                timeString += ("0" + hours + " : ");
-            }
-            else {
-    
-                timeString += (hours + " : ");
-            }
-    
-            if (minutes < 10) {
-    
-                timeString += ("0" + minutes + " : ");
-            }
-            else {
-    
-                timeString += (minutes + " : ");
-            }
-    
-            if (seconds < 10) {
-    
-                timeString += ("0" + seconds);
-            }
-            else {
-    
-                timeString += seconds;
-            }
-    
-            setDynamicText(timeString);
-    
-        }, 1000);
+    // This function is called whenever the start/stop button is pressed.
+    const UpdateTimer = () => {
 
         // Flips the text on the start/stop button.
         if (startStopText == "Start Timer") {
 
+            // The useState hook does not work well when it is constantly updated in setInterval so these variables are used.
+            let timerSeconds = seconds;
+            let timerMinutes = minutes;
+            let timerHours = hours;
+
+            const IntervalTimer = setInterval(() => {
+
+                // The bellow series of if statements convert seconds to minutes and hours.
+                timerSeconds += 1;
+                if (timerSeconds == 60) {
+    
+                    timerMinutes += 1;
+                    timerSeconds = 0;
+                }
+                if (timerMinutes == 60) {
+    
+                    timerHours += 1;
+                    timerMinutes = 0;
+                }
+    
+                // The bellow series of if statements correctly formats the timer's text.
+                let timeString = "";
+    
+                // Hour formatting...
+                if (timerHours < 10) {
+    
+                    timeString += ("0" + timerHours + " : ");
+                }
+                else {
+    
+                    timeString += (timerHours + " : ");
+                }
+    
+                // Minute formatting...
+                if (timerMinutes < 10) {
+    
+                    timeString += ("0" + timerMinutes + " : ");
+                }
+                else {
+    
+                    timeString += (timerMinutes + " : ");
+                }
+    
+                // Second Formatting...
+                if (timerSeconds < 10) {
+    
+                    timeString += ("0" + timerSeconds);
+                }
+                else {
+    
+                    timeString += timerSeconds;
+                }
+
+                setSeconds(timerSeconds);
+                setMinutes(timerMinutes);
+                setHours(timerHours);
+                setDynamicText(timeString);
+
+            }, 1000);
+
+            // The currentTimer variable is neccacary so that the timer does not reset before the interval is cleared.
+            currentTimer.current = IntervalTimer;
             setStartStopText("Stop Timer");
         }
         else {
 
+            // Interval is cleared and button text is changed.
+            clearInterval(currentTimer.current);
             setStartStopText("Start Timer");
         }
+
     }
 
-    // The component created is a button that controls the timer and the timer itself.
+    /* I don't know how exactly we want to style this yet but the timer code works. Here's the important stuff:
+
+    - startStopText: Variable that holds the physical text of the start/stop button. This should be the title of
+    the button used.
+
+    - UpdateTimer: Function that stops/starts the timer function. This should be the onPress function for the button.
+
+    - dynamicText: String that displays the time logged so far. This is updated after each second.
+
+    */
     return (
 
         <View style = {styles.container}>
 
             <Button title = {startStopText}
-                onPress = {RunTimer}
+                onPress = {UpdateTimer}
             />
 
             <Text>{dynamicText}</Text>
@@ -99,10 +122,12 @@ export function ProgressTimer (props) {
 }
 
 const styles = StyleSheet.create({
-    container: {
-      flex: 1,
-      backgroundColor: '#BCD4A7',
-      alignItems: 'center',
-      justifyContent: 'center',
-    },
+    exercisesButton: {
+        height: 490,
+        borderRadius: 20,
+        marginTop: 20,
+        elevation: 3,
+        flexDirection: "column",
+        backgroundColor: "#BCD4A7",
+      },
   });
