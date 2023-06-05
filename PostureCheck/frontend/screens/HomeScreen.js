@@ -66,7 +66,7 @@ export default function HomeScreen({ navigation }) {
       <TouchableOpacity
         style={[GlobalStyle.buttons, styles.settings]}
         onPress={() =>
-          navigation.navigate("Settings", { language: "english" })
+          navigation.navigate("Debug", { language: "english" })
         }
       >
         <Text
@@ -76,10 +76,10 @@ export default function HomeScreen({ navigation }) {
             GlobalStyle.buttonSpace,
           ]}
         >
-          Settings
+          Debug
         </Text>
         <Text style={[GlobalStyle.subHeaders, GlobalStyle.marginText]}>
-          Configure your Posture Checker
+          Configure the App
         </Text>
         <Image
           source={require("../../assets/settings.png")}

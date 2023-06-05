@@ -44,7 +44,7 @@ export default function App() {
         <Stack.Screen name="Exercises" component={Workouts} />
         <Stack.Screen name="Progress Tracking" component={ProgressPage} />
         <Stack.Screen name="Stretches" component={Stretches} />
-        <Stack.Screen name="Settings" component={Settings} />
+        <Stack.Screen name="Debug" component={Settings} />
         <Stack.Screen name="Chart Page" component={ChartPage} />
       </Stack.Navigator>
     </NavigationContainer>

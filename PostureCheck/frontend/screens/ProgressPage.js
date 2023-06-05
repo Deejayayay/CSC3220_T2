@@ -24,8 +24,6 @@ function GraphButtons(idx, score ,navigation) {
       width: 70,
       height: Math.min(score*100, 250),
   }
-
-
   
   return (
     <View>
@@ -60,17 +58,71 @@ async function MakeGraph(navigation) {
   return columnArr;
 }
 
+async function MakeStreak(){
+  let currStreak = 0
+
+  try{
+    await new Promise((resolvs, reject) => {
+      Backend.LogGetStreakCallback((days) =>{
+        if(days){
+          currStreak = days
+        } else {
+          currStreak = 0
+        }
+        resolvs()
+      })
+    })
+  } catch (error) {
+    console.log(error)
+  }
+
+if(currStreak > 0){
+  return (
+    <View style={styles.progressBoxes}>
+      <Text
+        style={[
+          GlobalStyle.headers,
+          GlobalStyle.marginText,
+          styles.progressHeader,
+        ]}
+      >
+        You're on a {currStreak} day streak!!!
+      </Text>
+    </View>
+  );   
+}
+else{
+  return (
+    <View style={styles.progressBoxes}>
+      <Text
+        style={[
+          GlobalStyle.headers,
+          GlobalStyle.marginText,
+          styles.progressHeader,
+        ]}
+      >
+        Hey you haven't done your stretches in a while, time to get to work
+      </Text>
+    </View>
+  );  
+}
+}
 //Progress Boxes and the Graphs and page in general
 export default function ProgressPage({ navigation, route }) {
   const [graphElements, setGraphElements] = React.useState([]);
+  const [streakEliment, setStreakEliment,] = React.useState([]);
+
 
   React.useEffect(() => {
     async function initializeGraph() {
       const bars = await MakeGraph(navigation);
       setGraphElements(bars);
+      const thing = await MakeStreak();
+      setStreakEliment(thing)
     }
     initializeGraph();
   }, []);
+
 
   return (
     <ScrollView>
@@ -80,18 +132,7 @@ export default function ProgressPage({ navigation, route }) {
           {graphElements}
         </ScrollView>
       </View>
-      
-      <View style={styles.progressBoxes}>
-        <Text
-          style={[
-            GlobalStyle.headers,
-            GlobalStyle.marginText,
-            styles.progressHeader,
-          ]}
-        >
-          You're on a streak!!!
-        </Text>
-      </View>
+          {streakEliment}
     </ScrollView>
   );
 }

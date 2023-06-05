@@ -9,6 +9,9 @@ import {
   import { GlobalStyle } from "../styles/globalstyles";
   import React, { useState } from 'react';
 
+
+  let Backend = require('../../Backend');
+  
 export default function ChartPage({ navigation, route }) {
     return (
         <ScrollView>

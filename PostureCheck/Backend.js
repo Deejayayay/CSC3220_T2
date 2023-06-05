@@ -541,6 +541,31 @@ export async function LogGetStreak(){
 
 
 /**
+ * Gets the current streak with callback
+ * @returns  streak
+ */
+export async function LogGetStreakCallback(callback){
+	let streak =0
+	let n = await LogLatest()
+	let o = await LogAt(1)
+	// console.log(o["DateDone"])
+
+	let daysBack = calculateDaysBetweenDates(n["DateDone"], o["DateDone"])
+	for(let i = daysBack; daysBack > 0; daysBack--){
+		let dayScore = await LogDayScore(GetDaysBack(i))
+		if(dayScore >= SCORE_THRESHOLD){
+			streak++
+		} else {
+			streak = 0
+		}
+	}
+	console.log("currrent strak is:\t" + streak)
+    if(callback){
+        callback(streak)
+    }
+}
+
+/**
  * Sets the lastest item in logs to done,, and logs its date
  * @param {int} TimeDone 
  */
