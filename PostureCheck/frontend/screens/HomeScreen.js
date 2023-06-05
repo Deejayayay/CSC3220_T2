@@ -20,7 +20,7 @@ export default function HomeScreen({ navigation }) {
   return (
     <ScrollView showsVerticalScrollIndicator={false} style={GlobalStyle.container}>
       <TouchableOpacity
-        style={styles.exercisesButton}
+        style={GlobalStyle.buttons}
         onPress={() =>
           navigation.navigate("Exercises", { language: "english" })
         }
@@ -37,6 +37,10 @@ export default function HomeScreen({ navigation }) {
         <Text style={[GlobalStyle.subHeaders, GlobalStyle.marginText]}>
           Exercises to Fix your posture
         </Text>
+        <Image
+          style={styles.img}
+          source={require('../../assets/exercise.png')}
+        />
       </TouchableOpacity>
 
       <TouchableOpacity
@@ -91,24 +95,11 @@ export default function HomeScreen({ navigation }) {
 }
 
 const styles = StyleSheet.create({
-  exercisesButton: {
-    height: 490,
-    borderRadius: 20,
-    marginTop: 20,
-    elevation: 3,
-    flexDirection: "column",
-    backgroundColor: "#BCD4A7",
-  },
   img: {
-    height: 100,
-    width: 100,
+    height: 110,
+    width: 110,
     alignSelf: "center",
-    marginTop: 20,
-    marginLeft: 100,
-  },
-  imgCarousel: {
-    width: 30,
-    height: 30,
+    marginLeft: 180,
   },
   settings: {
     marginBottom: 20,
