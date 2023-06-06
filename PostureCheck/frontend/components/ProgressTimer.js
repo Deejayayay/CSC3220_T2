@@ -1,17 +1,19 @@
 // Call logdata. Update with LogFinishLatest.
 import { useState, useRef, useEffect } from "react"
-import { StyleSheet, View, Text, Button, Modal, TouchableOpacity, BackHandler } from "react-native"
+import { StyleSheet, View, Text, Button, Modal, TouchableOpacity, TouchableHighlight, BackHandler } from "react-native"
 import { LogData, LogLatest, LogFinishLatest } from "../../Backend.js"
 import { GetSelectedEx } from "../screens/exercises/StretchesPage.js"
 import { GlobalStyle } from "../styles/globalstyles.js"
 
+let Backend = require('../../Backend.js');
+
 function Options(idx){
     return(
-            <TouchableOpacity style={styles.buttons}>
-                <Text style={[GlobalStyle.body, styles.text]}>
-                    {idx + 1}
-                </Text>
-            </TouchableOpacity>                        
+        <TouchableOpacity style={styles.buttons} onPress={() => SetDiff(idx + 1)}>
+            <Text style={[GlobalStyle.body, styles.text]}>
+                {idx + 1}
+            </Text>
+        </TouchableOpacity>                        
     );
 }
 
@@ -24,6 +26,9 @@ function MakeOptions(){
     return optArr;
 }
 
+function SetDiff(dif){
+    console.log({dif})
+}
 export function ProgressTimer (props) {
 
     // Variable that holds the timer string. This is updated every second.
@@ -138,8 +143,8 @@ export function ProgressTimer (props) {
 
     const [modalIsVisible, setModalIsVisible] = useState(false);
 
-    function SetDifficulty(idx) {
-        Backend.L
+    function SetDifficulty(dif) {
+        
         setModalIsVisible(true);
     }
 
@@ -172,7 +177,7 @@ export function ProgressTimer (props) {
                 onPress = {UpdateTimer}
             />
 
-            <Modal style={styles.modal} visible={modalIsVisible}>
+            <Modal animationType="slide" visible={modalIsVisible}>
                 <View style={styles.con}>
                     <Text style={[styles.text, GlobalStyle.headers]}>
                         How difficult was the exercise?
@@ -181,6 +186,10 @@ export function ProgressTimer (props) {
                         {MakeOptions()} 
                     </View>
                 </View>
+
+                <TouchableOpacity  style={styles.modalButton} onPress={() => setModalIsVisible(false)}>
+                    <Text style={[GlobalStyle.headers, styles.text]}>Exit</Text>
+                </TouchableOpacity>
             </Modal>
             </View>
     );
@@ -211,5 +220,13 @@ const styles = StyleSheet.create({
       },
       con: {
         marginTop: 350,
-      }
+      },
+      modalButton: {
+        alignSelf: 'center',
+        marginTop: 200,
+        borderRadius:20,
+        width: 80,
+        height: 35,
+        backgroundColor: "#BCD4A7",
+      },
   });
