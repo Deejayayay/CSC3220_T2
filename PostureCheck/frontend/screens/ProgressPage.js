@@ -3,21 +3,17 @@ import {
   Text,
   View,
   ScrollView,
-  Modal,
   TouchableOpacity,
 } from "react-native";
 import { GlobalStyle } from "../styles/globalstyles";
 import React, { useState } from 'react';
+
 let chartPage = require("./ChartPage")
 //variable to access Backend Class
 let Backend = require("../../Backend");
 
 //Making the Graphs and returns a react jsx code of the buttons
 function GraphButtons(idx, score ,navigation) {
-  //show modal
-  // const [visible, setVisible] = useState(false);
-  // const show = () => setVisible(true);
-  // const hide = () => setVisible(false);
 
   const barInfo = {
       backgroundColor: 'black',
@@ -152,7 +148,7 @@ const styles = StyleSheet.create({
     borderRadius: 20,
     backgroundColor: "#BCD4A7",
     width: 370,
-    height: 170,
+    height: 380,
   },
   progressHeader: {
     marginTop: 10,
@@ -161,8 +157,9 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     height: 300,
     borderRadius: 5,
+    borderWidth: 1,
     marginTop: 10,
-    backgroundColor: "#BCD4A7",
+    //backgroundColor: "#BCD4A7",
     justifyContent: "space-evenly",
   },
   graphColumnContainers: {

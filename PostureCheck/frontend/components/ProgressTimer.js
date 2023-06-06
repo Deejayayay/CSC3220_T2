@@ -1,9 +1,28 @@
 // Call logdata. Update with LogFinishLatest.
-
 import { useState, useRef, useEffect } from "react"
-import { StyleSheet, View, Text, Button, Modal } from "react-native"
+import { StyleSheet, View, Text, Button, Modal, TouchableOpacity, BackHandler } from "react-native"
 import { LogData, LogLatest, LogFinishLatest } from "../../Backend.js"
 import { GetSelectedEx } from "../screens/exercises/StretchesPage.js"
+import { GlobalStyle } from "../styles/globalstyles.js"
+
+function Options(idx){
+    return(
+            <TouchableOpacity style={styles.buttons}>
+                <Text style={[GlobalStyle.body, styles.text]}>
+                    {idx + 1}
+                </Text>
+            </TouchableOpacity>                        
+    );
+}
+
+function MakeOptions(){
+    let optArr = [];
+    console.log(i);
+    for(var i = 0;i < 10;i++){
+        optArr.push(Options(i));
+    }
+    return optArr;
+}
 
 export function ProgressTimer (props) {
 
@@ -119,8 +138,8 @@ export function ProgressTimer (props) {
 
     const [modalIsVisible, setModalIsVisible] = useState(false);
 
-    function SetDifficulty () {
-
+    function SetDifficulty(idx) {
+        Backend.L
         setModalIsVisible(true);
     }
 
@@ -146,20 +165,25 @@ export function ProgressTimer (props) {
     - dynamicText: String that displays the time logged so far. This is updated after each second.
 
     */
+    
     return (
-            
             <View>
-            
             <Button title = {startStopText + "\n" + dynamicText}
                 onPress = {UpdateTimer}
             />
 
-            <Modal visible={modalIsVisible}>
-                <Text>boo</Text>
+            <Modal style={styles.modal} visible={modalIsVisible}>
+                <View style={styles.con}>
+                    <Text style={[styles.text, GlobalStyle.headers]}>
+                        How difficult was the exercise?
+                    </Text>
+                    <View style={styles.buttContainer}>
+                        {MakeOptions()} 
+                    </View>
+                </View>
             </Modal>
-
             </View>
-    )
+    );
 }
 
 const styles = StyleSheet.create({
@@ -171,4 +195,21 @@ const styles = StyleSheet.create({
         flexDirection: "column",
         backgroundColor: "#BCD4A7",
       },
+      buttContainer: {
+        justifyContent: 'space-evenly',
+        flexDirection: 'row'
+      },
+      buttons: {
+        borderWidth: 1,
+        backgroundColor: "#BCD4A7",
+        width: 25,
+        height: 25,
+        borderRadius: 20,
+      },
+      text: {
+        alignSelf: 'center'
+      },
+      con: {
+        marginTop: 350,
+      }
   });

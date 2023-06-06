@@ -10,11 +10,15 @@ export const GlobalStyle = StyleSheet.create({
   buttons: {
     height: 220,
     borderRadius: 20,
-    marginTop: 20,
+    marginTop: 30,
     elevation: 3,
     flexDirection: "column",
     backgroundColor: "#BCD4A7",
   },
+  modalButt: {
+    width: 100,
+    height: 100,
+  },  
   debugBtn: {
     height: 50,
     borderRadius: 20,
