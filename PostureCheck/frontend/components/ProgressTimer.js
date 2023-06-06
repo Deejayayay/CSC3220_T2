@@ -26,8 +26,10 @@ function MakeOptions(){
     return optArr;
 }
 
+//sets the difference
 function SetDiff(dif){
-    console.log({dif})
+    Backend.LogSetLatestDifficulty(dif);
+    console.log(dif)
 }
 export function ProgressTimer (props) {
 
