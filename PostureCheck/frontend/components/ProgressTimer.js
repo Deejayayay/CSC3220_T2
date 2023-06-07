@@ -150,33 +150,12 @@ export function ProgressTimer (props) {
         setModalIsVisible(true);
     }
 
-    /* If the user exits the page before the timer stops this useeffect automatically loggs the data.
-    useEffect => (() => {
-
-        if (startStopText == "Stop Timer") {
-
-            UpdateTimer();
-        }
-
-    }, [props.visible]);
-
-    */
-
-    /* I don't know how exactly we want to style this yet but the timer code works. Here's the important stuff:
-
-    - startStopText: Variable that holds the physical text of the start/stop button. This should be the title of
-    the button used.
-
-    - UpdateTimer: Function that stops/starts the timer function. This should be the onPress function for the button.
-
-    - dynamicText: String that displays the time logged so far. This is updated after each second.
-
-    */
-    
     return (
             <View>
-            <Button title = {startStopText + "\n" + dynamicText}
+            <Button 
+                title = {startStopText + "\n" + dynamicText}
                 onPress = {UpdateTimer}
+                style={styles.buttons}
             />
 
             <Modal animationType="slide" visible={modalIsVisible}>
