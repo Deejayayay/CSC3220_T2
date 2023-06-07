@@ -1,4 +1,3 @@
-// Call logdata. Update with LogFinishLatest.
 import { useState, useRef, useEffect } from "react"
 import { StyleSheet, View, Text, Button, Modal, TouchableOpacity, TouchableHighlight, BackHandler } from "react-native"
 import { LogData, LogLatest, LogFinishLatest } from "../../Backend.js"
@@ -26,11 +25,12 @@ function MakeOptions(){
     return optArr;
 }
 
-//sets the difference
+// Sets the difference.
 function SetDiff(dif){
     Backend.LogSetLatestDifficulty(dif);
     console.log(dif)
 }
+
 export function ProgressTimer (props) {
 
     // Variable that holds the timer string. This is updated every second.
@@ -143,20 +143,21 @@ export function ProgressTimer (props) {
 
     }
 
+    // Controls the visibility of the modal. This will be set to true after the timer is stopped.
     const [modalIsVisible, setModalIsVisible] = useState(false);
 
+    // This function executes after the timer is stopped to get the difficulty of the exercise.
     function SetDifficulty(dif) {
         
         setModalIsVisible(true);
     }
 
     return (
-            <View>
-            <Button 
-                title = {startStopText + "\n" + dynamicText}
-                onPress = {UpdateTimer}
-                style={styles.buttons}
-            />
+        <View>
+            
+            <TouchableOpacity style={styles.timerButton} onPress={UpdateTimer}>
+                <Text style={[GlobalStyle.headers, styles.text]}>{startStopText + "\n" + dynamicText}</Text>
+            </TouchableOpacity>
 
             <Modal animationType="slide" visible={modalIsVisible}>
                 <View style={styles.con}>
@@ -172,7 +173,8 @@ export function ProgressTimer (props) {
                     <Text style={[GlobalStyle.headers, styles.text]}>Exit</Text>
                 </TouchableOpacity>
             </Modal>
-            </View>
+
+        </View>
     );
 }
 
@@ -208,6 +210,14 @@ const styles = StyleSheet.create({
         borderRadius:20,
         width: 80,
         height: 35,
+        backgroundColor: "#BCD4A7",
+      },
+      timerButton: {
+        alignSelf: 'center',
+        marginTop: 200,
+        borderRadius:20,
+        width: 400,
+        height: 65,
         backgroundColor: "#BCD4A7",
       },
   });

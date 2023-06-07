@@ -129,7 +129,7 @@ export default function Stretches({ navigation, route }) {
     <ScrollView style={GlobalStyle.container} showsVerticalScrollIndicator={false}>
         {loaded ? makeFromString(_steps) : null}
       </ScrollView>
-      <View>
+      <View style={styles.container}>
         <ProgressTimer/>
       </View>
       <Modal visible={setLoaded}>
@@ -139,5 +139,7 @@ export default function Stretches({ navigation, route }) {
 }
 
 const styles = StyleSheet.create({
-  container: {},
+  container: {
+    flex: 1
+  },
 });
