@@ -36,6 +36,12 @@ const TYPE_STORE_STR = `
 	)
 `
 
+
+const  EXERCISE_PRELOAD = [['Childs pose', 'Upper', '"|Image|childspose|Main|Childs pose|Text|This resting pose stretch lengthens your spine, glutes and hamstrings. This helps to release tension in your lower back and neck|Text|Estimated Time: |Sub|Steps:|Text|1) Sit on your shinbones with your knees together, big toes touching and heels splayed out to the side\n\n2) Fold Forward at your hips and walk your hands out in front of you\n\n3)Sink your hips back down toward your feet. If you have issues with your thighs not going down all the way place a pillow or a folded blanket under them for support\n\n4)Gently place your forehead on the floor or you can also turn your head to the side\n\n5)Keep your arms extended or rest them along your body\n\n6)Breathe deeply into the back of your rib cage and waist\n\n7)Relax in this pose for 5 minute and breathing deeply|"', 75, 2],
+['Forward Fold', 'Upper', '"|Image|standing-forward-bend|Main|Forward Fold|Text|Text|Estimated Time: |Sub|Steps:|Text|1|"', 75, 1],
+['High Plank', 'Upper', '"|Image|highplank|Main|High Plank|Text|add desc|Text|Estimated Time: |Sub|Steps:|Text|1|"', 75, 1] 
+]
+
 const SCORE_THRESHOLD = 0.2
 
 export async function dbDeleteTable(tableName) {
@@ -46,18 +52,18 @@ export async function dbDeleteTable(tableName) {
                     `DROP TABLE IF EXISTS ${tableName}`,
                     [],
                     () => {
-                        console.log(`Table ${tableName} deleted successfully`);
-                        resolve();
+                        console.log(`Table ${tableName} deleted successfully`)
+                        resolve()
                     },
                     (error) => {
-                        console.log(`Error deleting table ${tableName}:`, error);
-                        reject(error);
+                        console.log(`Error deleting table ${tableName}:`, error)
+                        reject(error)
                     }
                 );
             },
             (txError) => {
-                console.log(`Transaction error:`, txError);
-                reject(txError);
+                console.log(`Transaction error:`, txError)
+                reject(txError)
             }
         );
     });
@@ -65,6 +71,12 @@ export async function dbDeleteTable(tableName) {
 
 
 
+/**
+ * Gets the row by its table name
+ * @param {*} tableName 
+ * @param {*} primaryKeyValue 
+ * @param {*} callback 
+ */
 const getRowByPrimaryKey = (tableName, primaryKeyValue, callback) => {
     DB.transaction((tx) => {
         tx.executeSql(
@@ -73,12 +85,11 @@ const getRowByPrimaryKey = (tableName, primaryKeyValue, callback) => {
             (_, {
                 rows
             }) => {
-                //   console.log(rows)
                 if (rows.length > 0) {
                     // Get the first row from the result
-                    const row = rows.item(0);
+                    const row = rows.item(0)
                     if (callback) { // Check if callback function is defined
-                        callback(row);
+                        callback(row)
                     }
                 } else {
                     console.log("hello")
@@ -94,6 +105,12 @@ const getRowByPrimaryKey = (tableName, primaryKeyValue, callback) => {
     });
 };
 
+/**
+ * Gets the row by its table name for logs
+ * @param {*} tableName 
+ * @param {*} primaryKeyValue 
+ * @param {*} callback 
+ */
 const getRowByPrimaryKeyLogs = (tableName, primaryKeyValue, callback) => {
     DB.transaction((tx) => {
         tx.executeSql(
@@ -102,22 +119,20 @@ const getRowByPrimaryKeyLogs = (tableName, primaryKeyValue, callback) => {
             (_, {
                 rows
             }) => {
-                //   console.log(rows)
                 if (rows.length > 0) {
                     // Get the first row from the result
-                    const row = rows.item(0);
+                    const row = rows.item(0)
                     if (callback) { // Check if callback function is defined
-                        callback(row);
+                        callback(row)
                     }
                 } else {
-                    console.log("hello")
                     if (callback) { // Check if callback function is defined
-                        callback(null); // No row found
+                        callback(null) // No row found
                     }
                 }
             },
             (error) => {
-                console.error(error);
+                console.error(error)
             }
         );
     });
@@ -129,8 +144,8 @@ function dbMakeTable(str) {
     DB.transaction((tx) => {
         tx.executeSql(
             str
-        );
-    });
+        )
+    })
 }
 
 // makeSQLiteDirAsync()
@@ -145,9 +160,9 @@ export function dbLoader() {
  */
 export function dbEnd() {
     if (DB != null) {
-        DB.closeAsync();
+        DB.closeAsync()
     } else {
-        console.warn("DATABASE NOT STARTED");
+        console.warn("DATABASE NOT STARTED")
     }
 }
 
@@ -159,7 +174,6 @@ export function dbNukeAll() {
 	console.warn("Deleted all tables from database")
     dbDeleteTable("TypeStore")
     dbDeleteTable("Logger")
-
 }
 
 
@@ -168,30 +182,30 @@ export function dbNukeAll() {
  * @returns dateCode
  */
 export function GetDay() {
-    const currentDate = new Date();
-    const year = currentDate.getFullYear();
-    const month = String(currentDate.getMonth() + 1).padStart(2, '0');
-    const day = String(currentDate.getDate()).padStart(2, '0');
-    const rtnDate = `${year}${month}${day}`;
+    const currentDate = new Date()
+    const year = currentDate.getFullYear()
+    const month = String(currentDate.getMonth() + 1).padStart(2, '0')
+    const day = String(currentDate.getDate()).padStart(2, '0')
+    const rtnDate = `${year}${month}${day}`
     return rtnDate
 }
 
 function calculateDaysBetweenDates(date1, date2) {
-	const year1 = Math.floor(date1 / 10000);
-	const month1 = Math.floor((date1 % 10000) / 100) - 1;
-	const day1 = date1 % 100;
+	const year1 = Math.floor(date1 / 10000)
+	const month1 = Math.floor((date1 % 10000) / 100) - 1
+	const day1 = date1 % 100
   
-	const year2 = Math.floor(date2 / 10000);
-	const month2 = Math.floor((date2 % 10000) / 100) - 1;
-	const day2 = date2 % 100;
+	const year2 = Math.floor(date2 / 10000)
+	const month2 = Math.floor((date2 % 10000) / 100) - 1
+	const day2 = date2 % 100
   
-	const dateObject1 = new Date(year1, month1, day1);
-	const dateObject2 = new Date(year2, month2, day2);
+	const dateObject1 = new Date(year1, month1, day1)
+	const dateObject2 = new Date(year2, month2, day2)
   
-	const diffInMs = Math.abs(dateObject2 - dateObject1);
-	const daysBetween = Math.ceil(diffInMs / (1000 * 60 * 60 * 24));
+	const diffInMs = Math.abs(dateObject2 - dateObject1)
+	const daysBetween = Math.ceil(diffInMs / (1000 * 60 * 60 * 24))
   
-	return daysBetween;
+	return daysBetween
   }
 
 
@@ -201,12 +215,12 @@ function calculateDaysBetweenDates(date1, date2) {
  * @returns dateCode for x days back
  */
 export function GetDaysBack(howBack) {
-    const currentDate = new Date();
-    const lastWeekDate = new Date(currentDate.getTime() - howBack * 24 * 60 * 60 * 1000);
-    const year = lastWeekDate.getFullYear();
-    const month = String(lastWeekDate.getMonth() + 1).padStart(2, '0');
-    const day = String(lastWeekDate.getDate()).padStart(2, '0');
-    const rtnDate = `${year}${month}${day}`;
+    const currentDate = new Date()
+    const lastWeekDate = new Date(currentDate.getTime() - howBack * 24 * 60 * 60 * 1000)
+    const year = lastWeekDate.getFullYear()
+    const month = String(lastWeekDate.getMonth() + 1).padStart(2, '0')
+    const day = String(lastWeekDate.getDate()).padStart(2, '0')
+    const rtnDate = `${year}${month}${day}`
     return rtnDate
 }
 
@@ -220,7 +234,7 @@ export function ExClear() {
             sqlCmd,
             [],
             (txObj, result) => {
-                console.log("Cleaerd exersiszes from type store")
+                console.log("Cleared exercises from type store")
             },
             (txObj, error) => {
                 console.log('Error executing SQL: ', error);
@@ -238,43 +252,35 @@ export function ExClear() {
  */
 export async function ExGetNames() {
     console.log("getting names")
+    let sqlCmd = 'SELECT * FROM TypeStore'
     return new Promise((resolve, reject) => {
         let nameArr = [];
         DB.transaction((tx) => {
-                tx.executeSql(
-                    'SELECT * FROM TypeStore',
-                    [],
-                    // (_, { rows }) => {
-                    //   const row = rows.item(0);
-                    //   nameArr.push(row["Name"]);
-                    //   console.log("GETTING");
-                    // },
-                    (_, {
-                        rows
-                    }) => {
+                tx.executeSql(sqlCmd,
+                    [],  
+                    (_, {rows}) => {
                         for (let i = 0; i < rows.length; i++) {
-                            const row = rows.item(i);
-                            nameArr.push(row["Name"]);
-                            console.log("GETTING");
-
+                            const row = rows.item(i)
+                            nameArr.push(row["Name"])
+                            console.log("GETTING")
                         }
                     },
                     (error) => {
-                        console.log('Error executing SQL: ', error);
-                        reject(error);
+                        console.log('Error executing SQL: ', error)
+                        reject(error)
                     }
                 );
             },
             (txError) => {
-                console.log('Transaction error: ', txError);
-                reject(txError);
+                console.log('Transaction error: ', txError)
+                reject(txError)
             },
             () => {
-                console.log("Transaction completed");
-                resolve(nameArr);
+                console.log("Transaction completed")
+                resolve(nameArr)
             }
-        );
-    });
+        )
+    })
 }
 
 export async function ExGetAll(){
@@ -290,35 +296,35 @@ export async function ExGetAll(){
                 resolve()
             },
             (error) => {
-                console.log('Error executing SQL: ', error);
+                console.log('Error executing SQL: ', error)
                 reject()
             }
             )
-         });
-    });
+         })
+    })
 	return rtnArr
 }
 
 
 export async function ExGet(name) {
-    let rtnArr = [name, "NA", "|Main|Default|", 5];
+    let rtnArr = [name, "NA", "|Main|Default|", 5]
     try {
         await new Promise((resolve, reject) => {
             getRowByPrimaryKey('TypeStore', name, (row) => {
                 if (row) {
-                    console.log(name + ' was found in TypeStore');
+                    console.log(name + ' was found in TypeStore')
                     rtnArr = row;
                 } else {
-                    console.log(name + ' was not found in TypeStore');
-                    rtnArr = [name, 'NA', '|Main|Cannot find exercise|', -1];
+                    console.log(name + ' was not found in TypeStore')
+                    rtnArr = [name, 'NA', '|Main|Cannot find exercise|', -1]
                 }
                 resolve();
             });
         });
     } catch (error) {
-        console.error(error);
+        console.error(error)
     }
-    return rtnArr;
+    return rtnArr
 }
 
 /**
@@ -333,16 +339,16 @@ export function ExAdd(inArr) {
             [inArr[0], inArr[1], inArr[2], inArr[3], inArr[4]],
             (_tx, result) => {
                 if (result.rowsAffected > 0) {
-                    console.log('Data inserted successfully.');
+                    console.log('Data inserted successfully.')
                 } else {
-                    console.log('Failed to insert data.');
+                    console.log('Failed to insert data.')
                 }
             },
             (error) => {
-                console.log('Error executing SQL: ', error);
+                console.log('Error executing SQL: ', error)
             }
-        );
-    });
+        )
+    })
 }
 
 /**
@@ -363,12 +369,8 @@ export function ExMakeTest() {
  * Makes the default exersizes for the app
  */
 export function ExMakeDefault(){
-    let e0 = [['Childs pose', 'Upper', '"|Image|childspose|Main|Childs Pose|Text|This resting pose stretch lengthens your spine, glutes and hamstrings. This helps to release tension in your lower back and neck\n|Text|Estimated Time: 5\n|Sub|Steps:|Text|1:Sit on your shinbones with your knees together, big toes touching and heels splayed out to the side\n\n2:Fold Forward at your hips and walk your hands out in front of you\n\n3:Sink your hips back down toward your feet. If you have issues with your thighs not going down all the way place a pillow or a folded blanket under them for support\n\n4:Gently place your forehead on the floor or you can also turn your head to the side\n\n5:Keep your arms extended or rest them along your body\n\n6:Breathe deeply into the back of your rib cage and waist\n\n7:Relax in this pose for 5 minute and breathing deeply|"', 75, 2],
-              ['Forward Fold', 'Upper', '"|Image|sfb|Main|Forward Fold|Text|This stretch releases the tension in your spine, hamstrings and glutes while also stretching your hips and legs. You should feel your entire back side of your body opening up and lengthening\n|Text|Estimated Time: 1\n|Sub|Steps:|Text|1:Stand with your big toes touching and your heels slightly apart\n\n2:Bring your hands to your hips and fold forward at your hips\n\n3:Release your hands toward the florr or place them on a block. If your hands don nottoucnh the floor do not worry jut go as far as you can.\n\n4: Bend your knees slightly, soften your hip joints, and allow your spine to lengthen\n\n5: Tuck your chin into your chest and allow your head to fall heavy to the floor Remain in this pot for up to 1 min|"', 75, 1],
-              ['High Plank', 'Upper', '"|Image|highplank|Main|High Plank|Text|The high plank pose helps to relieve pain and stiffness throughout your body while strengthening your shoulders, glutes, and hamstrings. It also helps you develop balance and strength in your core and back, both important for good posture.\n|Text|Estimated Time: 1\n|Sub|Steps:|Text|1:Come onto all fours and straighten your legs, lift your heels, and raise your hips.\n\n2:Straighten your back and engage your abdominal, arm, and leg muscles.\n\n3:Lengthen the back of your neck, soften your throat, and look down at the floor.\n\n4:Make sure to keep your chest open and your shoulders back.\n\n5:Hold this position for up to 1 minute at a time.|"', 75, 2] 
-             ]
-    for(let i = 0; i < e0.length; i++){
-        ExAdd(e0[i])
+    for(let i = 0; i < EXERCISE_PRELOAD.length; i++){
+        ExAdd(EXERCISE_PRELOAD[i])
     }
 
 }
@@ -401,12 +403,10 @@ export function LogPrintAll() {
         tx.executeSql(
             sqlCmd,
             [],
-            (_, {
-                rows
-            }) => {
+            (_, {rows}) => {
                 // Access the retrieved rows here
                 //   console.log(rows)
-                const data = rows._array;
+                const data = rows._array
                 console.log(data); // or do something else with the data
             },
             (error) => {
@@ -423,28 +423,28 @@ export function LogPrintAll() {
  */
 export async function LogFromDay(dateCode) {
     // console.log("GetLogsFromDay------------------------------------------------------")
-    let rtnArr = [];
-    const sqlCmd = `SELECT * FROM Logger WHERE DateDone = ?`;
+    let rtnArr = []
+    const sqlCmd = `SELECT * FROM Logger WHERE DateDone = ?`
     await new Promise((resolve, reject) => {
         DB.transaction(tx => {
             tx.executeSql(
                 sqlCmd,
                 [dateCode],
                 (_, {rows}) => {
-                    console.log(rows._array.length);
+                    console.log(rows._array.length)
 					for(let i = 0; i < rows._array.length; i++){
-						rtnArr.push(rows.item(i));
+						rtnArr.push(rows.item(i))
 					}
 					console.log(rtnArr)
-                    resolve();
+                    resolve()
                 },
                 (_, error) => {
                     console.log('Error\tGetLogsFromDay:\t', error);
-                    reject(error);
+                    reject(error)
                 }
-            );
-        });
-    });
+            )
+        })
+    })
     return rtnArr;
 }
 
@@ -486,13 +486,12 @@ export async function LogLatest() {
 				resolve()
 			},
 			(_, error) => {
-				console.log('Error\LogsLatest:\t', error);
-				reject(error);
+				console.log('Error\LogsLatest:\t', error)
+				reject(error)
 			}
-		  );
-		});
-	  });
-	console.log("Hel;lo")
+		  )
+		})
+	  })
     return rtnArr
 }
 
@@ -512,19 +511,19 @@ export async function LogOldest() {
 			sqlCmd,
 			[],
 			(_, { rows }) => {
-                console.log("MINININI")
+                // console.log("MINININI")
 				console.log(rows.item(0))
 				rtnArr = rows.item(0)
 				resolve()
 			},
 			(_, error) => {
-				console.log('Error\LogsLatest:\t', error);
-				reject(error);
+				console.log('Error\LogsLatest:\t', error)
+				reject(error)
 			}
-		  );
-		});
-	  });
-	console.log("Oldest")
+		  )
+		})
+	  })
+	// console.log("Oldest")
     console.log(rtnArr)
 
     return rtnArr
@@ -543,18 +542,18 @@ export async function LogAt(i) {
                 if (row) {
 					rtnArr = row
 
-                    console.log(row);
+                    console.log(row)
                 } else {
 					rtnArr = row
-                    console.log(i + ' was not found in Logs');
+                    console.log(i + ' was not found in Logs')
                 }
-                resolve();
-            });
-        });
+                resolve()
+            })
+        })
     } catch (error) {
-        console.error(error);
+        console.error(error)
     }
-    return rtnArr;
+    return rtnArr
 }
 
 /**
@@ -577,7 +576,7 @@ export async function LogGetStreak(){
 			streak = 0
 		}
 	}
-	console.log("currrent strak is:\t" + streak)
+	console.log("current streak is:\t" + streak)
 	return streak
 }
 
@@ -590,8 +589,6 @@ export async function LogGetStreakCallback(callback){
 	let streak =0
 	let n = await LogLatest()
 	let o = await LogOldest()
-	// console.log(o["DateDone"])
-
 	let daysBack = calculateDaysBetweenDates(n["DateDone"], o["DateDone"])
 	for(let i = daysBack; daysBack > 0; daysBack--){
 		let dayScore = await LogDayScore(GetDaysBack(i))
@@ -601,7 +598,7 @@ export async function LogGetStreakCallback(callback){
 			streak = 0
 		}
 	}
-	console.log("currrent strak is:\t" + streak)
+	console.log("current streak is:\t" + streak)
     if(callback){
         callback(streak)
     }
@@ -619,11 +616,11 @@ export async function LogFinishLatest(TimeDone) {
 			sqlCmd,
 			[GetDay(), TimeDone],
 			(_, { rows }) => {
-				resolve(rows > 0);
+				resolve(rows > 0)
 			},
 			(_, error) => {
-				console.log('Error\LogFinishLatest:\t', error);
-				reject(error);
+				console.log('Error\LogFinishLatest:\t', error)
+				reject(error)
 			}
 		  );
 		});
@@ -643,11 +640,11 @@ export async function LogSetLatestDifficulty(difficulty) {
 			sqlCmd,
 			[difficulty],
 			(_, { rows }) => {
-				resolve(rows > 0);
+				resolve(rows > 0)
 			},
 			(_, error) => {
-				console.log('Error\LogSetLatestDifficulty:\t', error);
-				reject(error);
+				console.log('Error\LogSetLatestDifficulty:\t', error)
+				reject(error)
 			}
 		  );
 		});
@@ -667,13 +664,13 @@ export function LogData(exName) {
             [false, GetDay(), -1, 0, exName],
             (_tx, result) => {
                 if (result.rowsAffected > 0) {
-                    console.log('Data inserted successfully.');
+                    console.log('Data inserted successfully.')
                 } else {
-                    console.log('Failed to insert data.');
+                    console.log('Failed to insert data.')
                 }
             },
             (error) => {
-                console.log('Error executing SQL: ', error);
+                console.log('Error executing SQL: ', error)
             }
         );
     });
@@ -682,7 +679,7 @@ export function LogData(exName) {
 
 /**
  * 
- * @param {*} inArr [Difficulty, time done, typeinfo]
+ * @param {*} inArr [Difficulty, time done, typeInfo]
  * @param {bool} done Is it done?
  * @param {int} daWen dateCode finished
  */
@@ -694,13 +691,13 @@ function LogDataTest(inArr, done, daWen) {
             [done, daWen, inArr[0], inArr[1], inArr[2]],
             (_tx, result) => {
                 if (result.rowsAffected > 0) {
-                    console.log('Data inserted successfully.');
+                    console.log('Data inserted successfully.')
                 } else {
-                    console.log('Failed to insert data.');
+                    console.log('Failed to insert data.')
                 }
             },
             (error) => {
-                console.log('Error executing SQL: ', error);
+                console.log('Error executing SQL: ', error)
             }
         );
     });
@@ -712,12 +709,12 @@ function LogDataTest(inArr, done, daWen) {
  */
 export function TestLogData() {
     LogClear()
-    const myArray = ['UpperTest', 'Lower_test', 'Coustom test', 'Office brake'];
+    // const myArray = ['UpperTest', 'Lower_test', 'Custom test', 'Office brake']
     for (let i = 0; i < 7; i++) { // makes the week
         let dayLoad = Math.floor(Math.random() * 5) // 5 entities max per a day
         for (let v = 0; v < dayLoad; v++) { // makes the day
-            const randNum = Math.floor(Math.random() * myArray.length);
-            const randEx = myArray[randNum];
+            const randNum = Math.floor(Math.random() * EXERCISE_PRELOAD.length);
+            const randEx = EXERCISE_PRELOAD[randNum][0];
             let ArrT = [1, 5]
             ArrT.push(randEx)
             // console.log(ArrT, true, GetDaysBack(i))
@@ -728,7 +725,7 @@ export function TestLogData() {
 
 
 /**
- * Tesing intialy, (ignore this)
+ * Testing initials, (ignore this)
  * @param {int} numbers 
  */
 export function TestPass(numbers) {
@@ -738,22 +735,18 @@ export function TestPass(numbers) {
 }
 
 export function TestGetAll() {
+    let sqlCmd =  'SELECT * FROM TypeStore'
     DB.transaction((tx) => {
         tx.executeSql(
-            'SELECT * FROM TypeStore',
+            sqlCmd,
             [],
-            (_, {
-                rows
-            }) => {
-                // Access the retrieved rows here
-                //   console.log(rows)
-				// console.log(rows)
-                const data = rows._array;
-                console.log(data); // or do something else with the data
+            (_, { rows }) => {
+                const data = rows._array
+                console.log(data)
             },
             (error) => {
-                console.log('Error executing SQL: ', error);
+                console.log('Error executing SQL: ', error)
             }
-        );
-    });
+        )
+    })
 }

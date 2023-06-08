@@ -71,7 +71,7 @@ function makeFromString(input) {
     begin = input.indexOf("|", index) + 1;
     end = input.indexOf("|", begin + 1);
     index = end;
-    console.log("start: " + begin + "\tend: " + end )
+    // console.log("start: " + begin + "\tend: " + end )
     if (end == -1 || begin == -1) {
       doneRead = true;
     }
@@ -81,7 +81,7 @@ function makeFromString(input) {
       if (type == "") {
         type = inp;
       } else {
-        console.log(inp)
+        // console.log(inp)
 
         if (type == "Image") {
           pageGen.push(MakeImage(inp));
