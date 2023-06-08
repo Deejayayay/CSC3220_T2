@@ -34,15 +34,15 @@ export default function SettingsPage({ navigation, route }) {
         {MakeButton("Print Logs", () => Backend.LogPrintAll())}
         {MakeButton("Get all logs from Today", () => Backend.LogFromDay(Today))}
         {MakeButton("Get Latest Log", () => Backend.LogLatest())}
-        {MakeButton("Set latest time to 50", () => Backend.LogFinishLatest(50))}
-        {MakeButton("Get log at index 1", () => Backend.LogAt(1))}
-        {MakeButton("Get current day score", () => Backend.LogDayScore(Backend.GetDay()))}
-        {MakeButton("Get streak", () => Backend.LogGetStreak())}
+        {MakeButton("Set latest Time to 50", () => Backend.LogFinishLatest(50))}
+        {MakeButton("Get Log at Index 1", () => Backend.LogAt(1))}
+        {MakeButton("Get Current Day Score", () => Backend.LogDayScore(Backend.GetDay()))}
+        {MakeButton("Get Streak", () => Backend.LogGetStreak())}
 
         {MakeButton("Print typedb", () => Backend.TestGetAll())}
         {MakeButton("Add Test Exercise", () => Backend.ExMakeTest())}
         {MakeButton("Clear Exercises", () => Backend.ExClear())}
-        {MakeButton("Clear logs", () => Backend.LogClear())}
+        {MakeButton("Clear Logs", () => Backend.LogClear())}
         {MakeButton("Nuke All", () => Backend.dbNukeAll())}
 
       </ScrollView>
