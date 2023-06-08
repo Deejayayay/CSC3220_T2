@@ -14,10 +14,10 @@ let Backend = require("../../Backend.js")
 function MakeButton(btnName, funct) {
   return (
     <TouchableOpacity
-      style={GlobalStyle.debugBtn}
+      style={[GlobalStyle.debugBtn]}
       onPress={funct}
     >
-      <Text style={[GlobalStyle.headers, GlobalStyle.marginText]}>
+      <Text style={[GlobalStyle.headers, GlobalStyle.marginText, GlobalStyle.space]}>
         {btnName}
       </Text>
     </TouchableOpacity>
@@ -28,27 +28,24 @@ let Today = Backend.GetDay()
 //for making things easer with database testing
 export default function SettingsPage({ navigation, route }) {
   return (
-    <SafeAreaView>
-      <ScrollView>
-        <Text>Debugging</Text>
+      <ScrollView style={{flex: 1}}>
         {MakeButton("TimeTest", () => Backend.GetDay())}
-        {MakeButton("Add Log data Test", () => Backend.TestLogData())}
-        {MakeButton("print all logs", () => Backend.LogPrintAll())}
-        {MakeButton("Get all logs from today", () => Backend.LogFromDay(Today))}
-        {MakeButton("Get latest log", () => Backend.LogLatest())}
+        {MakeButton("Add Log Data Test", () => Backend.TestLogData())}
+        {MakeButton("Print Logs", () => Backend.LogPrintAll())}
+        {MakeButton("Get all logs from Today", () => Backend.LogFromDay(Today))}
+        {MakeButton("Get Latest Log", () => Backend.LogLatest())}
         {MakeButton("Set latest time to 50", () => Backend.LogFinishLatest(50))}
         {MakeButton("Get log at index 1", () => Backend.LogAt(1))}
-        {MakeButton("Get curr day score", () => Backend.LogDayScore(Backend.GetDay()))}
+        {MakeButton("Get current day score", () => Backend.LogDayScore(Backend.GetDay()))}
         {MakeButton("Get streak", () => Backend.LogGetStreak())}
 
-        {MakeButton("print typedb", () => Backend.TestGetAll())}
-        {MakeButton("Add test ex", () => Backend.ExMakeTest())}
-        {MakeButton("Clear exersizes", () => Backend.ExClear())}
+        {MakeButton("Print typedb", () => Backend.TestGetAll())}
+        {MakeButton("Add Test Exercise", () => Backend.ExMakeTest())}
+        {MakeButton("Clear Exercises", () => Backend.ExClear())}
         {MakeButton("Clear logs", () => Backend.LogClear())}
-        {MakeButton("Deleat evrything", () => Backend.dbNukeAll())}
+        {MakeButton("Nuke All", () => Backend.dbNukeAll())}
 
       </ScrollView>
-    </SafeAreaView>
   );
 }
 const styles = StyleSheet.create({});

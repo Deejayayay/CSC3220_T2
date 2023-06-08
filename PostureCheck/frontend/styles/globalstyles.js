@@ -22,10 +22,10 @@ export const GlobalStyle = StyleSheet.create({
   debugBtn: {
     height: 50,
     borderRadius: 20,
-    marginTop: 20,
     elevation: 3,
     marginLeft: 30,
     marginRight: 30,
+    marginTop: 10,
     marginBottom: 20,
     flexDirection: "column",
     backgroundColor: "#BCD4A7",
@@ -53,5 +53,8 @@ export const GlobalStyle = StyleSheet.create({
     marginRight: 30,
     width: 300,
     height: 300,
+  },
+  space: {
+    marginTop: 8
   }
 });
