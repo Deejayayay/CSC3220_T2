@@ -214,7 +214,8 @@ const styles = StyleSheet.create({
       },
       timerButton: {
         alignSelf: 'center',
-        marginTop: 200,
+        marginTop: 30,
+        marginBottom: 30,
         borderRadius:20,
         width: 400,
         height: 65,

@@ -70,7 +70,7 @@ async function MakeButton(inTab, nav) {
       <Text style={[GlobalStyle.headers, GlobalStyle.marginText, GlobalStyle.buttonSpace]}>
         {inTab["Name"]}
       </Text>
-      <Image style={styles.img} source={require('../../assets/childspose.png')}/>
+      <Image style={styles.img} source={require('../../assets/stretch.png')}/>
     </TouchableOpacity>
   );
     } catch (error) {
@@ -119,9 +119,9 @@ export default function Workouts({ navigation, route }) {
 
 const styles = StyleSheet.create({
   img: {
-    marginLeft: 110,
-    width: 200,
-    height: 200,
+    marginLeft: 180,
+    width: 130,
+    height: 130,
   }
 });
 
