@@ -2,7 +2,6 @@ import {
   StyleSheet,
   Text,
   View,
-  TouchableOpacity,
   ScrollView,
   Modal,
 } from "react-native";
@@ -128,9 +127,9 @@ export default function Stretches({ navigation, route }) {
     <View>
     <ScrollView style={GlobalStyle.container} showsVerticalScrollIndicator={false}>
         {loaded ? makeFromString(_steps) : null}
+        <ProgressTimer/>
       </ScrollView>
       <View style={styles.container}>
-        <ProgressTimer/>
       </View>
       <Modal visible={setLoaded}>
       </Modal>
