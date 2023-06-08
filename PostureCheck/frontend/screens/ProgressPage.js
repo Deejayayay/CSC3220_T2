@@ -6,36 +6,35 @@ import {
   TouchableOpacity,
 } from "react-native";
 import { GlobalStyle } from "../styles/globalstyles";
-import React, { useState } from 'react';
+import React, { useState } from "react";
 
-let chartPage = require("./ChartPage")
+let chartPage = require("./ChartPage");
 //variable to access Backend Class
 let Backend = require("../../Backend");
 
 //Making the Graphs and returns a react jsx code of the buttons
-function GraphButtons(idx, score ,navigation) {
-
+function GraphButtons(idx, score, navigation) {
   const barInfo = {
-      backgroundColor: 'black',
-      width: 70,
-      height: Math.min(score*100, 250),
-  }
-  
+    backgroundColor: "black",
+    width: 70,
+    height: Math.min(score * 100, 250),
+  };
+
   return (
     <View>
       <TouchableOpacity
         key={idx}
         style={styles.graphColumnContainers}
         onPress={() => {
-          chartPage.LoadDay(Backend.GetDaysBack(idx))
-          navigation.navigate("Chart Page", { language: "english" })
+          chartPage.LoadDay(Backend.GetDaysBack(idx));
+          navigation.navigate("Chart Page", { language: "english" });
           // show
-          console.log("Graph day pressed:\t"+idx)
+          console.log("Graph day pressed:\t" + idx);
         }}
       >
         <View style={barInfo} />
       </TouchableOpacity>
-      <Text>Day {idx + 1}</Text>
+      <Text style={[styles.marg, GlobalStyle.subHeaders]}>Day {idx + 1}</Text>
     </View>
   );
 }
@@ -46,80 +45,79 @@ async function MakeGraph(navigation) {
   let columnArr = [];
   //Loop to iterate through 7 days of the week
   for (var i = 0; i < 7; i++) {
-    let currScore = await Backend.LogDayScore(Backend.GetDaysBack(i))
+    let currScore = await Backend.LogDayScore(Backend.GetDaysBack(i));
     //calls to GraphButtons
-    console.log(i)
-    columnArr.push(GraphButtons(i, currScore,navigation));
+    console.log(i);
+    columnArr.push(GraphButtons(i, currScore, navigation));
   }
   //returns array
   return columnArr;
 }
 
-async function MakeStreak(){
-  let currStreak = 0
+async function MakeStreak(navigation) {
+  let currStreak = 0;
 
-  try{
+  try {
     await new Promise((resolvs, reject) => {
-      Backend.LogGetStreakCallback((days) =>{
-        if(days){
-          currStreak = days
+      Backend.LogGetStreakCallback((days) => {
+        if (days) {
+          currStreak = days;
         } else {
-          currStreak = 0
+          currStreak = 0;
         }
-        resolvs()
-      })
-    })
+        resolvs();
+      });
+    });
   } catch (error) {
-    console.log(error)
+    console.log(error);
   }
 
-if(currStreak > 0){
-  return (
-    <View style={styles.progressBoxes}>
-      <Text
-        style={[
-          GlobalStyle.headers,
-          GlobalStyle.marginText,
-          styles.progressHeader,
-        ]}
+  if (currStreak > 0) {
+    return (
+      <View style={styles.progressBoxes}>
+        <Text
+          style={[
+            GlobalStyle.headers,
+            GlobalStyle.marginText,
+            styles.progressHeader,
+          ]}
+        >
+          You're on a {currStreak} day streak!!!
+        </Text>
+      </View>
+    );
+  } else {
+    return (
+      <View
+        style={styles.progressBoxes}
       >
-        You're on a {currStreak} day streak!!!
-      </Text>
-    </View>
-  );   
-}
-else{
-  return (
-    <View style={styles.progressBoxes}>
-      <Text
-        style={[
-          GlobalStyle.headers,
-          GlobalStyle.marginText,
-          styles.progressHeader,
-        ]}
-      >
-        Hey you haven't done your stretches in a while, time to get to work
-      </Text>
-    </View>
-  );  
-}
+        <Text
+          style={[
+            GlobalStyle.subHeaders,
+            GlobalStyle.marginText,
+            styles.progressHeader,
+          ]}
+        >
+          Hey you haven't done your stretches in a while, time to get to work
+        </Text>
+      </View>
+    );
+  }
 }
 //Progress Boxes and the Graphs and page in general
 export default function ProgressPage({ navigation, route }) {
   const [graphElements, setGraphElements] = React.useState([]);
-  const [streakEliment, setStreakEliment,] = React.useState([]);
-
+  const [streakEliment, setStreakEliment] = React.useState([]);
 
   React.useEffect(() => {
     async function initializeGraph() {
       const bars = await MakeGraph(navigation);
       setGraphElements(bars);
       const thing = await MakeStreak();
-      setStreakEliment(thing)
+      setStreakEliment(thing);
     }
     initializeGraph();
   }, []);
-
 
   return (
     <ScrollView>
@@ -129,7 +127,7 @@ export default function ProgressPage({ navigation, route }) {
           {graphElements}
         </ScrollView>
       </View>
-          {streakEliment}
+      {streakEliment}
     </ScrollView>
   );
 }
@@ -148,7 +146,7 @@ const styles = StyleSheet.create({
     borderRadius: 20,
     backgroundColor: "#BCD4A7",
     width: 370,
-    height: 380,
+    height: 200,
   },
   progressHeader: {
     marginTop: 10,
@@ -157,9 +155,8 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     height: 300,
     borderRadius: 5,
-    borderWidth: 1,
     marginTop: 10,
-    //backgroundColor: "#BCD4A7",
+    backgroundColor: "#BCD4A7",
     justifyContent: "space-evenly",
   },
   graphColumnContainers: {
@@ -179,5 +176,8 @@ const styles = StyleSheet.create({
     alignSelf: "center",
     alignItems: "center",
     backgroundColor: "#BCD4A7",
+  },
+  marg: {
+    alignSelf: "center",
   },
 });

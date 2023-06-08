@@ -20,7 +20,7 @@ let _eta = 0;
 
 const IMAGE_PATHS = {
   childspose: require("../../../assets/childspose.png"),
-  forwardfold: require("../../../assets/standing-forward-bend.png"),
+  forwardfold: require("../../../assets/sfb.png"),
   highplank: require("../../../assets/highplank.png"),
 
 };
