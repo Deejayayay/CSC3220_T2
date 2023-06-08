@@ -11,7 +11,6 @@ import { GlobalStyle } from "../styles/globalstyles";
 import React, { useState } from 'react';
 
 let Backend = require("../../Backend.js")
-let Stretches = require('./exercises/stretches')
 let sp = require('./exercises/StretchesPage')
 
 
@@ -21,8 +20,6 @@ const IMAGE_PATHS = {
   forwardfold: require("../../assets/sfb.png"),
   highplank: require("../../assets/highplank.png"),
 };
-
-
 
 function GetImage(input) {
   let index = 0;

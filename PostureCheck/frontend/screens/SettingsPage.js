@@ -1,6 +1,5 @@
 import {
   StyleSheet,
-  SafeAreaView,
   Text,
   View,
   TouchableOpacity,
