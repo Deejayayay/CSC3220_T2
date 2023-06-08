@@ -70,7 +70,7 @@ async function MakeButton(inTab, nav) {
       <Text style={[GlobalStyle.headers, GlobalStyle.marginText, GlobalStyle.buttonSpace]}>
         {inTab["Name"]}
       </Text>
-      <Image style={styles.img} source={require('../../assets/stretch.png')}/>
+      <Image style={styles.img} source={require('../../assets/stretching.png')}/>
     </TouchableOpacity>
   );
     } catch (error) {

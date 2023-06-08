@@ -23,7 +23,7 @@ function make(inArr, navPage){
   return(
 <TouchableOpacity
       key = {inArr['Index']}
-      style={GlobalStyle.buttons}
+      style={[GlobalStyle.buttons, GlobalStyle.container]}
       onPress={() => {
         sp.setName(inArr['TypeInfo']);
         navPage.navigate("Stretches", { language: "english" });
@@ -32,13 +32,9 @@ function make(inArr, navPage){
       <Text style={[GlobalStyle.headers, GlobalStyle.marginText, GlobalStyle.buttonSpace]}>
         {inArr["TypeInfo"]}
       </Text>
-      <Text>Difficulty:{inArr["Difficulty"]}</Text>
-      <Text>TimeDone:{inArr["TimeDone"]}</Text>
-
+      <Text style={GlobalStyle.marginText}>Difficulty:{inArr["Difficulty"]}</Text>
+      <Text style={GlobalStyle.marginText}>TimeDone:{inArr["TimeDone"]}</Text>
     </TouchableOpacity>
-
-
-
   )
 }
 
